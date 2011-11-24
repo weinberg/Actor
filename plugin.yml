@@ -1,0 +1,37 @@
+name: actor
+main: com.insofar.actor.ActorPlugin
+version: 0.1
+description: >
+             Actor Plugin
+commands:
+   record:
+      description: start recording into buffer
+      usage: /record
+      
+   stoprec:
+      description: Stop recording
+      usage: /stoprec
+      
+   actor:
+      description: Spawn new actor using recording in buffer
+      usage: /actor name
+      
+   action:
+      description: playback actor or all actors
+      usage: /action [actorname]
+      
+   actionrec:
+      description: playback actor or all actors and record
+      usage: /actionrec [actorname]
+      
+   cut:
+      description: Stop actor or all actors
+      usage: /cut [actorname]
+
+   reset:
+      description: Rewind actor or all actors
+      usage: /reset [actorname]
+      
+   fire:
+      description: Remove an actor
+      usage: /fire [actorname]

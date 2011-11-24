@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="craftbukkit/plugins/InfoCraft.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/InfocraftPlugin/build.jardesc" exportErrors="true" exportWarnings="false" includeDirectoryEntries="true" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="false" manifestLocation="/InfocraftPlugin/Manifest.txt" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <file path="/InfocraftPlugin/plugin.yml"/>
+        <javaElement handleIdentifier="=InfocraftPlugin/src"/>
+        <file path="/InfocraftPlugin/.project"/>
+        <file path="/InfocraftPlugin/.classpath"/>
+        <file path="/InfocraftPlugin/Manifest.txt"/>
+        <folder path="/InfocraftPlugin/libs"/>
+        <folder path="/InfocraftPlugin/cb_plugins"/>
+    </selectedElements>
+</jardesc>
