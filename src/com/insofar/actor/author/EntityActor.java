@@ -95,8 +95,8 @@ public class EntityActor extends EntityPlayer {
 				else if (p instanceof Packet3Chat)
 				{
 					((Packet3Chat)p).message = ChatColor.WHITE+"<" +
-											   ChatColor.RED + name + ChatColor.WHITE +
-											   "> "+((Packet3Chat)p).message;
+					ChatColor.RED + name + ChatColor.WHITE +
+					"> "+((Packet3Chat)p).message;
 				}
 				else if (p instanceof Packet53BlockChange)
 				{
@@ -107,11 +107,45 @@ public class EntityActor extends EntityPlayer {
 							((Packet53BlockChange) p).material,
 							((Packet53BlockChange) p).data);
 				}
-				
+
 				sendPacketToViewers(p);
 			}
 		}
+	}
 
+	/**
+	 * Rewind this actor - sending all rewind packets to viewers and a teleport to the jumpstart
+	 */
+	public void rewind()
+	{
+		// Send rewind packets
+		for (Packet p : recording.rewindPackets)
+		{
+			if (p instanceof Packet53BlockChange)
+			{
+				// Set the entity for this ghost on this packet
+				((Packet53BlockChange)p).a = id;
+				
+				// Set the block in the server's world so it is in sync with the client
+				world.setRawTypeIdAndData(
+						((Packet53BlockChange) p).a,
+						((Packet53BlockChange) p).b,
+						((Packet53BlockChange) p).c,
+						((Packet53BlockChange) p).material,
+						((Packet53BlockChange) p).data);
+
+				sendPacketToViewers(p);
+			}
+
+
+			// Rewind the recording
+			recording.rewind();
+			Packet34EntityTeleport packet = recording.getJumpstart();
+			packet.a=id;
+
+			// Send packet to the viewers
+			sendPacketToViewers(packet);
+		}
 	}
 
 	/**
@@ -127,7 +161,7 @@ public class EntityActor extends EntityPlayer {
 			((CraftServer)Bukkit.getServer()).getServer().serverConfigurationManager.a(p,dimension);
 			return;
 		}
-		
+
 		// Send packet to the viewer(s)
 		for (Viewer viewer : viewers)
 		{

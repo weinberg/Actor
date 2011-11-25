@@ -113,10 +113,6 @@ public class Recording {
 
 			if (packet instanceof Packet53BlockChange)
 			{
-				// Make teleport packet to this location
-				//Packet34EntityTeleport tp = new Packet34EntityTeleport(0, ((Packet53BlockChange) packet).xPosition, ((Packet53BlockChange) packet).yPosition, ((Packet53BlockChange) packet).zPosition, (byte)0, (byte)0 );
-				//result.add(tp);
-
 				result.add(packet);
 			}
 		}

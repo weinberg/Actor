@@ -2,7 +2,6 @@ package com.insofar.actor;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -32,7 +31,7 @@ import com.insofar.actor.listeners.AuthorBlockListener;
 import com.insofar.actor.listeners.AuthorPlayerListener;
 
 /**
- * 
+ * Plugin for recording and playback of character actions and movement.
  * @author Joshua Weinberg
  * 
  * Actor
@@ -249,41 +248,78 @@ public class ActorPlugin extends JavaPlugin {
 	 * 
 	 ******************************************************************************/
 	
+	/**
+	 * Start recording.
+	 */
 	public boolean record(Player player)
 	{
 		return recordCommand.record(player);
 	}
 
+	/**
+	 * Stop recording.
+	 * @param player
+	 * @return
+	 */
 	public boolean stopRecord(Player player)
 	{
 		return stopRecordCommand.stopRecording(player);
 	}
 
-	public EntityActor actor(Player player)
+	/**
+	 * Spawns an actor using the player's current recording as it's recording.
+	 * @param player
+	 * @return
+	 */
+	public EntityActor spawnActor(Player player)
 	{
 		return actorCommand.actor(player);
 	}
 	
+	/**
+	 * Starts all the actors in the plugin playing.
+	 * @return
+	 */
 	public boolean action() 
 	{
 		return actionCommand.action("");
 	}
 
+	/**
+	 * Starts the named actor playing.
+	 * @param actorName
+	 * @return
+	 */
 	public boolean action(String actorName) 
 	{
 		return actionCommand.action(actorName);
 	}
 	
-	public boolean saveActor(EntityActor actor, String dir) throws IOException
+	/**
+	 * Saves the actor's recording in dir using the actor name as the filename
+	 * in that dir.
+	 * @param actor
+	 * @param dir
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean saveActorRecording(EntityActor actor, String filename) throws IOException
 	{
-		FileOutputStream fos = new FileOutputStream(dir+File.separatorChar+actor.name);
+		FileOutputStream fos = new FileOutputStream(filename);
 		DataOutputStream dos = new DataOutputStream(fos);
 		return actor.recording.write(dos);
 	}
 	
-	public boolean saveRecording(Recording recording, String fileName) throws IOException
+	/**
+	 * Save recording in filename.
+	 * @param recording
+	 * @param fileName
+	 * @return
+	 * @throws IOException
+	 */
+	public boolean saveRecording(Recording recording, String filename) throws IOException
 	{
-		FileOutputStream fos = new FileOutputStream(fileName);
+		FileOutputStream fos = new FileOutputStream(filename);
 		DataOutputStream dos = new DataOutputStream(fos);
 		return recording.write(dos);
 	}

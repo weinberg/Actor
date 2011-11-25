@@ -45,27 +45,28 @@ public class AuthorBlockListener extends BlockListener {
 	public void onBlockPlace(BlockPlaceEvent event) {
 		System.out.println("Block place");
 		Player p = event.getPlayer();
-		
+
 		Author author = plugin.authors.get(p.getName());
 		if (author != null && author.isRecording)
 		{
 			Packet53BlockChange packet = new Packet53BlockChange();
-			
-		    int xPosition = event.getBlock().getX();
-		    int yPosition = event.getBlock().getY();
-		    int zPosition = event.getBlock().getZ();
-		    int type = event.getBlock().getTypeId();
-		    int data = event.getBlock().getData();
-		    
-		    packet.a=xPosition;
-		    packet.b=yPosition;
-		    packet.c=zPosition;
-		    packet.material = type;
+
+			int xPosition = event.getBlock().getX();
+			int yPosition = event.getBlock().getY();
+			int zPosition = event.getBlock().getZ();
+			int type = event.getBlock().getTypeId();
+			int data = event.getBlock().getData();
+
+			packet.a=xPosition;
+			packet.b=yPosition;
+			packet.c=zPosition;
+			packet.material = type;
 			packet.data = data;
-			
+
 			author.currentRecording.recordPacket(packet);
+			addRewindForBlockChange(author, xPosition, yPosition, zPosition, 0, 0);
 		}
-		
+
 		super.onBlockPlace(event);
 	}
 
@@ -79,31 +80,43 @@ public class AuthorBlockListener extends BlockListener {
 	public void onBlockBreak(BlockBreakEvent event) {
 		System.out.println("Block break");
 		Player p = event.getPlayer();
-		
+
 		Author author = plugin.authors.get(p.getName());
 		if (author != null && author.isRecording)
 		{
-			
-			Packet53BlockChange packet = new Packet53BlockChange();
-			
-		    int xPosition = event.getBlock().getX();
-		    int yPosition = event.getBlock().getY();
-		    int zPosition = event.getBlock().getZ();
-		    int type = 0;
-		    int data = 0;
 
-		    packet.a=xPosition;
-		    packet.b=yPosition;
-		    packet.c=zPosition;
-		    packet.material = type;
+			Packet53BlockChange packet = new Packet53BlockChange();
+
+			int xPosition = event.getBlock().getX();
+			int yPosition = event.getBlock().getY();
+			int zPosition = event.getBlock().getZ();
+			int type = 0;
+			int data = 0;
+
+			packet.a=xPosition;
+			packet.b=yPosition;
+			packet.c=zPosition;
+			packet.material = type;
 			packet.data = data;
-			
+
 			author.currentRecording.recordPacket(packet);
+			addRewindForBlockChange(author, xPosition, yPosition, zPosition, event.getBlock().getTypeId(), event.getBlock().getData());
 		}
-		
+
 		super.onBlockBreak(event);
 	}
-	
-	
+
+	public void addRewindForBlockChange(Author author, int i, int j, int k, int type, int meta)
+	{
+		Packet53BlockChange changeBack = new Packet53BlockChange();
+
+		changeBack.a = i;
+		changeBack.b = j;
+		changeBack.c = k;
+		changeBack.data = type;
+		changeBack.material = meta;
+
+		author.currentRecording.addRewindPacket(changeBack);
+	}
 
 }

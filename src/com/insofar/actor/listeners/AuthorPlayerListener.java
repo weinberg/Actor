@@ -112,6 +112,7 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 			Packet5EntityEquipment packet = new Packet5EntityEquipment();
 			packet.b = 0;
 			packet.c = event.getPlayer().getInventory().getItemInHand().getTypeId();
+			packet.d = event.getPlayer().getInventory().getItemInHand().getData().getData();
 			if (packet.c == 0) packet.c = -1;
 			author.currentRecording.recordPacket(packet);
 		}
