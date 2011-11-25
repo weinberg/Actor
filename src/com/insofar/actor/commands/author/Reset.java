@@ -15,7 +15,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet53BlockChange;
 
-import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 
@@ -27,9 +26,9 @@ import com.insofar.actor.author.EntityActor;
  */
 public class Reset extends AuthorBaseCommand {
 
-	public Reset(ActorPlugin plugin)
+	public Reset()
 	{
-		super(plugin);
+		super();
 	}
 
 	@Override
@@ -40,6 +39,17 @@ public class Reset extends AuthorBaseCommand {
 	{
 		String actorName = args.length > 0 ? args[0] : "";
 
+		reset(actorName);
+		
+		return true;
+	}
+	
+	/**
+	 * Does the reset
+	 * @param actorName
+	 */
+	public void reset(String actorName)
+	{
 		if (actorName.equals(""))
 		{
 			// Rewind the player's current recording and give back any
@@ -54,8 +64,6 @@ public class Reset extends AuthorBaseCommand {
 				actor.rewind();
 			}
 		}
-
-		return true;
 	}
 
 	/**

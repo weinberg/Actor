@@ -60,6 +60,9 @@ public class ActorPlugin extends JavaPlugin {
 	private StopRecording stopRecordCommand;
 	private Action actionCommand;
 	private Actor actorCommand;
+	private Reset resetCommand;
+	private ActionRecord actionRecCommand;
+	private Cut cutCommand;
 
 	/*****************************************************************************
 	 * 
@@ -172,16 +175,22 @@ public class ActorPlugin extends JavaPlugin {
 		recordCommand = new Record();
 		stopRecordCommand = new StopRecording();
 		actionCommand = new Action();
+		actionRecCommand = new ActionRecord();
+		cutCommand = new Cut();
+		resetCommand = new Reset();
 		actorCommand = new Actor();
 		
 		// Set up Bukkit commands
+		// This is now just a library - no bukkit commands
+		/*
 		getCommand("record").setExecutor(recordCommand);
 		getCommand("stoprec").setExecutor(stopRecordCommand);
 		getCommand("actor").setExecutor(actorCommand);
 		getCommand("action").setExecutor(actionCommand);
-		getCommand("reset").setExecutor(new Reset(this));
-		getCommand("actionrec").setExecutor(new ActionRecord(this));
-		getCommand("cut").setExecutor(new Cut(this));
+		getCommand("reset").setExecutor(resetCommand);
+		getCommand("actionrec").setExecutor(actionRecCommand);
+		getCommand("cut").setExecutor(cutCommand);
+		*/
 		return true;
 	}
 
@@ -293,6 +302,47 @@ public class ActorPlugin extends JavaPlugin {
 	public boolean action(String actorName) 
 	{
 		return actionCommand.action(actorName);
+	}
+	
+	public boolean actionRecord()
+	{
+		return actionRecCommand.actionRecord();
+	}
+	
+	/**
+	 * Cut all actors in the plugin
+	 * @return
+	 */
+	public boolean cut()
+	{
+		return cutCommand.cut("");
+	}
+	
+	/**
+	 * Cut the named actor
+	 * @return
+	 */
+	public boolean cut(String actorName)
+	{
+		return cutCommand.cut(actorName);
+	}
+	
+	/**
+	 * Reset all actors
+	 */
+	public boolean reset()
+	{
+		resetCommand.reset("");
+		return true;
+	}
+	
+	/**
+	 * Reset actor
+	 */
+	public boolean reset(String actorName)
+	{
+		resetCommand.reset(actorName);
+		return true;
 	}
 	
 	/**

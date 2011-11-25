@@ -10,9 +10,9 @@ import com.insofar.actor.ActorPlugin;
  */
 public class ActionRecord extends AuthorBaseCommand {
 
-	public ActionRecord(ActorPlugin plugin)
+	public ActionRecord()
 	{
-		super(plugin);
+		super();
 	}
 
 	@Override
@@ -21,15 +21,23 @@ public class ActionRecord extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
-		if (plugin.getCommand("action").getExecutor().onCommand(sender, cmd, label, args))
+		return actionRecord();
+	}
+	
+	/**
+	 * Action record command internal
+	 * @return
+	 */
+	public boolean actionRecord()
+	{
+		if (ActorPlugin.instance.action())
 		{
-			if (!plugin.getCommand("record").getExecutor().onCommand(sender, cmd, label, args))
+			if (!ActorPlugin.instance.record(player))
 			{
-				plugin.getCommand("cut").getExecutor().onCommand(sender, cmd, label, args);
+				ActorPlugin.instance.cut();
 			}
 			return true;
 		}
-		
 		return false;
 	}
 }

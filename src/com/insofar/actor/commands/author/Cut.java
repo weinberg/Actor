@@ -1,6 +1,5 @@
 package com.insofar.actor.commands.author;
 
-import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
 
 /**
@@ -11,19 +10,27 @@ import com.insofar.actor.author.EntityActor;
  */
 public class Cut extends AuthorBaseCommand {
 
-	public Cut(ActorPlugin plugin)
+	public Cut()
 	{
-		super(plugin);
+		super();
 	}
 
 	@Override
 	/**
-	 * rewind one or all actors
+	 * bukkit command to rewind one or all actors
 	 */
 	public boolean execute()
 	{
 		String actorName = args.length > 0 ? args[0] : "";
 		
+		return cut (actorName);
+	}
+	
+	/**
+	 * cut a single actor by name
+	 */
+	public boolean cut(String actorName)
+	{
 		for (EntityActor actor : plugin.actors)
 		{
 			if (actor.name.equals(actor) || actorName.equals(""))
@@ -31,7 +38,7 @@ public class Cut extends AuthorBaseCommand {
 				actor.isPlayback = false;
 			}
 		}
-
-		return true;
+		
+		return false;
 	}
 }
