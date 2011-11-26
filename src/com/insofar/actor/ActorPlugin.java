@@ -346,9 +346,9 @@ public class ActorPlugin extends JavaPlugin {
 	 * @return
 	 * @throws IOException
 	 */
-	public EntityActor spawnActorWithRecording(String fileName, String name, Player viewerPlayer, World world) throws IOException
+	public EntityActor spawnActorWithRecording(String name, String recordingPath, Player viewerPlayer, World world) throws IOException
 	{
-		FileInputStream fis = new FileInputStream(fileName);
+		FileInputStream fis = new FileInputStream(recordingPath);
 		DataInputStream dis = new DataInputStream(fis);
 		Recording recording = new Recording();
 		recording.read(dis);

@@ -125,7 +125,7 @@ public class EntityActor extends EntityPlayer {
 			{
 				// Set the entity for this ghost on this packet
 				((Packet53BlockChange)p).a = id;
-				
+
 				// Set the block in the server's world so it is in sync with the client
 				world.setRawTypeIdAndData(
 						((Packet53BlockChange) p).a,
@@ -136,16 +136,15 @@ public class EntityActor extends EntityPlayer {
 
 				sendPacketToViewers(p);
 			}
-
-
-			// Rewind the recording
-			recording.rewind();
-			Packet34EntityTeleport packet = recording.getJumpstart();
-			packet.a=id;
-
-			// Send packet to the viewers
-			sendPacketToViewers(packet);
 		}
+
+		// Rewind the recording
+		recording.rewind();
+		Packet34EntityTeleport packet = recording.getJumpstart();
+		packet.a=id;
+
+		// Send packet to the viewers
+		sendPacketToViewers(packet);
 	}
 
 	/**
