@@ -83,6 +83,10 @@ public class EntityActor extends EntityPlayer {
 				{
 					//System.out.println(new StringBuilder("   Packet34"));
 					((Packet34EntityTeleport)p).a = id;
+					setPosition(
+							(double)(((Packet34EntityTeleport)p).b / 32),
+							(double)(((Packet34EntityTeleport)p).c / 32),
+							(double)(((Packet34EntityTeleport)p).d / 32));
 				}
 				else if (p instanceof Packet5EntityEquipment)
 				{
@@ -107,7 +111,6 @@ public class EntityActor extends EntityPlayer {
 							((Packet53BlockChange) p).material,
 							((Packet53BlockChange) p).data);
 				}
-
 				sendPacketToViewers(p);
 			}
 		}
