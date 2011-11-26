@@ -1,6 +1,7 @@
 package com.insofar.actor.commands.author;
 
 import com.insofar.actor.ActorPlugin;
+import com.insofar.actor.author.EntityActor;
 
 /**
  * InfoCraft Plugin command to play a game.
@@ -21,23 +22,18 @@ public class ActionRecord extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
-		return actionRecord();
-	}
-	
-	/**
-	 * Action record command internal
-	 * @return
-	 */
-	public boolean actionRecord()
-	{
-		if (ActorPlugin.instance.action())
+		String actorName = args.length > 0 ? args[0] : "";
+		
+		for (EntityActor actor : plugin.actors)
 		{
-			if (!ActorPlugin.instance.record(player))
+			if (actor.name.equals(actor) || actorName.equals(""))
 			{
-				ActorPlugin.instance.cut();
+				actor.isPlayback = true;
 			}
-			return true;
 		}
+		
+		ActorPlugin.instance.record(player);
+		
 		return false;
 	}
 }

@@ -14,6 +14,12 @@ public class Action extends AuthorBaseCommand {
 	{
 		super();
 	}
+	
+	/********************************************************************
+	 * 
+	 * BUKKIT COMMAND
+	 * 
+	********************************************************************/
 
 	@Override
 	/**
@@ -23,26 +29,6 @@ public class Action extends AuthorBaseCommand {
 	{
 		String actorName = args.length > 0 ? args[0] : "";
 		
-		return action(actorName);
-	}
-	
-	/**
-	 * action
-	 * @param actorName
-	 * @return
-	 */
-	public boolean action()
-	{
-		return action("");
-	}
-	
-	/**
-	 * action
-	 * @param actorName
-	 * @return
-	 */
-	public boolean action(String actorName)
-	{
 		for (EntityActor actor : plugin.actors)
 		{
 			if (actor.name.equals(actor) || actorName.equals(""))
@@ -50,7 +36,7 @@ public class Action extends AuthorBaseCommand {
 				actor.isPlayback = true;
 			}
 		}
-
+		
 		return true;
 	}
 }

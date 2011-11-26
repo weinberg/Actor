@@ -30,6 +30,12 @@ public class Reset extends AuthorBaseCommand {
 	{
 		super();
 	}
+	
+	/*************************************************************************
+	 * 
+	 * BUKKIT COMMAND
+	 * 
+	*************************************************************************/
 
 	@Override
 	/**
@@ -39,41 +45,43 @@ public class Reset extends AuthorBaseCommand {
 	{
 		String actorName = args.length > 0 ? args[0] : "";
 
-		reset(actorName);
+		resetAuthor(player);
 		
-		return true;
-	}
-	
-	/**
-	 * Does the reset
-	 * @param actorName
-	 */
-	public void reset(String actorName)
-	{
-		if (actorName.equals(""))
-		{
-			// Rewind the player's current recording and give back any
-			// blocks used.
-			rewindAuthor(player);
-		}
-
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.name.equals(actor) || actorName.equals(""))
+			if (actor.name.equals(actorName))
 			{
 				actor.rewind();
 			}
 		}
+		
+		return true;
+	}
+	
+	/*************************************************************************
+	 * 
+	 * API COMMANDS
+	 * 
+	*************************************************************************/
+	
+	/**
+	 * Reset the author's current recording and give back any blocks used.
+	 * @param author
+	 */
+	public void resetAuthor(Player player)
+	{
+		Author author = plugin.authors.get(player.getName());
+		
+		// Rewind the player's current recording and give back any blocks used.
+		rewindAuthor(author);
 	}
 
 	/**
 	 * Rewind the author's current recording. This rewinds the current
 	 * recording before it has been assigned to an actor.
 	 */
-	public void rewindAuthor(Player player)
+	public void rewindAuthor(Author author)
 	{
-		// Authoring commands must have an author
-		Author author = getAuthor(player);
 		MinecraftServer minecraftServer = ((CraftServer)Bukkit.getServer()).getServer();
 		
 		if (author == null)
@@ -81,7 +89,7 @@ public class Reset extends AuthorBaseCommand {
 		
 		if (author.isRecording)
 		{
-			player.sendMessage("Stopping recording.");
+			author.player.sendMessage("Stopping recording.");
 			author.isRecording = false;
 		}
 
@@ -92,7 +100,7 @@ public class Reset extends AuthorBaseCommand {
 			return;
 		}
 		
-		World world = player.getWorld();
+		World world = author.player.getWorld();
 
 		ArrayList<Packet> rewindPackets = author.currentRecording.getRewindPackets();
 
@@ -114,7 +122,7 @@ public class Reset extends AuthorBaseCommand {
 					Block block = world.getBlockAt(location);
 					block.setTypeId(((Packet53BlockChange) p).data);
 					block.setData((byte)((Packet53BlockChange) p).material);
-					minecraftServer.serverConfigurationManager.a(player.getName(),p);
+					minecraftServer.serverConfigurationManager.a(author.player.getName(),p);
 				
 					if (currType != 0)
 					{
@@ -122,7 +130,7 @@ public class Reset extends AuthorBaseCommand {
 						ItemStack is = new ItemStack( currType ,1);
 						MaterialData data = new MaterialData(currMaterial);
 						is.setData(data);
-						player.getWorld().dropItemNaturally(player.getLocation(), is);
+						author.player.getWorld().dropItemNaturally(author.player.getLocation(), is);
 					}
 				}
 			}

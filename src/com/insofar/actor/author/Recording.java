@@ -12,10 +12,10 @@ import net.minecraft.server.Packet53BlockChange;
 public class Recording {
 	
 	// The packets recorded
-	public ArrayList<RecordedPacket>recordedPackets;
+	public ArrayList<RecordedPacket>recordedPackets = new ArrayList<RecordedPacket>();
 
 	// Packets to send to undo the recording
-	public ArrayList <Packet>rewindPackets;
+	public ArrayList <Packet>rewindPackets = new ArrayList<Packet>();
 
 	// Index entry for recording or playback
 	public int playbackIndex = 0;

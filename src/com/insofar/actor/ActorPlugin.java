@@ -20,8 +20,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Recording;
-import com.insofar.actor.commands.author.Action;
-import com.insofar.actor.commands.author.ActionRecord;
 import com.insofar.actor.commands.author.Actor;
 import com.insofar.actor.commands.author.Cut;
 import com.insofar.actor.commands.author.Record;
@@ -58,10 +56,10 @@ public class ActorPlugin extends JavaPlugin {
 	
 	private Record recordCommand;
 	private StopRecording stopRecordCommand;
-	private Action actionCommand;
+	//private Action actionCommand;
 	private Actor actorCommand;
 	private Reset resetCommand;
-	private ActionRecord actionRecCommand;
+	//private ActionRecord actionRecCommand;
 	private Cut cutCommand;
 
 	/*****************************************************************************
@@ -174,8 +172,9 @@ public class ActorPlugin extends JavaPlugin {
 		// Set up command references
 		recordCommand = new Record();
 		stopRecordCommand = new StopRecording();
-		actionCommand = new Action();
-		actionRecCommand = new ActionRecord();
+		// Uncomment if using this plugin's bukkit commands
+		//actionCommand = new Action();
+		//actionRecCommand = new ActionRecord();
 		cutCommand = new Cut();
 		resetCommand = new Reset();
 		actorCommand = new Actor();
@@ -280,33 +279,9 @@ public class ActorPlugin extends JavaPlugin {
 	 * @param player
 	 * @return
 	 */
-	public EntityActor spawnActor(Player player)
+	public EntityActor spawnActor(Player player, String actorName)
 	{
-		return actorCommand.actor(player);
-	}
-	
-	/**
-	 * Starts all the actors in the plugin playing.
-	 * @return
-	 */
-	public boolean action() 
-	{
-		return actionCommand.action("");
-	}
-
-	/**
-	 * Starts the named actor playing.
-	 * @param actorName
-	 * @return
-	 */
-	public boolean action(String actorName) 
-	{
-		return actionCommand.action(actorName);
-	}
-	
-	public boolean actionRecord()
-	{
-		return actionRecCommand.actionRecord();
+		return actorCommand.actor(player, actorName);
 	}
 	
 	/**
@@ -328,20 +303,11 @@ public class ActorPlugin extends JavaPlugin {
 	}
 	
 	/**
-	 * Reset all actors
+	 * Reset author's current recording. Returns and blocks used.
 	 */
-	public boolean reset()
+	public boolean resetAuthorRecording(Player player)
 	{
-		resetCommand.reset("");
-		return true;
-	}
-	
-	/**
-	 * Reset actor
-	 */
-	public boolean reset(String actorName)
-	{
-		resetCommand.reset(actorName);
+		resetCommand.resetAuthor(player);
 		return true;
 	}
 	
