@@ -1,9 +1,18 @@
-name: Actor
-main: com.insofar.actor.ActorPlugin
-version: 0.1
-description: >
-             Actor Plugin by Joshua Weinberg
-commands:
+Actor Plugin
+------------
+
+Author: 		Joshua Weinberg
+Contact: 		jrwap@wwwrl.com
+Version: 		0.1
+Description: 	A library which allows recording and playback of minecraft players.
+				While intended primarily as a library for use in other plugins it does
+				provide Bukkit commands for those who just want to play around.
+
+Installation: 	Build the library and put the resulting plugin jar into plugins on your
+				server. 
+			  
+Commands:			  
+
    record:
       description: start recording into buffer
       usage: /record
@@ -15,10 +24,6 @@ commands:
    actor:
       description: Spawn new actor using recording in buffer
       usage: /actor name
-      
-   remove:
-      description: Remove an actor
-      usage: /remove name
       
    action:
       description: playback actor or all actors

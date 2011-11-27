@@ -8,12 +8,6 @@
 			<attribute name="javadoc_location" value="http://commons.apache.org/io/api-release/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Documents and Settings/root/.m2/repository/org/apache/commons/commons-exec/1.1/commons-exec-1.1.jar" sourcepath="C:/Documents and Settings/root/.m2/repository/org/apache/commons/commons-exec/1.1/commons-exec-1.1-sources.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="http://commons.apache.org/exec/apidocs/index.html"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/craftbukkit/target/craftbukkit-0.0.1-SNAPSHOT.jar" sourcepath="/craftbukkit/src/main/java"/>
-	<classpathentry kind="lib" path="C:/Documents and Settings/root/.m2/repository/org/getspout/spoutapi/dev-SNAPSHOT/spoutapi-dev-SNAPSHOT.jar" sourcepath="/SpoutAPI/src"/>
+	<classpathentry kind="lib" path="F:/git/CraftBukkit/target/craftbukkit-0.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
