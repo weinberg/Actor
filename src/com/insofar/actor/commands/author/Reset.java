@@ -19,7 +19,7 @@ import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 
 /**
- * InfoCraft Plugin command to play a game.
+ * ActorPlugin command to rewind the current recording and actor(s) in the scene.
  * 
  * @author Joshua Weinberg
  *
@@ -49,7 +49,7 @@ public class Reset extends AuthorBaseCommand {
 		
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.name.equals(actorName))
+			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("")))
 			{
 				actor.rewind();
 			}
@@ -62,7 +62,7 @@ public class Reset extends AuthorBaseCommand {
 	 * 
 	 * API COMMANDS
 	 * 
-	*************************************************************************/
+	 *************************************************************************/
 	
 	/**
 	 * Reset the author's current recording and give back any blocks used.

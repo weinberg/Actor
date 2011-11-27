@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 public class Viewer {
 
 	public Player player;
-	//public ArrayList<EntityActor> actors = new ArrayList<EntityActor>();
 	
 	private MinecraftServer minecraftServer;
 	

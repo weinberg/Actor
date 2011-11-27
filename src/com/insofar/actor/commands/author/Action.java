@@ -3,7 +3,7 @@ package com.insofar.actor.commands.author;
 import com.insofar.actor.author.EntityActor;
 
 /**
- * InfoCraft Plugin command to play a game.
+ * ActorPlugin command to start playback on an actor.
  * 
  * @author Joshua Weinberg
  *
@@ -19,11 +19,11 @@ public class Action extends AuthorBaseCommand {
 	 * 
 	 * BUKKIT COMMAND
 	 * 
-	********************************************************************/
+	 ********************************************************************/
 
 	@Override
 	/**
-	 * rewind one or all actors
+	 * Play one or all actors which this player can view.
 	 */
 	public boolean execute()
 	{
@@ -31,7 +31,7 @@ public class Action extends AuthorBaseCommand {
 		
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.name.equals(actor) || actorName.equals(""))
+			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("")))
 			{
 				actor.isPlayback = true;
 			}

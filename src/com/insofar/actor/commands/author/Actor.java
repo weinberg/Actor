@@ -13,7 +13,7 @@ import com.insofar.actor.author.Recording;
 import com.insofar.actor.author.Viewer;
 
 /**
- * InfoCraft Plugin command to spawn an actor with the current recording
+ * ActorPlugin command to spawn an actor with the current recording
  * 
  * @author Joshua Weinberg
  *
@@ -31,17 +31,31 @@ public class Actor extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		EntityActor newActor = null;
+		
 		if (args.length == 0)
-			return actor(player) != null;
+			newActor = actor(player);
 		
 		if (args.length == 1)
-			return actor(player, args[0]) != null;
+			newActor = actor(player, args[0]);
 		
 		if (args.length == 2)
-			return actor(player, args[0], args[1]) != null;
+			newActor = actor(player, args[0], args[1]);
+		
+		if (newActor != null)
+		{
+			plugin.actors.add(newActor);
+			return true;
+		}
 		
 		return false;
 	}
+
+	/*****************************************************************************
+	 * 
+	 * Bukkit Plugin Command Methods
+	 * 
+	 ******************************************************************************/
 
 	/**
 	 * actor
@@ -66,6 +80,13 @@ public class Actor extends AuthorBaseCommand {
 	{
 		return actor(player, actorName, player.getName());
 	}
+	
+
+	/*****************************************************************************
+	 * 
+	 * Actor Plugin Library Methods
+	 * 
+	 ******************************************************************************/
 	
 	/**
 	 * actor
@@ -125,7 +146,7 @@ public class Actor extends AuthorBaseCommand {
 		}
 
 	}
-
+	
 	/**
 	 * actor
 	 * @param recording
@@ -136,7 +157,7 @@ public class Actor extends AuthorBaseCommand {
 	 * viewer who can see this actor (null for everyone in the same world)
 	 * @param world
 	 * viewer's world
-	 * @return
+	 * @return The EntityActor which was created.
 	 */
 	public EntityActor actor(Recording recording, String actorName, Player viewerPlayer, org.bukkit.World world)
 	{

@@ -3,7 +3,7 @@ package com.insofar.actor.commands.author;
 import com.insofar.actor.author.EntityActor;
 
 /**
- * InfoCraft Plugin command to play a game.
+ * ActorPlugin command to stop playback on an actor.
  * 
  * @author Joshua Weinberg
  *
@@ -15,30 +15,29 @@ public class Cut extends AuthorBaseCommand {
 		super();
 	}
 
+	/*********************************************************************
+	 * 
+	 * BUKKIT COMMAND
+	 * 
+	 *********************************************************************/
+
 	@Override
 	/**
-	 * bukkit command to rewind one or all actors
+	 * bukkit command to stop one or all actors which the player can view
 	 */
 	public boolean execute()
 	{
 		String actorName = args.length > 0 ? args[0] : "";
 		
-		return cut (actorName);
-	}
-	
-	/**
-	 * cut a single actor by name
-	 */
-	public boolean cut(String actorName)
-	{
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.name.equals(actor) || actorName.equals(""))
+			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("")))
 			{
 				actor.isPlayback = false;
 			}
 		}
 		
-		return false;
+		return true;
 	}
+	
 }

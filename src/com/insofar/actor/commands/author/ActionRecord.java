@@ -4,7 +4,7 @@ import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
 
 /**
- * InfoCraft Plugin command to play a game.
+ * ActorPlugin command to playback actors and record at the same time.
  * 
  * @author Joshua Weinberg
  *
@@ -16,9 +16,15 @@ public class ActionRecord extends AuthorBaseCommand {
 		super();
 	}
 
+	/********************************************************************
+	 * 
+	 * BUKKIT COMMAND
+	 * 
+	 ********************************************************************/
+
 	@Override
 	/**
-	 * Playback all and record
+	 * Playback all actors which this player can view and record 
 	 */
 	public boolean execute()
 	{
@@ -26,7 +32,7 @@ public class ActionRecord extends AuthorBaseCommand {
 		
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.name.equals(actor) || actorName.equals(""))
+			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("")))
 			{
 				actor.isPlayback = true;
 			}

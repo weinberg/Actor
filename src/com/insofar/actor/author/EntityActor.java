@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.entity.Player;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.ItemInWorldManager;
@@ -84,9 +85,9 @@ public class EntityActor extends EntityPlayer {
 					//System.out.println(new StringBuilder("   Packet34"));
 					((Packet34EntityTeleport)p).a = id;
 					setPosition(
-							(double)(((Packet34EntityTeleport)p).b / 32),
-							(double)(((Packet34EntityTeleport)p).c / 32),
-							(double)(((Packet34EntityTeleport)p).d / 32));
+							(((Packet34EntityTeleport)p).b / 32),
+							(((Packet34EntityTeleport)p).c / 32),
+							(((Packet34EntityTeleport)p).d / 32));
 				}
 				else if (p instanceof Packet5EntityEquipment)
 				{
@@ -169,5 +170,23 @@ public class EntityActor extends EntityPlayer {
 		{
 			viewer.sendPacket(p);
 		}
+	}
+	
+	/**
+	 * True if player is a viewer of this actor.
+	 * @param player
+	 */
+	public boolean hasViewer(Player player)
+	{
+		if (allPlayersView)
+			return true;
+		
+		for (Viewer viewer : viewers)
+		{
+			if (viewer.player.getName().equals(player.getName()))
+				return true;
+		}
+		
+		return false;
 	}
 }

@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 import com.insofar.actor.author.Author;
 
 /**
- * InfoCraft Plugin command to play a game.
+ * ActorPlugin command to stop recording.
  * 
  * @author Joshua Weinberg
  *
@@ -17,6 +17,12 @@ public class StopRecording extends AuthorBaseCommand {
 		super();
 	}
 
+	/*************************************************************************
+	 * 
+	 * BUKKIT COMMAND
+	 * 
+	 *************************************************************************/
+
 	@Override
 	/**
 	 * stoprec command
@@ -25,6 +31,12 @@ public class StopRecording extends AuthorBaseCommand {
 	{
 		return stopRecording(player);
 	}
+	
+	/*************************************************************************
+	 * 
+	 * API COMMAND
+	 * 
+	 *************************************************************************/
 	
 	/**
 	 * stopRecording

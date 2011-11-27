@@ -2,7 +2,7 @@ name: actor
 main: com.insofar.actor.ActorPlugin
 version: 0.1
 description: >
-             Actor Plugin
+             Actor Plugin by Joshua Weinberg
 commands:
    record:
       description: start recording into buffer
@@ -15,6 +15,10 @@ commands:
    actor:
       description: Spawn new actor using recording in buffer
       usage: /actor name
+      
+   remove:
+      description: Remove an actor
+      usage: /remove name
       
    action:
       description: playback actor or all actors

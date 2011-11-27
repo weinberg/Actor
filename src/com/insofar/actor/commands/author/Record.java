@@ -9,7 +9,7 @@ import com.insofar.actor.author.Author;
 import com.insofar.actor.author.Recording;
 
 /**
- * InfoCraft Plugin command to play a game.
+ * ActorPlugin command to record a player
  * 
  * @author Joshua Weinberg
  *
@@ -21,6 +21,12 @@ public class Record extends AuthorBaseCommand {
 		super();
 	}
 
+	/*********************************************************************
+	 * 
+	 * BUKKIT COMMAND
+	 * 
+	 *********************************************************************/
+
 	@Override
 	/**
 	 * Record command
@@ -30,6 +36,12 @@ public class Record extends AuthorBaseCommand {
 		// Record the player calling this command
 		return record(player);
 	}
+	
+	/*********************************************************************
+	 * 
+	 * PLUGIN API
+	 * 
+	 *********************************************************************/
 	
 	/**
 	 * record command

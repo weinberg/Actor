@@ -20,20 +20,20 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Recording;
+import com.insofar.actor.commands.author.Action;
+import com.insofar.actor.commands.author.ActionRecord;
 import com.insofar.actor.commands.author.Actor;
 import com.insofar.actor.commands.author.Cut;
 import com.insofar.actor.commands.author.Record;
+import com.insofar.actor.commands.author.Remove;
 import com.insofar.actor.commands.author.Reset;
 import com.insofar.actor.commands.author.StopRecording;
 import com.insofar.actor.listeners.AuthorBlockListener;
 import com.insofar.actor.listeners.AuthorPlayerListener;
 
 /**
- * Plugin for recording and playback of character actions and movement.
+ * Actor Plugin for recording and playback of character actions and movement.
  * @author Joshua Weinberg
- * 
- * Actor
- * 
  */
 public class ActorPlugin extends JavaPlugin {
 
@@ -56,15 +56,16 @@ public class ActorPlugin extends JavaPlugin {
 	
 	private Record recordCommand;
 	private StopRecording stopRecordCommand;
-	//private Action actionCommand;
+	private Action actionCommand;
 	private Actor actorCommand;
+	private Remove removeCommand;
 	private Reset resetCommand;
-	//private ActionRecord actionRecCommand;
+	private ActionRecord actionRecCommand;
 	private Cut cutCommand;
 
 	/*****************************************************************************
 	 * 
-	 * Actor properties
+	 * Actor plugin properties
 	 * 
 	 ******************************************************************************/
 	
@@ -77,9 +78,16 @@ public class ActorPlugin extends JavaPlugin {
 	 * Authors by username. An author is the player recording the actors.
 	 */
 	public HashMap<String, Author> authors = new HashMap<String, Author>();
+	
+	/*****************************************************************************
+	 * 
+	 * Bukkit Plugin Properties
+	 * 
+	 ******************************************************************************/
 
 	/**
-	 * Actors
+	 * Actors - this is only for use of the bukkit commands in this plugin.
+	 * When using this plugin puely as a library you need to keep track of your own actors.
 	 */
 	public ArrayList<EntityActor> actors = new ArrayList<EntityActor>();
 
@@ -172,24 +180,22 @@ public class ActorPlugin extends JavaPlugin {
 		// Set up command references
 		recordCommand = new Record();
 		stopRecordCommand = new StopRecording();
-		// Uncomment if using this plugin's bukkit commands
-		//actionCommand = new Action();
-		//actionRecCommand = new ActionRecord();
+		actionCommand = new Action();
+		actionRecCommand = new ActionRecord();
 		cutCommand = new Cut();
 		resetCommand = new Reset();
 		actorCommand = new Actor();
+		removeCommand = new Remove();
 		
 		// Set up Bukkit commands
-		// This is now just a library - no bukkit commands
-		/*
 		getCommand("record").setExecutor(recordCommand);
 		getCommand("stoprec").setExecutor(stopRecordCommand);
 		getCommand("actor").setExecutor(actorCommand);
+		getCommand("remove").setExecutor(removeCommand);
 		getCommand("action").setExecutor(actionCommand);
 		getCommand("reset").setExecutor(resetCommand);
 		getCommand("actionrec").setExecutor(actionRecCommand);
 		getCommand("cut").setExecutor(cutCommand);
-		*/
 		return true;
 	}
 
@@ -257,6 +263,17 @@ public class ActorPlugin extends JavaPlugin {
 	 ******************************************************************************/
 	
 	/**
+	 * Certain actions are not here because you don't need a method to perform them.
+	 * When you create an actor you get an EntityActor object back. Use that to:
+	 * 
+	 * Action: 	entityActor.isPlayback = true
+	 * Cut: 	entityActor.isPlayback = false
+	 * Reset:	entityActor.rewind()
+	 * Loop:	entityActor.loop = true
+	 * 
+	 */
+	
+	/**
 	 * Start recording.
 	 */
 	public boolean record(Player player)
@@ -285,21 +302,13 @@ public class ActorPlugin extends JavaPlugin {
 	}
 	
 	/**
-	 * Cut all actors in the plugin
+	 * Removes an actor
+	 * @param player
 	 * @return
 	 */
-	public boolean cut()
+	public boolean removeActor(EntityActor actor)
 	{
-		return cutCommand.cut("");
-	}
-	
-	/**
-	 * Cut the named actor
-	 * @return
-	 */
-	public boolean cut(String actorName)
-	{
-		return cutCommand.cut(actorName);
+		return removeCommand.actorRemove(actor);
 	}
 	
 	/**
