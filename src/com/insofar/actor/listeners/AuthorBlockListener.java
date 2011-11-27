@@ -25,7 +25,7 @@ public class AuthorBlockListener extends BlockListener {
 
 	@Override
 	public void onBlockDamage(BlockDamageEvent event) {
-		System.out.println("Block damage");
+		//System.out.println("Block damage");
 		super.onBlockDamage(event);
 	}
 
@@ -43,7 +43,7 @@ public class AuthorBlockListener extends BlockListener {
 
 	@Override
 	public void onBlockPlace(BlockPlaceEvent event) {
-		System.out.println("Block place");
+		//System.out.println("Block place");
 		Player p = event.getPlayer();
 
 		Author author = plugin.authors.get(p.getName());
@@ -78,7 +78,7 @@ public class AuthorBlockListener extends BlockListener {
 
 	@Override
 	public void onBlockBreak(BlockBreakEvent event) {
-		System.out.println("Block break");
+		//System.out.println("Block break");
 		Player p = event.getPlayer();
 
 		Author author = plugin.authors.get(p.getName());

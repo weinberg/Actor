@@ -88,13 +88,13 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 
 	@Override
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		System.out.println("Player Interact");
+		//System.out.println("Player Interact");
 		super.onPlayerInteract(event);
 	}
 
 	@Override
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-		System.out.println("Player Interact entity");
+		//System.out.println("Player Interact entity");
 		super.onPlayerInteractEntity(event);
 	}
 
@@ -121,7 +121,7 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 
 	@Override
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		System.out.println("Player drop item");
+		//System.out.println("Player drop item");
 		super.onPlayerDropItem(event);
 	}
 
