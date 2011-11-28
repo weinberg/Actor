@@ -9,10 +9,12 @@ Description: 	A library which allows recording and playback of minecraft players
 				While intended primarily as a library for use in other plugins it does
 				provide Bukkit commands for those who just want to play around.
 				
-Notice:			This is a beta release. Use it with caution. 
+Notice:			This is a beta release.
 
 Installation: 	Build the library and put the resulting plugin jar into plugins on your
-				server. 
+				server. Or use a pre-built jar and put it in your plugins dir. The first
+				time it is loaded it will create an Actor folder in your plugins dir where
+				all your saved actors and scenes will be created.
 			  
 Command Usage:	When using the plugin to provide commands directly just install the plugin
 				and then allow users to access the following commands:			  
