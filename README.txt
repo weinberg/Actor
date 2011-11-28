@@ -17,45 +17,57 @@ Installation: 	Build the library and put the resulting plugin jar into plugins o
 Command Usage:	When using the plugin to provide commands directly just install the plugin
 				and then allow users to access the following commands:			  
 				
-			record:
-			   description: start recording into buffer
-			   usage: /record
-			   
-			stoprec:
-			   description: Stop recording
-			   usage: /stoprec
-			   
-			actor:
-			   description: Spawn new actor using recording in buffer
-			   usage: /actor name
-			   
-			action:
-			   description: playback actor or all actors
-			   usage: /action [actorname]
-			   
-			actionrec:
-			   description: playback actor or all actors and record
-			   usage: /actionrec [actorname]
-			   
-			cut:
-			   description: Stop actor or all actors
-			   usage: /cut [actorname]
-		
-			reset:
-			   description: Rewind actor or all actors
-			   usage: /reset [actorname]
-			   
-			remove:
-			   description: Remove an actor
-			   usage: /remove [actorname]
-			   
-			save:
-			   description: Save an actor's recording to a file
-			   usage: /save actorname filename
-			   
-			load:
-			   description: Spawn an actor with the give recording file
-			   usage: /load actorname filename
+   record:
+      description: start recording into buffer
+      usage: /record
+      
+   stoprec:
+      description: Stop recording
+      usage: /stoprec
+      
+   actor:
+      description: Spawn new actor using recording in buffer
+      usage: /actor name
+      
+   remove:
+      description: Remove an actor(s). Name can be "all".
+      usage: /remove name
+      
+   action:
+      description: playback actor or all actors
+      usage: /action [actorname]
+      
+   actionrec:
+      description: playback actor or all actors and record
+      usage: /actionrec [actorname]
+      
+   cut:
+      description: Stop actor or all actors
+      usage: /cut [actorname]
+
+   reset:
+      description: Rewind actor or all actors
+      usage: /reset [actorname]
+      
+   remove:
+      description: Remove an actor
+      usage: /remove [actorname]
+      
+   saveactor:
+      description: Save an actor's recording to a file
+      usage: /save actorname filename
+      
+   savescene:
+      description: Save all actor recordings to dir/actorname
+      usage: /savescene scenename
+      
+   loadactor:
+      description: Spawn an actor with the give recording file
+      usage: /load actorname filename
+      
+   loadscene:
+      description: Load and spawn all actor recordings from dir
+      usage: /loadscene scenename
 			   
 Library Usage: When using the plugin as a library just add the library as a dependency to
 				your project and access the library API like so:
