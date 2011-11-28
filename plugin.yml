@@ -17,7 +17,7 @@ commands:
       usage: /actor name
       
    remove:
-      description: Remove an actor
+      description: Remove an actor(s). Name can be "all".
       usage: /remove name
       
    action:
@@ -40,10 +40,19 @@ commands:
       description: Remove an actor
       usage: /remove [actorname]
       
-   save:
+   saveactor:
       description: Save an actor's recording to a file
       usage: /save actorname filename
       
-   load:
+   savescene:
+      description: Save all actor recordings to dir/actorname
+      usage: /savescene scenename
+      
+   loadactor:
       description: Spawn an actor with the give recording file
       usage: /load actorname filename
+      
+   loadscene:
+      description: Load and spawn all actor recordings from dir
+      usage: /loadscene scenename
+      

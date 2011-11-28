@@ -99,9 +99,12 @@ public class EntityActor extends EntityPlayer {
 				}
 				else if (p instanceof Packet3Chat)
 				{
-					((Packet3Chat)p).message = ChatColor.WHITE+"<" +
-					ChatColor.RED + name + ChatColor.WHITE +
-					"> "+((Packet3Chat)p).message;
+					if (((Packet3Chat)p).message.indexOf(ChatColor.WHITE+"<") != 0)
+					{
+						((Packet3Chat)p).message = ChatColor.WHITE+"<" +
+						ChatColor.RED + name + ChatColor.WHITE +
+						"> "+((Packet3Chat)p).message;
+					}
 				}
 				else if (p instanceof Packet53BlockChange)
 				{
@@ -127,9 +130,6 @@ public class EntityActor extends EntityPlayer {
 		{
 			if (p instanceof Packet53BlockChange)
 			{
-				// Set the entity for this ghost on this packet
-				((Packet53BlockChange)p).a = id;
-
 				// Set the block in the server's world so it is in sync with the client
 				world.setRawTypeIdAndData(
 						((Packet53BlockChange) p).a,
@@ -171,7 +171,7 @@ public class EntityActor extends EntityPlayer {
 			viewer.sendPacket(p);
 		}
 	}
-	
+
 	/**
 	 * True if player is a viewer of this actor.
 	 * @param player
@@ -180,13 +180,13 @@ public class EntityActor extends EntityPlayer {
 	{
 		if (allPlayersView)
 			return true;
-		
+
 		for (Viewer viewer : viewers)
 		{
 			if (viewer.player.getName().equals(player.getName()))
 				return true;
 		}
-		
+
 		return false;
 	}
 }

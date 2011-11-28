@@ -26,7 +26,7 @@ public class Remove extends AuthorBaseCommand {
 
 	@Override
 	/**
-	 * Record command
+	 * Remove command. Accepts actorname or "all".
 	 */
 	public boolean execute()
 	{
@@ -37,7 +37,7 @@ public class Remove extends AuthorBaseCommand {
 			// Call actorRemove on all actors named args[0]
 			for (EntityActor ea : plugin.actors)
 			{
-				if (ea.name.equals(args[0]) && ea.hasViewer(player))
+				if ((ea.name.equals(args[0]) || ea.name.equals("all")) && ea.hasViewer(player))
 				{
 					actorRemove(ea);
 					removeActors.add(ea);

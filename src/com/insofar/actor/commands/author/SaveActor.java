@@ -2,6 +2,8 @@ package com.insofar.actor.commands.author;
 
 import java.io.IOException;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
 
@@ -11,7 +13,7 @@ import com.insofar.actor.author.EntityActor;
  * @author Joshua Weinberg
  *
  */
-public class Save extends AuthorBaseCommand {
+public class SaveActor extends AuthorBaseCommand {
 
 	/*********************************************************************
 	 * 
@@ -22,13 +24,13 @@ public class Save extends AuthorBaseCommand {
 	@Override
 	/**
 	 * args(actorName, fileName)
-	 * Save actor recording to scene command
+	 * Save actor recording command. Filename is within plugins/Actor/save
 	 */
 	public boolean execute()
 	{
-		if (args.length != 3)
+		if (args.length != 2)
 		{
-			player.sendMessage("Error: Three parameters required: actorname scenename filename");
+			player.sendMessage("Error: Two parameters required: actorname filename");
 			return true;
 		}
 		
@@ -53,7 +55,8 @@ public class Save extends AuthorBaseCommand {
 
 		try
 		{
-			ActorPlugin.instance.saveActorRecording(actor, fileName);
+			String path = plugin.savePath + "/" + fileName;
+			ActorPlugin.instance.saveActorRecording(actor, FilenameUtils.separatorsToSystem(path));
 		}
 		catch (IOException e)
 		{

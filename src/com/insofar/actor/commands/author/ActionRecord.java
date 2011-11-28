@@ -40,6 +40,6 @@ public class ActionRecord extends AuthorBaseCommand {
 		
 		ActorPlugin.instance.record(player);
 		
-		return false;
+		return true;
 	}
 }

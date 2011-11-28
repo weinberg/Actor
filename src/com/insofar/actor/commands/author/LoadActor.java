@@ -2,6 +2,8 @@ package com.insofar.actor.commands.author;
 
 import java.io.IOException;
 
+import org.apache.commons.io.FilenameUtils;
+
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
 
@@ -11,7 +13,7 @@ import com.insofar.actor.author.EntityActor;
  * @author Joshua Weinberg
  *
  */
-public class Spawn extends AuthorBaseCommand {
+public class LoadActor extends AuthorBaseCommand {
 
 	/*********************************************************************
 	 * 
@@ -38,7 +40,8 @@ public class Spawn extends AuthorBaseCommand {
 		
 		try
 		{
-			newActor = ActorPlugin.instance.spawnActorWithRecording(fileName, actorName, player, player.getWorld());
+			String path = FilenameUtils.separatorsToSystem(plugin.savePath + "/" + fileName);
+			newActor = ActorPlugin.instance.spawnActorWithRecording(path, actorName, player, player.getWorld());
 		}
 		catch (IOException e)
 		{

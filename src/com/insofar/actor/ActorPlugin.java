@@ -2,6 +2,7 @@ package com.insofar.actor;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -24,9 +25,13 @@ import com.insofar.actor.commands.author.Action;
 import com.insofar.actor.commands.author.ActionRecord;
 import com.insofar.actor.commands.author.Actor;
 import com.insofar.actor.commands.author.Cut;
+import com.insofar.actor.commands.author.LoadActor;
+import com.insofar.actor.commands.author.LoadScene;
 import com.insofar.actor.commands.author.Record;
 import com.insofar.actor.commands.author.Remove;
 import com.insofar.actor.commands.author.Reset;
+import com.insofar.actor.commands.author.SaveActor;
+import com.insofar.actor.commands.author.SaveScene;
 import com.insofar.actor.commands.author.StopRecording;
 import com.insofar.actor.listeners.AuthorBlockListener;
 import com.insofar.actor.listeners.AuthorPlayerListener;
@@ -47,6 +52,8 @@ public class ActorPlugin extends JavaPlugin {
 	public final Logger logger = Logger.getLogger("Minecraft");
 	private PluginDescriptionFile pdfFile;
 	private List<Listener> listeners;
+	public String scenePath;
+	public String savePath;
 	
 	/*****************************************************************************
 	 * 
@@ -62,6 +69,11 @@ public class ActorPlugin extends JavaPlugin {
 	private Reset resetCommand;
 	private ActionRecord actionRecCommand;
 	private Cut cutCommand;
+	private SaveActor saveActorCommand;
+	private SaveScene saveSceneCommand;
+	private LoadActor loadActorCommand;
+	private LoadScene loadSceneCommand;
+	
 
 	/*****************************************************************************
 	 * 
@@ -136,6 +148,17 @@ public class ActorPlugin extends JavaPlugin {
 		// Set up static instance
 		instance = this;
 		
+		// Init data folder
+		if (initDataFolder())
+		{
+			logger.info("Actor: Data folder inited");
+		}
+		else
+		{
+			logger.severe("Actor: Data folder failed to init");
+			return false;
+		}
+		
 		// Init commands
 		if (initCommands())
 		{
@@ -171,6 +194,28 @@ public class ActorPlugin extends JavaPlugin {
 
 		return true;
 	}
+	
+	/**
+	 * Init commands
+	 */
+	private Boolean initDataFolder()
+	{
+		File dataFolder = getDataFolder();
+		File sceneFolder = new File(dataFolder,"scenes");
+		File saveFolder = new File(dataFolder,"save");
+		
+		dataFolder.mkdirs();
+		sceneFolder.mkdirs();
+		saveFolder.mkdirs();
+		
+		scenePath = sceneFolder.getPath();
+		savePath = saveFolder.getPath();
+		
+		System.out.println("Scene dir = "+scenePath);
+		System.out.println("Save dir = "+savePath);
+		
+		return true;
+	}
 
 	/**
 	 * Init commands
@@ -186,6 +231,10 @@ public class ActorPlugin extends JavaPlugin {
 		resetCommand = new Reset();
 		actorCommand = new Actor();
 		removeCommand = new Remove();
+		saveActorCommand = new SaveActor();
+		saveSceneCommand = new SaveScene();
+		loadActorCommand = new LoadActor();
+		loadSceneCommand = new LoadScene();
 		
 		// Set up Bukkit commands
 		getCommand("record").setExecutor(recordCommand);
@@ -196,6 +245,10 @@ public class ActorPlugin extends JavaPlugin {
 		getCommand("reset").setExecutor(resetCommand);
 		getCommand("actionrec").setExecutor(actionRecCommand);
 		getCommand("cut").setExecutor(cutCommand);
+		getCommand("saveactor").setExecutor(saveActorCommand);
+		getCommand("savescene").setExecutor(saveSceneCommand);
+		getCommand("loadactor").setExecutor(loadActorCommand);
+		getCommand("loadscene").setExecutor(loadSceneCommand);
 		return true;
 	}
 
