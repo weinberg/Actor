@@ -1,7 +1,6 @@
 package com.insofar.actor.listeners;
 
 import net.minecraft.server.Packet53BlockChange;
-
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
@@ -100,21 +99,27 @@ public class AuthorBlockListener extends BlockListener {
 			packet.data = data;
 
 			author.currentRecording.recordPacket(packet);
-			addRewindForBlockChange(author, xPosition, yPosition, zPosition, event.getBlock().getTypeId(), event.getBlock().getData());
+			
+			// Rewind packet
+			
+			type = event.getBlock().getType().getId();
+			data = event.getBlock().getData();
+			
+			addRewindForBlockChange(author, xPosition, yPosition, zPosition, data, type);
 		}
 
 		super.onBlockBreak(event);
 	}
 
-	public void addRewindForBlockChange(Author author, int i, int j, int k, int type, int meta)
+	public void addRewindForBlockChange(Author author, int i, int j, int k, int l, int m)
 	{
 		Packet53BlockChange changeBack = new Packet53BlockChange();
 
 		changeBack.a = i;
 		changeBack.b = j;
 		changeBack.c = k;
-		changeBack.data = type;
-		changeBack.material = meta;
+		changeBack.data = l;
+		changeBack.material = m;
 
 		author.currentRecording.addRewindPacket(changeBack);
 	}

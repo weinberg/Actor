@@ -135,6 +135,8 @@ public class Actor extends AuthorBaseCommand {
 
 		EntityActor result = actor(author.currentRecording, actorName, viewerPlayer, world);
 		
+		author.currentRecording = null;
+		
 		if (result != null)
 		{
 			player.sendMessage("Spawned entity with id = "+result.id+" for player "+viewerName);

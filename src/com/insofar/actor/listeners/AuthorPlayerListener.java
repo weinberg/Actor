@@ -24,6 +24,8 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.Author;
+import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.author.Viewer;
 
 public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener {
 
@@ -170,6 +172,18 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 		super.onPlayerQuit(event);
 
 		plugin.authors.remove(event.getPlayer().getName());
+		
+		for (EntityActor actor : plugin.actors)
+		{
+			for (Viewer viewer : actor.viewers)
+			{
+				if (viewer.player == event.getPlayer())
+				{
+					actor.viewers.remove(viewer);
+					break;
+				}
+			}
+		}
 	}
 
 	public static int floor_double(double d)

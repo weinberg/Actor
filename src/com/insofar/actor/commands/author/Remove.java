@@ -34,10 +34,11 @@ public class Remove extends AuthorBaseCommand {
 		
 		if (args.length == 1)
 		{
+			String actorName = args[0];
 			// Call actorRemove on all actors named args[0]
 			for (EntityActor ea : plugin.actors)
 			{
-				if ((ea.name.equals(args[0]) || ea.name.equals("all")) && ea.hasViewer(player))
+				if ((ea.name.equals(actorName) || actorName.equals("all")) && ea.hasViewer(player))
 				{
 					actorRemove(ea);
 					removeActors.add(ea);

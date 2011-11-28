@@ -135,8 +135,8 @@ public class EntityActor extends EntityPlayer {
 						((Packet53BlockChange) p).a,
 						((Packet53BlockChange) p).b,
 						((Packet53BlockChange) p).c,
-						((Packet53BlockChange) p).data,
-						((Packet53BlockChange) p).material);
+						((Packet53BlockChange) p).material,
+						((Packet53BlockChange) p).data);
 
 				sendPacketToViewers(p);
 			}
