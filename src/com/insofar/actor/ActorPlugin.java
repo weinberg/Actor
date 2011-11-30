@@ -25,6 +25,7 @@ import com.insofar.actor.commands.author.Action;
 import com.insofar.actor.commands.author.ActionRecord;
 import com.insofar.actor.commands.author.Actor;
 import com.insofar.actor.commands.author.Cut;
+import com.insofar.actor.commands.author.Dub;
 import com.insofar.actor.commands.author.LoadActor;
 import com.insofar.actor.commands.author.LoadScene;
 import com.insofar.actor.commands.author.Record;
@@ -69,6 +70,7 @@ public class ActorPlugin extends JavaPlugin {
 	private Reset resetCommand;
 	private ActionRecord actionRecCommand;
 	private Cut cutCommand;
+	private Dub dubCommand;
 	private SaveActor saveActorCommand;
 	private SaveScene saveSceneCommand;
 	private LoadActor loadActorCommand;
@@ -230,6 +232,7 @@ public class ActorPlugin extends JavaPlugin {
 		cutCommand = new Cut();
 		resetCommand = new Reset();
 		actorCommand = new Actor();
+		dubCommand = new Dub();
 		removeCommand = new Remove();
 		saveActorCommand = new SaveActor();
 		saveSceneCommand = new SaveScene();
@@ -245,6 +248,7 @@ public class ActorPlugin extends JavaPlugin {
 		getCommand("reset").setExecutor(resetCommand);
 		getCommand("actionrec").setExecutor(actionRecCommand);
 		getCommand("cut").setExecutor(cutCommand);
+		getCommand("dub").setExecutor(dubCommand);
 		getCommand("saveactor").setExecutor(saveActorCommand);
 		getCommand("savescene").setExecutor(saveSceneCommand);
 		getCommand("loadactor").setExecutor(loadActorCommand);
@@ -352,6 +356,14 @@ public class ActorPlugin extends JavaPlugin {
 	public EntityActor spawnActor(Player player, String actorName)
 	{
 		return actorCommand.actor(player, actorName);
+	}
+	
+	/**
+	 * Create an actor with access to all parameters
+	 */
+	public EntityActor actor(Recording recording, String actorName, Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
+	{
+		return actorCommand.actor(recording, actorName, viewerPlayer, world, x, y, z);
 	}
 	
 	/**

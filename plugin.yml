@@ -16,6 +16,10 @@ commands:
       description: Spawn new actor using recording in buffer
       usage: /actor name
       
+   dub:
+      description: Duplicate one or all actors with a translation
+      usage: /dub [name|all] x y z
+      
    remove:
       description: Remove an actor(s). Name can be "all".
       usage: /remove name

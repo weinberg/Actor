@@ -163,9 +163,17 @@ public class Actor extends AuthorBaseCommand {
 	 */
 	public EntityActor actor(Recording recording, String actorName, Player viewerPlayer, org.bukkit.World world)
 	{
+		return actor(recording, actorName, viewerPlayer, world, 0, 0, 0);
+	}
+	
+	public EntityActor actor(Recording recording, String actorName, Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
+	{
 		World w = ((CraftWorld) world).getHandle();
 		ItemInWorldManager iw = new ItemInWorldManager(w);
 		EntityActor actor = new EntityActor(minecraftServer, w, actorName, iw);
+		actor.translateX = x;
+		actor.translateY = y;
+		actor.translateZ = z;
 
 		if (viewerPlayer == null)
 		{
@@ -186,9 +194,10 @@ public class Actor extends AuthorBaseCommand {
 		// Send teleport packet
 		Packet34EntityTeleport packet = actor.recording.getJumpstart();
 		packet.a = actor.id;
+		packet.b+=x;
+		packet.c+=y;
+		packet.d+=z;
 		actor.sendPacketToViewers(packet);
-
-		plugin.actors.add(actor);
 
 		return actor;
 	}

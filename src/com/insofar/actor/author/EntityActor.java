@@ -30,6 +30,11 @@ public class EntityActor extends EntityPlayer {
 	public Boolean loop = false;
 	public Boolean allPlayersView = false;
 	public ArrayList<Viewer> viewers = new ArrayList<Viewer>();
+	
+	public int translateX;
+	public int translateY;
+	public int translateZ;
+	public long translateTime;
 
 	public EntityActor(MinecraftServer minecraftserver, World world, String s, ItemInWorldManager iteminworldmanager)
 	{
@@ -67,9 +72,12 @@ public class EntityActor extends EntityPlayer {
 		if (packets != null && packets.size() > 0)
 		{
 			//System.out.println(new StringBuilder(" #packets=").append(packets.size()).append(": ").toString());
+			
 
 			for (int i = 0; i < packets.size(); i++)
 			{
+				// For cloning packets
+				Packet newp = null;
 				Packet p = packets.get(i);
 
 				//System.out.println(new StringBuilder("   ").append(p.b()).toString());
@@ -83,11 +91,19 @@ public class EntityActor extends EntityPlayer {
 				else if (p instanceof Packet34EntityTeleport)
 				{
 					//System.out.println(new StringBuilder("   Packet34"));
-					((Packet34EntityTeleport)p).a = id;
+					newp = new Packet34EntityTeleport(
+							id,
+							((Packet34EntityTeleport) p).b+translateX,
+							((Packet34EntityTeleport) p).c+translateY,
+							((Packet34EntityTeleport) p).d+translateZ,
+							((Packet34EntityTeleport) p).e,
+							((Packet34EntityTeleport) p).f);
+					
+					//((Packet34EntityTeleport)p).a = id;
 					setPosition(
-							(((Packet34EntityTeleport)p).b / 32),
-							(((Packet34EntityTeleport)p).c / 32),
-							(((Packet34EntityTeleport)p).d / 32));
+							(((Packet34EntityTeleport)newp).b / 32),
+							(((Packet34EntityTeleport)newp).c / 32),
+							(((Packet34EntityTeleport)newp).d / 32));
 				}
 				else if (p instanceof Packet5EntityEquipment)
 				{
@@ -115,7 +131,14 @@ public class EntityActor extends EntityPlayer {
 							((Packet53BlockChange) p).material,
 							((Packet53BlockChange) p).data);
 				}
-				sendPacketToViewers(p);
+				if (newp != null)
+				{
+					sendPacketToViewers(newp);
+				}
+				else
+				{
+					sendPacketToViewers(p);
+				}
 			}
 		}
 	}
