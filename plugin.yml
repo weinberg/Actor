@@ -36,6 +36,10 @@ commands:
       description: Stop actor or all actors
       usage: /cut [actorname]
 
+   loop:
+      description: Set an actor (or "all") to loop
+      usage: /loop [on|off] actorname
+
    reset:
       description: Rewind actor or all actors
       usage: /reset [actorname]

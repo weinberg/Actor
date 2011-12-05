@@ -28,6 +28,7 @@ import com.insofar.actor.commands.author.Cut;
 import com.insofar.actor.commands.author.Dub;
 import com.insofar.actor.commands.author.LoadActor;
 import com.insofar.actor.commands.author.LoadScene;
+import com.insofar.actor.commands.author.Loop;
 import com.insofar.actor.commands.author.Record;
 import com.insofar.actor.commands.author.Remove;
 import com.insofar.actor.commands.author.Reset;
@@ -71,6 +72,7 @@ public class ActorPlugin extends JavaPlugin {
 	private ActionRecord actionRecCommand;
 	private Cut cutCommand;
 	private Dub dubCommand;
+	private Loop loopCommand;
 	private SaveActor saveActorCommand;
 	private SaveScene saveSceneCommand;
 	private LoadActor loadActorCommand;
@@ -233,6 +235,7 @@ public class ActorPlugin extends JavaPlugin {
 		resetCommand = new Reset();
 		actorCommand = new Actor();
 		dubCommand = new Dub();
+		loopCommand = new Loop();
 		removeCommand = new Remove();
 		saveActorCommand = new SaveActor();
 		saveSceneCommand = new SaveScene();
@@ -249,6 +252,7 @@ public class ActorPlugin extends JavaPlugin {
 		getCommand("actionrec").setExecutor(actionRecCommand);
 		getCommand("cut").setExecutor(cutCommand);
 		getCommand("dub").setExecutor(dubCommand);
+		getCommand("loop").setExecutor(loopCommand);
 		getCommand("saveactor").setExecutor(saveActorCommand);
 		getCommand("savescene").setExecutor(saveSceneCommand);
 		getCommand("loadactor").setExecutor(loadActorCommand);
