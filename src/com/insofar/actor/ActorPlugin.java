@@ -35,6 +35,7 @@ import com.insofar.actor.commands.author.Reset;
 import com.insofar.actor.commands.author.SaveActor;
 import com.insofar.actor.commands.author.SaveScene;
 import com.insofar.actor.commands.author.StopRecording;
+import com.insofar.actor.commands.author.Visible;
 import com.insofar.actor.listeners.AuthorBlockListener;
 import com.insofar.actor.listeners.AuthorPlayerListener;
 
@@ -73,6 +74,7 @@ public class ActorPlugin extends JavaPlugin {
 	private Cut cutCommand;
 	private Dub dubCommand;
 	private Loop loopCommand;
+	private Visible visibleCommand;
 	private SaveActor saveActorCommand;
 	private SaveScene saveSceneCommand;
 	private LoadActor loadActorCommand;
@@ -236,6 +238,7 @@ public class ActorPlugin extends JavaPlugin {
 		actorCommand = new Actor();
 		dubCommand = new Dub();
 		loopCommand = new Loop();
+		visibleCommand = new Visible();
 		removeCommand = new Remove();
 		saveActorCommand = new SaveActor();
 		saveSceneCommand = new SaveScene();
@@ -253,6 +256,7 @@ public class ActorPlugin extends JavaPlugin {
 		getCommand("cut").setExecutor(cutCommand);
 		getCommand("dub").setExecutor(dubCommand);
 		getCommand("loop").setExecutor(loopCommand);
+		getCommand("visible").setExecutor(visibleCommand);
 		getCommand("saveactor").setExecutor(saveActorCommand);
 		getCommand("savescene").setExecutor(saveSceneCommand);
 		getCommand("loadactor").setExecutor(loadActorCommand);
@@ -331,6 +335,7 @@ public class ActorPlugin extends JavaPlugin {
 	 * Cut: 	entityActor.isPlayback = false
 	 * Reset:	entityActor.rewind()
 	 * Loop:	entityActor.loop = true
+	 * Visible:	entityActor.allPlayersView = true;
 	 * 
 	 */
 	
