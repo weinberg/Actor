@@ -19,10 +19,14 @@ Installation: 	Build the library and put the resulting plugin jar into plugins o
 Command Usage:	When using the plugin to provide commands directly just install the plugin
 				and then allow users to access the following commands:			  
 				
-  record:
+   record:
       description: start recording into buffer
       usage: /record
       
+   cut:
+      description: Stop recording and playback on all actors
+      usage: /cut
+
    actor:
       description: Spawn new actor using recording in buffer
       usage: /actor name
@@ -31,9 +35,9 @@ Command Usage:	When using the plugin to provide commands directly just install t
       description: Duplicate one or all actors with a translation
       usage: /dub [name|all] x y z
       
-   remove:
+   fire:
       description: Remove an actor(s). Name can be "all".
-      usage: /remove name
+      usage: /fire name
       
    action:
       description: playback actor or all actors
@@ -43,10 +47,6 @@ Command Usage:	When using the plugin to provide commands directly just install t
       description: playback actor or all actors and record
       usage: /actionrec [actorname]
       
-   cut:
-      description: Stop playback and recording
-      usage: /cut
-
    loop:
       description: Set an actor (or "all") to loop
       usage: /loop [on|off] actorname
@@ -78,7 +78,6 @@ Command Usage:	When using the plugin to provide commands directly just install t
    loadscene:
       description: Load and spawn all actor recordings from dir
       usage: /loadscene scenename
-      
 			   
 Library Usage: When using the plugin as a library just add the library as a dependency to
 				your project and access the library API like so:
