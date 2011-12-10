@@ -30,7 +30,7 @@ import com.insofar.actor.commands.author.LoadActor;
 import com.insofar.actor.commands.author.LoadScene;
 import com.insofar.actor.commands.author.Loop;
 import com.insofar.actor.commands.author.Record;
-import com.insofar.actor.commands.author.Remove;
+import com.insofar.actor.commands.author.Fire;
 import com.insofar.actor.commands.author.Reset;
 import com.insofar.actor.commands.author.SaveActor;
 import com.insofar.actor.commands.author.SaveScene;
@@ -68,7 +68,7 @@ public class ActorPlugin extends JavaPlugin {
 	private StopRecording stopRecordCommand;
 	private Action actionCommand;
 	private Actor actorCommand;
-	private Remove removeCommand;
+	private Fire removeCommand;
 	private Reset resetCommand;
 	private ActionRecord actionRecCommand;
 	private Cut cutCommand;
@@ -230,7 +230,6 @@ public class ActorPlugin extends JavaPlugin {
 	{
 		// Set up command references
 		recordCommand = new Record();
-		stopRecordCommand = new StopRecording();
 		actionCommand = new Action();
 		actionRecCommand = new ActionRecord();
 		cutCommand = new Cut();
@@ -239,7 +238,7 @@ public class ActorPlugin extends JavaPlugin {
 		dubCommand = new Dub();
 		loopCommand = new Loop();
 		visibleCommand = new Visible();
-		removeCommand = new Remove();
+		removeCommand = new Fire();
 		saveActorCommand = new SaveActor();
 		saveSceneCommand = new SaveScene();
 		loadActorCommand = new LoadActor();
@@ -247,9 +246,8 @@ public class ActorPlugin extends JavaPlugin {
 		
 		// Set up Bukkit commands
 		getCommand("record").setExecutor(recordCommand);
-		getCommand("stoprec").setExecutor(stopRecordCommand);
 		getCommand("actor").setExecutor(actorCommand);
-		getCommand("remove").setExecutor(removeCommand);
+		getCommand("fire").setExecutor(removeCommand);
 		getCommand("action").setExecutor(actionCommand);
 		getCommand("reset").setExecutor(resetCommand);
 		getCommand("actionrec").setExecutor(actionRecCommand);

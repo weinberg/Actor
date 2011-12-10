@@ -8,10 +8,10 @@ commands:
       description: start recording into buffer
       usage: /record
       
-   stoprec:
-      description: Stop recording
-      usage: /stoprec
-      
+   cut:
+      description: Stop recording and playback on all actors
+      usage: /cut
+
    actor:
       description: Spawn new actor using recording in buffer
       usage: /actor name
@@ -20,9 +20,9 @@ commands:
       description: Duplicate one or all actors with a translation
       usage: /dub [name|all] x y z
       
-   remove:
+   fire:
       description: Remove an actor(s). Name can be "all".
-      usage: /remove name
+      usage: /fire name
       
    action:
       description: playback actor or all actors
@@ -32,10 +32,6 @@ commands:
       description: playback actor or all actors and record
       usage: /actionrec [actorname]
       
-   cut:
-      description: Stop actor or all actors
-      usage: /cut [actorname]
-
    loop:
       description: Set an actor (or "all") to loop
       usage: /loop [on|off] actorname

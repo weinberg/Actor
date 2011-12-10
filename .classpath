@@ -7,6 +7,6 @@
 			<attribute name="javadoc_location" value="http://commons.apache.org/io/api-release/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="F:/git/ActorPlugin/libs/craftbukkit-0.0.1-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/craftbukkit/target/craftbukkit-0.0.1-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

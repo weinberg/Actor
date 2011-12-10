@@ -11,9 +11,9 @@ import com.insofar.actor.author.Viewer;
  * @author Joshua Weinberg
  *
  */
-public class Remove extends AuthorBaseCommand {
+public class Fire extends AuthorBaseCommand {
 
-	public Remove()
+	public Fire()
 	{
 		super();
 	}

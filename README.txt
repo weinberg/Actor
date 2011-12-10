@@ -23,10 +23,6 @@ Command Usage:	When using the plugin to provide commands directly just install t
       description: start recording into buffer
       usage: /record
       
-   stoprec:
-      description: Stop recording
-      usage: /stoprec
-      
    actor:
       description: Spawn new actor using recording in buffer
       usage: /actor name
@@ -48,8 +44,8 @@ Command Usage:	When using the plugin to provide commands directly just install t
       usage: /actionrec [actorname]
       
    cut:
-      description: Stop actor or all actors
-      usage: /cut [actorname]
+      description: Stop playback and recording
+      usage: /cut
 
    loop:
       description: Set an actor (or "all") to loop

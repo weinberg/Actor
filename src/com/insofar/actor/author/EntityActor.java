@@ -31,9 +31,9 @@ public class EntityActor extends EntityPlayer {
 	public Boolean allPlayersView = false;
 	public ArrayList<Viewer> viewers = new ArrayList<Viewer>();
 	
-	public int translateX;
-	public int translateY;
-	public int translateZ;
+	public int translateX = 0;
+	public int translateY = 0;
+	public int translateZ = 0;
 	public long translateTime;
 
 	public EntityActor(MinecraftServer minecraftserver, World world, String s, ItemInWorldManager iteminworldmanager)
@@ -168,10 +168,16 @@ public class EntityActor extends EntityPlayer {
 		// Rewind the recording
 		recording.rewind();
 		Packet34EntityTeleport packet = recording.getJumpstart();
-		packet.a=id;
+		Packet34EntityTeleport newp = new Packet34EntityTeleport(
+							id,
+							((Packet34EntityTeleport) packet).b+translateX,
+							((Packet34EntityTeleport) packet).c+translateY,
+							((Packet34EntityTeleport) packet).d+translateZ,
+							((Packet34EntityTeleport) packet).e,
+							((Packet34EntityTeleport) packet).f);
 
 		// Send packet to the viewers
-		sendPacketToViewers(packet);
+		sendPacketToViewers(newp);
 	}
 
 	/**

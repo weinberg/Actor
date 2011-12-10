@@ -1,5 +1,6 @@
 package com.insofar.actor.commands.author;
 
+import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 
 /**
@@ -23,18 +24,23 @@ public class Cut extends AuthorBaseCommand {
 
 	@Override
 	/**
-	 * bukkit command to stop one or all actors which the player can view
+	 * bukkit command to stop playback and recording 
 	 */
 	public boolean execute()
 	{
-		String actorName = args.length > 0 ? args[0] : "";
+		// Stop recording
+		Author author = getAuthor(player);
+		if (author.currentRecording != null)
+		{
+			author.isRecording = false;
+			author.currentRecording.rewind();
+			player.sendMessage("Recording stopped.");
+		}
 		
+		// Stop playback on all actors
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("")))
-			{
-				actor.isPlayback = false;
-			}
+			actor.isPlayback = false;
 		}
 		
 		return true;

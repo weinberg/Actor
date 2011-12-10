@@ -103,13 +103,23 @@ public class Dub extends AuthorBaseCommand {
 		np.a = newActor.id;
 		newActor.sendPacketToViewers(np);
 
+		/*
 		// Send teleport packet
 		Packet34EntityTeleport packet = newActor.recording.getJumpstart();
-		packet.a = newActor.id;
-		packet.b+=x;
-		packet.c+=y;
-		packet.d+=z;
-		newActor.sendPacketToViewers(packet);
+		
+		Packet34EntityTeleport newp = new Packet34EntityTeleport(
+							newActor.id,
+							((Packet34EntityTeleport) packet).b+x,
+							((Packet34EntityTeleport) packet).c+y,
+							((Packet34EntityTeleport) packet).d+z,
+							((Packet34EntityTeleport) packet).e,
+							((Packet34EntityTeleport) packet).f);
+
+		
+		newActor.sendPacketToViewers(newp);
+		*/
+		
+		newActor.rewind();
 
 		return newActor;
 	}
