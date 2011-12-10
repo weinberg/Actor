@@ -1,2 +1,3 @@
 Manifest-Version: 1.0
 
+Class-Path: libs/commons-io-2.1.jar
