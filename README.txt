@@ -3,7 +3,7 @@ Actor Plugin
 
 Author: 		Joshua Weinberg
 Contact: 		jrwap@wwwrl.com
-Version: 		0.1 BETA
+Version: 		0.4 BETA
 License:		GNU General Public License (see LICENSE.txt)			  
 Description: 	A library which allows recording and playback of minecraft players.
 				While intended primarily as a library for use in other plugins it does
