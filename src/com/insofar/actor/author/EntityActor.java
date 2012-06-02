@@ -2,11 +2,6 @@ package com.insofar.actor.author;
 
 import java.util.ArrayList;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.CraftServer;
-import org.bukkit.entity.Player;
-
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.ItemInWorldManager;
 import net.minecraft.server.MinecraftServer;
@@ -14,11 +9,16 @@ import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet33RelEntityMoveLook;
 import net.minecraft.server.Packet34EntityTeleport;
+import net.minecraft.server.Packet35EntityHeadRotation;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.Packet5EntityEquipment;
 import net.minecraft.server.World;
 
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.craftbukkit.CraftServer;
+import org.bukkit.entity.Player;
 
 public class EntityActor extends EntityPlayer {
 
@@ -35,11 +35,19 @@ public class EntityActor extends EntityPlayer {
 	public int translateY = 0;
 	public int translateZ = 0;
 	public long translateTime;
+	
+	
 
-	public EntityActor(MinecraftServer minecraftserver, World world, String s, ItemInWorldManager iteminworldmanager)
+	/*
+	public EntityActor(World world)
 	{
+		//mcServer = minecraftserver;
+	}
+	*/
+
+	public EntityActor(MinecraftServer minecraftserver, World world, String s,
+			ItemInWorldManager iteminworldmanager) {
 		super(minecraftserver, world, s, iteminworldmanager);
-		mcServer = minecraftserver;
 	}
 
 	public void tick()
@@ -79,18 +87,20 @@ public class EntityActor extends EntityPlayer {
 				// For cloning packets
 				Packet newp = null;
 				Packet p = packets.get(i);
+				
+				System.out.print("Packet: "+p.a());
 
 				//System.out.println(new StringBuilder("   ").append(p.b()).toString());
 
 				if (p instanceof Packet33RelEntityMoveLook)
 				{
-					//System.out.println(new StringBuilder("   Packet33"));
+					// System.out.println(new StringBuilder("   Packet33"));
 					// Set the entity for this ghost on this packet
+					//((Packet33RelEntityMoveLook)p).entityId = entityId;
 					((Packet33RelEntityMoveLook)p).a = id;
 				}
 				else if (p instanceof Packet34EntityTeleport)
 				{
-					//System.out.println(new StringBuilder("   Packet34"));
 					newp = new Packet34EntityTeleport(
 							id,
 							((Packet34EntityTeleport) p).b+translateX,
@@ -104,6 +114,15 @@ public class EntityActor extends EntityPlayer {
 							(((Packet34EntityTeleport)newp).b / 32),
 							(((Packet34EntityTeleport)newp).c / 32),
 							(((Packet34EntityTeleport)newp).d / 32));
+					
+					//Packet34EntityTeleport tp = (Packet34EntityTeleport)newp;
+					
+					//System.out.println(" Packet34: (" + tp.b + "," + tp.c + "," + tp.d + ")" + " yaw: "+ tp.e + " pitch: " + tp.f);
+					System.out.println("    yaw: "+((Packet34EntityTeleport)newp).e);
+				}
+				else if (p instanceof Packet35EntityHeadRotation)
+				{
+					newp = new Packet35EntityHeadRotation(id, ((Packet35EntityHeadRotation)p).b);
 				}
 				else if (p instanceof Packet5EntityEquipment)
 				{
@@ -188,6 +207,7 @@ public class EntityActor extends EntityPlayer {
 	{
 		if (allPlayersView)
 		{
+			System.out.println("Sending to all ");
 			// Send to all in world
 			int dimension = world.worldProvider.dimension;
 			((CraftServer)Bukkit.getServer()).getServer().serverConfigurationManager.a(p,dimension);
@@ -197,6 +217,7 @@ public class EntityActor extends EntityPlayer {
 		// Send packet to the viewer(s)
 		for (Viewer viewer : viewers)
 		{
+			System.out.println("Sending to viewer "+viewer.player.getDisplayName());
 			viewer.sendPacket(p);
 		}
 	}

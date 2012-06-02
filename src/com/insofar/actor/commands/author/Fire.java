@@ -1,7 +1,9 @@
 package com.insofar.actor.commands.author;
 
 import java.util.ArrayList;
+
 import net.minecraft.server.Packet29DestroyEntity;
+
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Viewer;
 

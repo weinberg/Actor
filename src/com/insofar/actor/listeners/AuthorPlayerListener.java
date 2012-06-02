@@ -2,11 +2,14 @@ package com.insofar.actor.listeners;
 
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet34EntityTeleport;
+import net.minecraft.server.Packet35EntityHeadRotation;
 import net.minecraft.server.Packet3Chat;
 import net.minecraft.server.Packet5EntityEquipment;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
 import org.bukkit.event.player.PlayerChatEvent;
@@ -27,7 +30,7 @@ import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Viewer;
 
-public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener {
+public class AuthorPlayerListener implements Listener {
 
 	public ActorPlugin plugin;
 
@@ -36,7 +39,7 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 		plugin = instance;
 	}
 
-	@Override
+	@EventHandler
 	/**
 	 * Author player move listener
 	 */
@@ -56,25 +59,30 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 			tp.d = floor_double(to.getZ() * 32D);
 			tp.e = (byte)(int)((to.getYaw() * 256F) / 360F);
 			tp.f = (byte)(int)((to.getPitch() * 256F) / 360F);
+			
+			// System.out.println("Player move recorded: (" + tp.b + "," + tp.c + "," + tp.d + ")" + " y: "+ tp.e + " p: " + tp.f);
 
+			Packet35EntityHeadRotation hr = new Packet35EntityHeadRotation();
+			
+			hr.a = p.getEntityId();
+			hr.b = tp.e;
+			
 			author.currentRecording.recordPacket(tp);
+			author.currentRecording.recordPacket(hr);
 		}
 		
-		super.onPlayerMove(event);
 	}
 	
 	/**
 	 * Author player
 	 */
-
-	@Override
+	@EventHandler
 	public void onPlayerPickupItem(PlayerPickupItemEvent event)
 	{
 		plugin.logger.info("Player picked up " + event.getItem().toString());
-		super.onPlayerPickupItem(event);
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerChat(PlayerChatEvent event) {
 		Player p = event.getPlayer();
 
@@ -85,27 +93,24 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 			cp.message = event.getMessage();
 			author.currentRecording.recordPacket(cp);
 		}
-		super.onPlayerChat(event);
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerInteract(PlayerInteractEvent event) {
-		//System.out.println("Player Interact");
-		super.onPlayerInteract(event);
+		System.out.println("Player Interact");
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-		//System.out.println("Player Interact entity");
-		super.onPlayerInteractEntity(event);
+		System.out.println("Player Interact entity");
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerEggThrow(PlayerEggThrowEvent event) {
-		super.onPlayerEggThrow(event);
+		System.out.println("Player Egg Throw");
 	}
 
-	@Override
+	@EventHandler
 	public void onItemHeldChange(PlayerItemHeldEvent event) {
 		Player p = event.getPlayer();
 		Author author = plugin.authors.get(p.getName());
@@ -118,32 +123,29 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 			if (packet.c == 0) packet.c = -1;
 			author.currentRecording.recordPacket(packet);
 		}
-		super.onItemHeldChange(event);
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		//System.out.println("Player drop item");
-		super.onPlayerDropItem(event);
+		System.out.println("Player drop item");
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerToggleSneak(PlayerToggleSneakEvent event) {
-		//System.out.println("Sneak toggle");
-		super.onPlayerToggleSneak(event);
+		System.out.println("Sneak toggle");
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerToggleSprint(PlayerToggleSprintEvent event) {
-		super.onPlayerToggleSprint(event);
+		System.out.println("Sprint toggle");
 	}
 
-	@Override
+	@EventHandler
 	public void onPlayerFish(PlayerFishEvent event) {
-		super.onPlayerFish(event);
+		System.out.println("Fish toggle");
 	}
 	
-	@Override
+	@EventHandler
 	public void onPlayerAnimation(PlayerAnimationEvent event) {
 		//System.out.println("Player animation");
 		Player p = event.getPlayer();
@@ -159,18 +161,14 @@ public class AuthorPlayerListener extends org.bukkit.event.player.PlayerListener
 				author.currentRecording.recordPacket(packet);
 			}
 		}
-		
-		super.onPlayerAnimation(event);
 	}
 	
 
-	@Override
+	@EventHandler
 	/**
 	 * Remove the player from the authors list
 	 */
 	public void onPlayerQuit(PlayerQuitEvent event) {
-		super.onPlayerQuit(event);
-
 		plugin.authors.remove(event.getPlayer().getName());
 		
 		for (EntityActor actor : plugin.actors)

@@ -1,6 +1,7 @@
 package com.insofar.actor.commands.author;
 
 import net.minecraft.server.MinecraftServer;
+
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

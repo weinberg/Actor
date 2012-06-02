@@ -2,6 +2,10 @@ package com.insofar.actor.commands.author;
 
 import java.util.ArrayList;
 
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.Packet;
+import net.minecraft.server.Packet53BlockChange;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -10,10 +14,6 @@ import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
-
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.Packet;
-import net.minecraft.server.Packet53BlockChange;
 
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;

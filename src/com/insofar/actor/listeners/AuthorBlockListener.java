@@ -1,19 +1,21 @@
 package com.insofar.actor.listeners;
 
 import net.minecraft.server.Packet53BlockChange;
+
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockListener;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.Author;
 
-public class AuthorBlockListener extends BlockListener {
+public class AuthorBlockListener implements Listener {
 
 	public ActorPlugin plugin;
 
@@ -22,27 +24,24 @@ public class AuthorBlockListener extends BlockListener {
 		plugin = instance;
 	}
 
-	@Override
+	@EventHandler
 	public void onBlockDamage(BlockDamageEvent event) {
-		//System.out.println("Block damage");
-		super.onBlockDamage(event);
+		System.out.println("Block damage");
 	}
 
-	@Override
+	@EventHandler
 	public void onBlockIgnite(BlockIgniteEvent event) {
-		// TODO Auto-generated method stub
-		super.onBlockIgnite(event);
+		System.out.println("Block ignite");
 	}
 
-	@Override
+	@EventHandler
 	public void onBlockPhysics(BlockPhysicsEvent event) {
-		// TODO Auto-generated method stub
-		super.onBlockPhysics(event);
+		System.out.println("Block physics");
 	}
 
-	@Override
+	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
-		//System.out.println("Block place");
+		System.out.println("Block place");
 		Player p = event.getPlayer();
 
 		Author author = plugin.authors.get(p.getName());
@@ -65,19 +64,16 @@ public class AuthorBlockListener extends BlockListener {
 			author.currentRecording.recordPacket(packet);
 			addRewindForBlockChange(author, xPosition, yPosition, zPosition, 0, 0);
 		}
-
-		super.onBlockPlace(event);
 	}
 
-	@Override
+	@EventHandler
 	public void onBlockBurn(BlockBurnEvent event) {
-		// TODO Auto-generated method stub
-		super.onBlockBurn(event);
+		System.out.println("Block burn");
 	}
 
-	@Override
+	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		//System.out.println("Block break");
+		System.out.println("Block break");
 		Player p = event.getPlayer();
 
 		Author author = plugin.authors.get(p.getName());
@@ -107,8 +103,6 @@ public class AuthorBlockListener extends BlockListener {
 			
 			addRewindForBlockChange(author, xPosition, yPosition, zPosition, data, type);
 		}
-
-		super.onBlockBreak(event);
 	}
 
 	public void addRewindForBlockChange(Author author, int i, int j, int k, int l, int m)

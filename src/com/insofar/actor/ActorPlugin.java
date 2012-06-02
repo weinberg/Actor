@@ -14,7 +14,9 @@ import java.util.logging.Logger;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -294,26 +296,32 @@ public class ActorPlugin extends JavaPlugin {
 		listeners = new ArrayList<Listener>();
 
 		PluginManager pm = getServer().getPluginManager();
-
+		
 		/* Authorlistener */
+		pm.registerEvents(new AuthorPlayerListener(this), this);
+		
 		AuthorPlayerListener al = new AuthorPlayerListener(this);
-		pm.registerEvent(Event.Type.PLAYER_QUIT, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_MOVE, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_ANIMATION, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_INTERACT, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_INTERACT_ENTITY, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_ITEM_HELD, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_PICKUP_ITEM, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_TOGGLE_SNEAK, al, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.PLAYER_CHAT, al, Event.Priority.Normal, this);
+		/*
+		pm.registerEvent(PlayerQuitEvent.class, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_MOVE, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_ANIMATION, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_INTERACT_ENTITY, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_ITEM_HELD, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_PICKUP_ITEM, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_TOGGLE_SNEAK, al, EventPriority.NORMAL, this);
+		pm.registerEvent(Event.Type.PLAYER_CHAT, al, EventPriority.NORMAL, this);
+		*/
 		listeners.add(al);
 
 		/* AuthorBlockListener */
 		AuthorBlockListener abl = new AuthorBlockListener(this);
+		/*
 		pm.registerEvent(Event.Type.BLOCK_PLACE, abl, Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.BLOCK_BREAK, abl, Event.Priority.Normal, this);
 		pm.registerEvent(Event.Type.BLOCK_DAMAGE, abl, Event.Priority.Normal, this);
+		*/
 		listeners.add(abl);
 
 		return true;
