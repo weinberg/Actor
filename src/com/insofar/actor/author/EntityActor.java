@@ -7,6 +7,7 @@ import net.minecraft.server.ItemInWorldManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
+import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet33RelEntityMoveLook;
 import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet35EntityHeadRotation;
@@ -80,15 +81,65 @@ public class EntityActor extends EntityPlayer {
 		if (packets != null && packets.size() > 0)
 		{
 			//System.out.println(new StringBuilder(" #packets=").append(packets.size()).append(": ").toString());
-			
+			sendPackets(packets);
+		}
+	}
+	
+	/**
+	 * Spawn the EntityActor in the world.
+	 */
+	public void spawn()
+	{
+		// Send spawn packet to the viewer
+		Packet20NamedEntitySpawn np = new Packet20NamedEntitySpawn(this);
+		np.a = id;
+		sendPacket(np);
+		
+		// Send jumpstart packets to viewer
+		sendPackets(recording.getJumpstartPackets());
+	}
 
+
+	/**
+	 * Rewind this actor - sending all rewind packets to viewers and a teleport to the jumpstart
+	 */
+	public void rewind()
+	{
+		// Send rewind packets
+		for (Packet p : recording.rewindPackets)
+		{
+			if (p instanceof Packet53BlockChange)
+			{
+				// Set the block in the server's world so it is in sync with the client
+				world.setRawTypeIdAndData(
+						((Packet53BlockChange) p).a,
+						((Packet53BlockChange) p).b,
+						((Packet53BlockChange) p).c,
+						((Packet53BlockChange) p).material,
+						((Packet53BlockChange) p).data);
+
+				sendPacket(p);
+			}
+		}
+
+		// Rewind the recording and send the jumpstart packets
+		recording.rewind();
+		sendPackets(recording.getJumpstartPackets());
+	}
+	
+	/**
+	 * Send the given packets to all viewers
+	 * @param packets
+	 */
+	public void sendPackets(ArrayList<Packet> packets)
+	{
 			for (int i = 0; i < packets.size(); i++)
 			{
 				// For cloning packets
 				Packet newp = null;
 				Packet p = packets.get(i);
 				
-				System.out.print("Packet: "+p.a());
+				// System.out.print("Packet: "+p.a());
 
 				//System.out.println(new StringBuilder("   ").append(p.b()).toString());
 
@@ -118,7 +169,7 @@ public class EntityActor extends EntityPlayer {
 					//Packet34EntityTeleport tp = (Packet34EntityTeleport)newp;
 					
 					//System.out.println(" Packet34: (" + tp.b + "," + tp.c + "," + tp.d + ")" + " yaw: "+ tp.e + " pitch: " + tp.f);
-					System.out.println("    yaw: "+((Packet34EntityTeleport)newp).e);
+					//System.out.println("    yaw: "+((Packet34EntityTeleport)newp).e);
 				}
 				else if (p instanceof Packet35EntityHeadRotation)
 				{
@@ -152,62 +203,24 @@ public class EntityActor extends EntityPlayer {
 				}
 				if (newp != null)
 				{
-					sendPacketToViewers(newp);
+					sendPacket(newp);
 				}
 				else
 				{
-					sendPacketToViewers(p);
+					sendPacket(p);
 				}
 			}
-		}
-	}
-
-	/**
-	 * Rewind this actor - sending all rewind packets to viewers and a teleport to the jumpstart
-	 */
-	public void rewind()
-	{
-		// Send rewind packets
-		for (Packet p : recording.rewindPackets)
-		{
-			if (p instanceof Packet53BlockChange)
-			{
-				// Set the block in the server's world so it is in sync with the client
-				world.setRawTypeIdAndData(
-						((Packet53BlockChange) p).a,
-						((Packet53BlockChange) p).b,
-						((Packet53BlockChange) p).c,
-						((Packet53BlockChange) p).material,
-						((Packet53BlockChange) p).data);
-
-				sendPacketToViewers(p);
-			}
-		}
-
-		// Rewind the recording
-		recording.rewind();
-		Packet34EntityTeleport packet = recording.getJumpstart();
-		Packet34EntityTeleport newp = new Packet34EntityTeleport(
-							id,
-							((Packet34EntityTeleport) packet).b+translateX,
-							((Packet34EntityTeleport) packet).c+translateY,
-							((Packet34EntityTeleport) packet).d+translateZ,
-							((Packet34EntityTeleport) packet).e,
-							((Packet34EntityTeleport) packet).f);
-
-		// Send packet to the viewers
-		sendPacketToViewers(newp);
 	}
 
 	/**
 	 * Send all viewers a packet.
 	 * @param p
 	 */
-	public void sendPacketToViewers(Packet p)
+	public void sendPacket(Packet p)
 	{
 		if (allPlayersView)
 		{
-			System.out.println("Sending to all ");
+			//System.out.println("Sending to all ");
 			// Send to all in world
 			int dimension = world.worldProvider.dimension;
 			((CraftServer)Bukkit.getServer()).getServer().serverConfigurationManager.a(p,dimension);
@@ -217,7 +230,7 @@ public class EntityActor extends EntityPlayer {
 		// Send packet to the viewer(s)
 		for (Viewer viewer : viewers)
 		{
-			System.out.println("Sending to viewer "+viewer.player.getDisplayName());
+			//System.out.println("Sending to viewer "+viewer.player.getDisplayName());
 			viewer.sendPacket(p);
 		}
 	}

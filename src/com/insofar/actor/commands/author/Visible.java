@@ -7,7 +7,7 @@ import net.minecraft.server.Packet34EntityTeleport;
 import com.insofar.actor.author.EntityActor;
 
 /**
- * ActorPlugin command to set looping on an actor (or "all")
+ * ActorPlugin command to set visibility on an actor (or "all")
  * 
  * @author Joshua Weinberg
  *
@@ -45,19 +45,21 @@ public class Visible extends AuthorBaseCommand {
 			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("all")))
 			{
 				Packet29DestroyEntity d = new Packet29DestroyEntity(actor.id);
-				actor.sendPacketToViewers(d);
+				actor.sendPacket(d);
 				
 				actor.allPlayersView = viz;
 				
 				// Send spawn packet to the viewers
 				Packet20NamedEntitySpawn np = new Packet20NamedEntitySpawn(actor);
 				np.a = actor.id;
-				actor.sendPacketToViewers(np);
+				actor.sendPacket(np);
 
+				/*
 				// Send teleport packet
 				Packet34EntityTeleport packet = actor.recording.getJumpstart();
 				packet.a = actor.id;
 				actor.sendPacketToViewers(packet);
+				*/
 
 			}
 		}

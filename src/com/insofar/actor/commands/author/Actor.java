@@ -1,6 +1,9 @@
 package com.insofar.actor.commands.author;
 
+import java.util.ArrayList;
+
 import net.minecraft.server.ItemInWorldManager;
+import net.minecraft.server.Packet;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.World;
@@ -171,35 +174,28 @@ public class Actor extends AuthorBaseCommand {
 	{
 		World w = ((CraftWorld) world).getHandle();
 		ItemInWorldManager iw = new ItemInWorldManager(w);
+		
+		// Setup EntityActor
 		EntityActor actor = new EntityActor(minecraftServer, w, actorName, iw);
-		actor.translateX = x;
-		actor.translateY = y;
-		actor.translateZ = z;
+		actor.recording = recording;
+		actor.name = actorName;
 
+		// Setup viewer
 		if (viewerPlayer == null)
 		{
 			actor.allPlayersView = true;
 		}
-
 		Viewer viewer = new Viewer(viewerPlayer);
 		actor.viewers.add(viewer);
-
-		actor.recording = recording;
-		actor.name = actorName;
-
-		// Send spawn packet to the viewer
-		Packet20NamedEntitySpawn np = new Packet20NamedEntitySpawn(actor);
-		np.a = actor.id;
-		actor.sendPacketToViewers(np);
-
-		// Send teleport packet
-		Packet34EntityTeleport packet = actor.recording.getJumpstart();
-		packet.a = actor.id;
-		packet.b+=x;
-		packet.c+=y;
-		packet.d+=z;
-		actor.sendPacketToViewers(packet);
+		
+		// Setup translation
+		actor.translateX = x;
+		actor.translateY = y;
+		actor.translateZ = z;
+		
+		actor.spawn();
 
 		return actor;
 	}
+	
 }

@@ -13,9 +13,12 @@ public class Recording {
 	
 	// The packets recorded
 	public ArrayList<RecordedPacket>recordedPackets = new ArrayList<RecordedPacket>();
-
+	
 	// Packets to send to undo the recording
 	public ArrayList <Packet>rewindPackets = new ArrayList<Packet>();
+	
+	// Count of packets which should be sent all at once on spawn to set initial state
+	public int jumpstartPacketCount = 0;
 
 	// Index entry for recording or playback
 	public int playbackIndex = 0;
@@ -23,31 +26,34 @@ public class Recording {
 	// Last packet time for computing delta
 	public long lastTime;
 
-	
-	public Recording(Packet34EntityTeleport teleport)
-	{
-		recordedPackets = new ArrayList <RecordedPacket>();
-		recordPacket(teleport);
-	}
-
 	public Recording()
 	{
 		recordedPackets = new ArrayList <RecordedPacket>();
 	}
-
+	
 	public void recordPacket(Packet packet)
+	{
+		recordPacket(packet, false);
+	}
+
+	public void recordPacket(Packet packet, Boolean isJumpstart)
 	{
 		RecordedPacket np = new RecordedPacket();
 
 		long currTime = System.currentTimeMillis();
 
-		if (recordedPackets.size() == 0)
+		if (recordedPackets.size() == 0 || isJumpstart)
 		{
 			np.delta = 0;
 		}
 		else
 		{
 			np.delta = currTime - lastTime;
+		}
+		
+		if (isJumpstart)
+		{
+			jumpstartPacketCount++;
 		}
 
 		np.packet = packet;
@@ -77,18 +83,6 @@ public class Recording {
 		else
 		{
 			return 0;
-		}
-	}
-
-	public Packet34EntityTeleport getJumpstart()
-	{
-		if (recordedPackets!=null && recordedPackets.size() > 0)
-		{
-			return ((Packet34EntityTeleport)recordedPackets.get(0).packet);
-		}
-		else
-		{
-			return null;
 		}
 	}
 
@@ -123,8 +117,8 @@ public class Recording {
 	public ArrayList <Packet>getNextPlaybackPackets()
 	{
 		ArrayList <Packet>result = null;
-
-		// Look at this packet
+		
+		// Look at next packet
 		RecordedPacket p = recordedPackets.get(playbackIndex);
 
 		long currTime = System.currentTimeMillis();
@@ -163,6 +157,24 @@ public class Recording {
 
 		return result;
 	}
+	
+	/**
+	 * Get the jumpstart packets
+	 * @return
+	 */
+	public ArrayList <Packet>getJumpstartPackets()
+	{
+		ArrayList <Packet> result = new ArrayList<Packet>();
+		
+		for (int jsi = 0; jsi<jumpstartPacketCount; jsi++)
+		{
+			result.add(recordedPackets.get(jsi).packet);
+		}
+		
+		playbackIndex = jumpstartPacketCount;
+		
+		return result;
+	}
 
 	public boolean eof()
 	{
@@ -179,6 +191,7 @@ public class Recording {
 		// Save file format is
 		// Four bytes of file type id = APR0
 		// RecordedPacketsCount(long)
+		// JumpstartPacketsCount(int)
 		// RecordedPacket 0..n
 		// RewindPacketsCount(long)
 		// RewindPacket 0..n
@@ -195,6 +208,8 @@ public class Recording {
 			}
 
 			dos.writeLong(ct);
+			
+			dos.writeInt(jumpstartPacketCount);
 
 			for (int i = 0; i < ct; i++)
 			{
@@ -241,6 +256,9 @@ public class Recording {
 
 			// Recorded packets
 			long ct = dis.readLong();
+			
+			jumpstartPacketCount = dis.readInt();
+			
 			for (; ct >0; ct--)
 			{
 				RecordedPacket np = RecordedPacket.read(dis, false);

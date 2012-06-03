@@ -96,29 +96,8 @@ public class Dub extends AuthorBaseCommand {
 		newActor.recording.recordedPackets = actor.recording.recordedPackets;
 		
 		newActor.name = newName;
-
-		// Send spawn packet to the viewer
-		Packet20NamedEntitySpawn np = new Packet20NamedEntitySpawn(newActor);
-		np.a = newActor.id;
-		newActor.sendPacketToViewers(np);
-
-		/*
-		// Send teleport packet
-		Packet34EntityTeleport packet = newActor.recording.getJumpstart();
 		
-		Packet34EntityTeleport newp = new Packet34EntityTeleport(
-							newActor.id,
-							((Packet34EntityTeleport) packet).b+x,
-							((Packet34EntityTeleport) packet).c+y,
-							((Packet34EntityTeleport) packet).d+z,
-							((Packet34EntityTeleport) packet).e,
-							((Packet34EntityTeleport) packet).f);
-
-		
-		newActor.sendPacketToViewers(newp);
-		*/
-		
-		newActor.rewind();
+		newActor.spawn();
 
 		return newActor;
 	}

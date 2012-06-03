@@ -1,6 +1,7 @@
 package com.insofar.actor.commands.author;
 
 import net.minecraft.server.Packet34EntityTeleport;
+import net.minecraft.server.Packet35EntityHeadRotation;
 import net.minecraft.server.Packet5EntityEquipment;
 
 import org.bukkit.Location;
@@ -60,28 +61,35 @@ public class Record extends AuthorBaseCommand {
 			return true;
 		}
 
-		Location l = player.getLocation();
+		// Create new recording
+		author.currentRecording = new Recording();
+		
+		// Setup jumpstart packets on recording
 
-		// Make a teleport packet to start off
+		// 	Packet34EntityTeleport
+		Location l = player.getLocation();
 		Packet34EntityTeleport tp = new Packet34EntityTeleport();
 		tp.a = player.getEntityId(); // Entity id will be replaced on spawn/playback
 		tp.b = floor_double(l.getX() * 32D);
 		tp.c = floor_double(l.getY() * 32D);
 		tp.d = floor_double(l.getZ() * 32D);
 		tp.e = (byte)(int)((l.getYaw() * 256F) / 360F);
+		tp.f = (byte)(int)((l.getPitch() * 256F) / 360F);
+		author.currentRecording.recordPacket(tp,true);
+		
+		// 	Packet35HeadRotation
+		Packet35EntityHeadRotation hr = new Packet35EntityHeadRotation(tp.a, tp.e);
+		author.currentRecording.recordPacket(hr,true);
 
-		author.currentRecording = new Recording(tp);
-
-		// What entity is holding
+		// Packet5EntityEquipment
 		// Should really use five of these on a new spawn for all equipment.
-		Packet5EntityEquipment packet = new Packet5EntityEquipment();
-		packet.b = 0;
-		packet.c = player.getInventory().getItemInHand().getTypeId();
-		if (packet.c == 0) packet.c = -1;
-		author.currentRecording.recordPacket(packet);
-
+		Packet5EntityEquipment ep = new Packet5EntityEquipment();
+		ep.b = 0;
+		ep.c = player.getInventory().getItemInHand().getTypeId();
+		if (ep.c == 0) ep.c = -1;
+		author.currentRecording.recordPacket(ep,true);
+		
 		author.isRecording = true;
-
 		player.sendMessage("Recording.");
 		
 		return true;
