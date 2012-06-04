@@ -279,6 +279,7 @@ public class Recording {
 		}
 		catch (IOException e)
 		{
+			System.out.println(e.toString());
 			return false;
 		}
 

@@ -41,11 +41,13 @@ public class LoadActor extends AuthorBaseCommand {
 		try
 		{
 			String path = FilenameUtils.separatorsToSystem(plugin.savePath + "/" + fileName);
-			newActor = ActorPlugin.instance.spawnActorWithRecording(path, actorName, player, player.getWorld());
+			System.out.println("Loading actor from path:"+path);
+			newActor = ActorPlugin.instance.spawnActorWithRecording(actorName, path, player, player.getWorld());
 		}
 		catch (IOException e)
 		{
-			player.sendMessage("Error: Cannot load "+fileName);
+			player.sendMessage("Error: Cannot load "+fileName+": ");
+			e.printStackTrace();
 			return false;
 		}
 		

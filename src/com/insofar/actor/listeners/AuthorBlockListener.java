@@ -21,27 +21,28 @@ public class AuthorBlockListener implements Listener {
 
 	public AuthorBlockListener(ActorPlugin instance)
 	{
+		//System.out.println("Author Block Listener init");
 		plugin = instance;
 	}
 
 	@EventHandler
 	public void onBlockDamage(BlockDamageEvent event) {
-		System.out.println("Block damage");
+		//System.out.println("Block damage");
 	}
 
 	@EventHandler
 	public void onBlockIgnite(BlockIgniteEvent event) {
-		System.out.println("Block ignite");
+		//System.out.println("Block ignite");
 	}
 
 	@EventHandler
 	public void onBlockPhysics(BlockPhysicsEvent event) {
-		System.out.println("Block physics");
+		//System.out.println("Block physics");
 	}
 
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent event) {
-		System.out.println("Block place");
+		//System.out.println("Block place");
 		Player p = event.getPlayer();
 
 		Author author = plugin.authors.get(p.getName());
@@ -68,12 +69,12 @@ public class AuthorBlockListener implements Listener {
 
 	@EventHandler
 	public void onBlockBurn(BlockBurnEvent event) {
-		System.out.println("Block burn");
+		//System.out.println("Block burn");
 	}
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent event) {
-		System.out.println("Block break");
+		//System.out.println("Block break");
 		Player p = event.getPlayer();
 
 		Author author = plugin.authors.get(p.getName());

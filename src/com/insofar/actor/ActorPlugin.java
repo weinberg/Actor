@@ -298,30 +298,13 @@ public class ActorPlugin extends JavaPlugin {
 		PluginManager pm = getServer().getPluginManager();
 		
 		/* Authorlistener */
-		pm.registerEvents(new AuthorPlayerListener(this), this);
-		
 		AuthorPlayerListener al = new AuthorPlayerListener(this);
-		/*
-		pm.registerEvent(PlayerQuitEvent.class, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_MOVE, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_ANIMATION, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_DROP_ITEM, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_INTERACT, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_INTERACT_ENTITY, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_ITEM_HELD, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_PICKUP_ITEM, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_TOGGLE_SNEAK, al, EventPriority.NORMAL, this);
-		pm.registerEvent(Event.Type.PLAYER_CHAT, al, EventPriority.NORMAL, this);
-		*/
+		pm.registerEvents(al, this);
 		listeners.add(al);
 
 		/* AuthorBlockListener */
 		AuthorBlockListener abl = new AuthorBlockListener(this);
-		/*
-		pm.registerEvent(Event.Type.BLOCK_PLACE, abl, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.BLOCK_BREAK, abl, Event.Priority.Normal, this);
-		pm.registerEvent(Event.Type.BLOCK_DAMAGE, abl, Event.Priority.Normal, this);
-		*/
+		pm.registerEvents(abl, this);
 		listeners.add(abl);
 
 		return true;
