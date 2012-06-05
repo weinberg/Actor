@@ -1,6 +1,6 @@
 name: Actor
 main: com.insofar.actor.ActorPlugin
-version: 0.4
+version: 0.41
 description: >
              Actor Plugin by Joshua Weinberg
 commands:

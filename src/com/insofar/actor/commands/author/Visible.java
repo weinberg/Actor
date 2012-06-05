@@ -2,7 +2,6 @@ package com.insofar.actor.commands.author;
 
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet29DestroyEntity;
-import net.minecraft.server.Packet34EntityTeleport;
 
 import com.insofar.actor.author.EntityActor;
 
@@ -39,7 +38,7 @@ public class Visible extends AuthorBaseCommand {
 
 		boolean viz = args[0].equals("on") ? true : false;
 		String actorName = args[1];
-
+		//TODO switch to Bukkit's built in method of invisibility?
 		for (EntityActor actor : plugin.actors)
 		{
 			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("all")))

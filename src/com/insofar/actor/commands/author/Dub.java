@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.server.ItemInWorldManager;
-import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.World;
 
 import org.bukkit.craftbukkit.CraftWorld;

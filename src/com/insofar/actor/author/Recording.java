@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import net.minecraft.server.Packet;
-import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet53BlockChange;
 
 public class Recording {

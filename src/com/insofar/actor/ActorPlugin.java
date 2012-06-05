@@ -9,14 +9,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -38,6 +34,7 @@ import com.insofar.actor.commands.author.SaveActor;
 import com.insofar.actor.commands.author.SaveScene;
 import com.insofar.actor.commands.author.StopRecording;
 import com.insofar.actor.commands.author.Visible;
+import com.insofar.actor.config.RootConfig;
 import com.insofar.actor.listeners.AuthorBlockListener;
 import com.insofar.actor.listeners.AuthorPlayerListener;
 
@@ -54,7 +51,7 @@ public class ActorPlugin extends JavaPlugin {
 	 ******************************************************************************/
 
 	public static ActorPlugin plugin;
-	public final Logger logger = Logger.getLogger("Minecraft");
+	private RootConfig config;
 	private PluginDescriptionFile pdfFile;
 	private List<Listener> listeners;
 	public String scenePath;
@@ -125,11 +122,11 @@ public class ActorPlugin extends JavaPlugin {
 		pdfFile = this.getDescription();
 		if (init())
 		{
-			logger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now enabled.");
+			getLogger().info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now enabled.");
 		}
 		else
 		{
-			logger.severe(pdfFile.getName() + " version " + pdfFile.getVersion() + " failed to init.");
+			getLogger().severe(pdfFile.getName() + " version " + pdfFile.getVersion() + " failed to init.");
 		}
 	}
 
@@ -139,7 +136,7 @@ public class ActorPlugin extends JavaPlugin {
 	 */
 	public void onDisable() {
 		authors = null;
-		logger.info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now disabled.");
+		getLogger().info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now disabled.");
 	}
 
 	/*****************************************************************************
@@ -159,44 +156,54 @@ public class ActorPlugin extends JavaPlugin {
 		// Init data folder
 		if (initDataFolder())
 		{
-			logger.info("Actor: Data folder inited");
+			getLogger().info("Actor: Data folder inited");
 		}
 		else
 		{
-			logger.severe("Actor: Data folder failed to init");
+			getLogger().severe("Actor: Data folder failed to init");
 			return false;
+		}
+		
+		// Init config file
+		if(initRootConfig())
+		{
+			getLogger().info("Actor: Config inited");
+		}
+		else
+		{
+			getLogger().severe("Actor: Config failed to init");
 		}
 		
 		// Init commands
 		if (initCommands())
 		{
-			logger.info("Actor: Commands inited");
+			getLogger().info("Actor: Commands inited");
 		}
 		else
 		{
-			logger.severe("Actor: Commands failed to init");
+			getLogger().severe("Actor: Commands failed to init");
 			return false;
 		}
 
 		// Init scheduler
 		if (initScheduler())
 		{
-			logger.info("Actor: Scheduler inited");
+			getLogger().info("Actor: Scheduler inited");
 		}
 		else
 		{
-			logger.severe("Actor: Scheduler failed init");
+			getLogger().severe("Actor: Scheduler failed init");
 			return false;
 		}
 
 		// Init Listeners
 		if (initListeners())
 		{
-			logger.info("Actor: Listeners inited");
+			getLogger().info("Actor: Listeners inited");
 		}
 		else
 		{
-			logger.severe("Actor: Listeners failed init");
+			getLogger().severe("Actor: Listeners failed init");
 			return false;
 		}
 
@@ -222,6 +229,12 @@ public class ActorPlugin extends JavaPlugin {
 		System.out.println("Scene dir = "+scenePath);
 		System.out.println("Save dir = "+savePath);
 		
+		return true;
+	}
+	
+	private boolean initRootConfig()
+	{
+		config = new RootConfig(this);
 		return true;
 	}
 
@@ -308,6 +321,11 @@ public class ActorPlugin extends JavaPlugin {
 		listeners.add(abl);
 
 		return true;
+	}
+	
+	public RootConfig getRootConfig()
+	{
+		return config;
 	}
 	
 	/*****************************************************************************

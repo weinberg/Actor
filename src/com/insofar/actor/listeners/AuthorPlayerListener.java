@@ -30,7 +30,8 @@ import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Viewer;
 
-public class AuthorPlayerListener implements Listener {
+public class AuthorPlayerListener implements Listener
+{
 
 	public ActorPlugin plugin;
 
@@ -45,48 +46,56 @@ public class AuthorPlayerListener implements Listener {
 	 */
 	public void onPlayerMove(PlayerMoveEvent event)
 	{
-		Player p = event.getPlayer();
+		final Player p = event.getPlayer();
 
-		Author author = plugin.authors.get(p.getName());
+		final Author author = plugin.authors.get(p.getName());
 		if (author != null && author.isRecording)
 		{
 			Packet34EntityTeleport tp = new Packet34EntityTeleport();
-			
+
 			Location to = event.getTo();
 			tp.a = p.getEntityId();
 			tp.b = floor_double(to.getX() * 32D);
 			tp.c = floor_double(to.getY() * 32D);
 			tp.d = floor_double(to.getZ() * 32D);
-			tp.e = (byte)(int)((to.getYaw() * 256F) / 360F);
-			tp.f = (byte)(int)((to.getPitch() * 256F) / 360F);
-			
-			// System.out.println("Player move recorded: (" + tp.b + "," + tp.c + "," + tp.d + ")" + " y: "+ tp.e + " p: " + tp.f);
-
+			tp.e = (byte) (int) ((to.getYaw() * 256F) / 360F);
+			tp.f = (byte) (int) ((to.getPitch() * 256F) / 360F);
+			if (plugin.getRootConfig().debugEvents)
+			{
+				plugin.getLogger().info(
+						"Player move recorded: (" + tp.b + "," + tp.c + ","
+								+ tp.d + ")" + " y: " + tp.e + " p: " + tp.f);
+			}
 			Packet35EntityHeadRotation hr = new Packet35EntityHeadRotation();
-			
+
 			hr.a = p.getEntityId();
 			hr.b = tp.e;
-			
+
 			author.currentRecording.recordPacket(tp);
 			author.currentRecording.recordPacket(hr);
 		}
-		
+
 	}
-	
+
 	/**
 	 * Author player
 	 */
 	@EventHandler
 	public void onPlayerPickupItem(PlayerPickupItemEvent event)
 	{
-		plugin.logger.info("Player picked up " + event.getItem().toString());
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info(
+					"Player picked up " + event.getItem().toString());
+		}
 	}
 
 	@EventHandler
-	public void onPlayerChat(PlayerChatEvent event) {
-		Player p = event.getPlayer();
+	public void onPlayerChat(PlayerChatEvent event)
+	{
+		final Player p = event.getPlayer();
 
-		Author author = plugin.authors.get(p.getName());
+		final Author author = plugin.authors.get(p.getName());
 		if (author != null && author.isRecording)
 		{
 			Packet3Chat cp = new Packet3Chat();
@@ -96,61 +105,97 @@ public class AuthorPlayerListener implements Listener {
 	}
 
 	@EventHandler
-	public void onPlayerInteract(PlayerInteractEvent event) {
-		System.out.println("Player Interact");
+	public void onPlayerInteract(PlayerInteractEvent event)
+	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Player Interact");
+		}
 	}
 
 	@EventHandler
-	public void onPlayerInteractEntity(PlayerInteractEntityEvent event) {
-		System.out.println("Player Interact entity");
+	public void onPlayerInteractEntity(PlayerInteractEntityEvent event)
+	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Player Interact entity");
+		}
 	}
 
 	@EventHandler
-	public void onPlayerEggThrow(PlayerEggThrowEvent event) {
-		System.out.println("Player Egg Throw");
+	public void onPlayerEggThrow(PlayerEggThrowEvent event)
+	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Player Egg Throw");
+		}
 	}
 
 	@EventHandler
-	public void onItemHeldChange(PlayerItemHeldEvent event) {
-		Player p = event.getPlayer();
-		Author author = plugin.authors.get(p.getName());
+	public void onItemHeldChange(PlayerItemHeldEvent event)
+	{
+		final Player p = event.getPlayer();
+		final Author author = plugin.authors.get(p.getName());
 		if (author != null && author.isRecording)
 		{
 			Packet5EntityEquipment packet = new Packet5EntityEquipment();
 			packet.b = 0;
-			packet.c = event.getPlayer().getInventory().getItemInHand().getTypeId();
-			packet.d = event.getPlayer().getInventory().getItemInHand().getData().getData();
-			if (packet.c == 0) packet.c = -1;
+			packet.c = event.getPlayer().getInventory().getItemInHand()
+					.getTypeId();
+			packet.d = event.getPlayer().getInventory().getItemInHand()
+					.getData().getData();
+			if (packet.c == 0)
+				packet.c = -1;
 			author.currentRecording.recordPacket(packet);
 		}
 	}
 
 	@EventHandler
-	public void onPlayerDropItem(PlayerDropItemEvent event) {
-		System.out.println("Player drop item");
+	public void onPlayerDropItem(PlayerDropItemEvent event)
+	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Player drop item");
+		}
 	}
 
 	@EventHandler
-	public void onPlayerToggleSneak(PlayerToggleSneakEvent event) {
-		System.out.println("Sneak toggle");
+	public void onPlayerToggleSneak(PlayerToggleSneakEvent event)
+	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Sneak toggle");
+		}
 	}
 
 	@EventHandler
-	public void onPlayerToggleSprint(PlayerToggleSprintEvent event) {
-		System.out.println("Sprint toggle");
+	public void onPlayerToggleSprint(PlayerToggleSprintEvent event)
+	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Sprint toggle");
+		}
 	}
 
 	@EventHandler
-	public void onPlayerFish(PlayerFishEvent event) {
-		System.out.println("Fish toggle");
+	public void onPlayerFish(PlayerFishEvent event)
+	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Fish toggle");
+		}
 	}
-	
-	@EventHandler
-	public void onPlayerAnimation(PlayerAnimationEvent event) {
-		//System.out.println("Player animation");
-		Player p = event.getPlayer();
 
-		Author author = plugin.authors.get(p.getName());
+	@EventHandler
+	public void onPlayerAnimation(PlayerAnimationEvent event)
+	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Player animation");
+		}
+		final Player p = event.getPlayer();
+
+		final Author author = plugin.authors.get(p.getName());
 		if (author != null && author.isRecording)
 		{
 			// arm swing is the only animation bukkit supports?
@@ -162,15 +207,15 @@ public class AuthorPlayerListener implements Listener {
 			}
 		}
 	}
-	
 
 	@EventHandler
 	/**
 	 * Remove the player from the authors list
 	 */
-	public void onPlayerQuit(PlayerQuitEvent event) {
+	public void onPlayerQuit(PlayerQuitEvent event)
+	{
 		plugin.authors.remove(event.getPlayer().getName());
-		
+
 		for (EntityActor actor : plugin.actors)
 		{
 			for (Viewer viewer : actor.viewers)
@@ -186,9 +231,8 @@ public class AuthorPlayerListener implements Listener {
 
 	public static int floor_double(double d)
 	{
-		int i = (int)d;
+		int i = (int) d;
 		return d >= i ? i : i - 1;
 	}
-
 
 }
