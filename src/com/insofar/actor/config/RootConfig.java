@@ -14,7 +14,6 @@ public class RootConfig
 	private ActorPlugin plugin;
 	public boolean debugEvents;
 
-	// TODO configuration files per jail location
 	/**
 	 * Loads config from yaml file
 	 */
