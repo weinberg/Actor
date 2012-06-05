@@ -9,6 +9,7 @@ import net.minecraft.server.Packet5EntityEquipment;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerAnimationEvent;
 import org.bukkit.event.player.PlayerAnimationType;
@@ -40,12 +41,16 @@ public class AuthorPlayerListener implements Listener
 		plugin = instance;
 	}
 
-	@EventHandler
 	/**
 	 * Author player move listener
 	 */
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerMove(PlayerMoveEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		final Player p = event.getPlayer();
 
 		final Author author = plugin.authors.get(p.getName());
@@ -80,9 +85,13 @@ public class AuthorPlayerListener implements Listener
 	/**
 	 * Author player
 	 */
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerPickupItem(PlayerPickupItemEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info(
@@ -90,9 +99,13 @@ public class AuthorPlayerListener implements Listener
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerChat(PlayerChatEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		final Player p = event.getPlayer();
 
 		final Author author = plugin.authors.get(p.getName());
@@ -104,25 +117,33 @@ public class AuthorPlayerListener implements Listener
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerInteract(PlayerInteractEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info("Player Interact");
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerInteractEntity(PlayerInteractEntityEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info("Player Interact entity");
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerEggThrow(PlayerEggThrowEvent event)
 	{
 		if (plugin.getRootConfig().debugEvents)
@@ -131,7 +152,7 @@ public class AuthorPlayerListener implements Listener
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onItemHeldChange(PlayerItemHeldEvent event)
 	{
 		final Player p = event.getPlayer();
@@ -150,45 +171,65 @@ public class AuthorPlayerListener implements Listener
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerDropItem(PlayerDropItemEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info("Player drop item");
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerToggleSneak(PlayerToggleSneakEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info("Sneak toggle");
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerToggleSprint(PlayerToggleSprintEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info("Sprint toggle");
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerFish(PlayerFishEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info("Fish toggle");
 		}
 	}
 
-	@EventHandler
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerAnimation(PlayerAnimationEvent event)
 	{
+		if (event.isCancelled() && !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info("Player animation");
@@ -208,10 +249,10 @@ public class AuthorPlayerListener implements Listener
 		}
 	}
 
-	@EventHandler
 	/**
 	 * Remove the player from the authors list
 	 */
+	@EventHandler(priority = EventPriority.MONITOR)
 	public void onPlayerQuit(PlayerQuitEvent event)
 	{
 		plugin.authors.remove(event.getPlayer().getName());

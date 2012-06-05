@@ -12,7 +12,7 @@ public class RootConfig
 {
 	// Class variables
 	private ActorPlugin plugin;
-	public boolean debugEvents;
+	public boolean includeCancelledEvents, debugEvents;
 
 	// TODO configuration files per jail location
 	/**
@@ -24,8 +24,8 @@ public class RootConfig
 		// Init config files:
 		ConfigurationSection config = plugin.getConfig();
 		final Map<String, Object> defaults = new LinkedHashMap<String, Object>();
+		defaults.put("record.includeCancelledEvents", false);
 		defaults.put("debug.events", false);
-		defaults.put("debug.unhandled", false);
 		defaults.put("version", plugin.getDescription().getVersion());
 
 		// Insert defaults into config file if they're not present
@@ -57,6 +57,8 @@ public class RootConfig
 		ConfigurationSection config = plugin.getConfig();
 		// Load variables from config
 		debugEvents = config.getBoolean("debug.events", false);
+		includeCancelledEvents = config.getBoolean(
+				"record.includeCancelledEvents", false);
 	}
 
 	@SuppressWarnings("unused")
