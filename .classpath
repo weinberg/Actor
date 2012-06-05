@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Bukkit"/>
-	<classpathentry kind="lib" path="C:/tools/ThirdParty Jars/ebean-2.7.4.jar"/>
-	<classpathentry kind="lib" path="/CraftBukkit/target/craftbukkit-1.2.5-R2.1-SNAPSHOT.jar" sourcepath="/mcp62_server"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.6.0_31"/>
-	<classpathentry kind="lib" path="F:/git/ActorPlugin/libs/commons-io-2.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Bukkit"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-io"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Craftbukkit"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
