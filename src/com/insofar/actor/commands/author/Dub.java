@@ -12,14 +12,17 @@ import org.bukkit.entity.Player;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Recording;
 import com.insofar.actor.author.Viewer;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to duplicate an actor with a translation
  * 
  * @author Joshua Weinberg
- *
+ * 
  */
-public class Dub extends AuthorBaseCommand {
+public class Dub extends AuthorBaseCommand
+{
 
 	public Dub()
 	{
@@ -38,6 +41,12 @@ public class Dub extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_DUB))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_DUB.getNode());
+			return true;
+		}
 		if (args.length != 4)
 		{
 			player.sendMessage("Error: Usage: dub [actorname|all] x y z");
@@ -49,12 +58,12 @@ public class Dub extends AuthorBaseCommand {
 
 		for (EntityActor actor : plugin.actors)
 		{
-			if ((actorName.equals("all") || actor.name.equals(actorName)) && actor.hasViewer(player))
+			if ((actorName.equals("all") || actor.name.equals(actorName))
+					&& actor.hasViewer(player))
 			{
-				EntityActor newActor = dub(actor, actor.name, player, player.getWorld(),
-						Integer.parseInt(args[1]),
-						Integer.parseInt(args[2]),
-						Integer.parseInt(args[3]));
+				EntityActor newActor = dub(actor, actor.name, player,
+						player.getWorld(), Integer.parseInt(args[1]),
+						Integer.parseInt(args[2]), Integer.parseInt(args[3]));
 
 				newActors.add(newActor);
 			}
@@ -70,11 +79,12 @@ public class Dub extends AuthorBaseCommand {
 	 * API COMMAND
 	 * 
 	 ******************************************************************************/
-	
+
 	/**
 	 * dub an actor
 	 */
-	public EntityActor dub(EntityActor actor, String newName, Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
+	public EntityActor dub(EntityActor actor, String newName,
+			Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
 	{
 		World w = ((CraftWorld) world).getHandle();
 		ItemInWorldManager iw = new ItemInWorldManager(w);
@@ -93,9 +103,9 @@ public class Dub extends AuthorBaseCommand {
 
 		newActor.recording = new Recording();
 		newActor.recording.recordedPackets = actor.recording.recordedPackets;
-		
+
 		newActor.name = newName;
-		
+
 		newActor.spawn();
 
 		return newActor;

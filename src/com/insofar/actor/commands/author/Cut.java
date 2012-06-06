@@ -2,6 +2,8 @@ package com.insofar.actor.commands.author;
 
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to stop playback on an actor.
@@ -28,6 +30,12 @@ public class Cut extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_CUT))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_CUT.getNode());
+			return true;
+		}
 		// Stop recording
 		Author author = getAuthor(player);
 		if (author.currentRecording != null)

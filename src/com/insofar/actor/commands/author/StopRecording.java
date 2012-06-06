@@ -3,6 +3,8 @@ package com.insofar.actor.commands.author;
 import org.bukkit.entity.Player;
 
 import com.insofar.actor.author.Author;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to stop recording.
@@ -10,6 +12,7 @@ import com.insofar.actor.author.Author;
  * @author Joshua Weinberg
  *
  */
+@Deprecated
 public class StopRecording extends AuthorBaseCommand {
 
 	public StopRecording()
@@ -29,6 +32,12 @@ public class StopRecording extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_CUT))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_CUT.getNode());
+			return true;
+		}
 		return stopRecording(player);
 	}
 	

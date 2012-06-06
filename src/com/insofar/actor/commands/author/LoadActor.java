@@ -6,6 +6,8 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * InfoCraft Plugin authoring command to spawn an actor from a saved recording
@@ -28,6 +30,12 @@ public class LoadActor extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_LOAD_ACTOR))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_LOAD_ACTOR.getNode());
+			return true;
+		}
 		if (args.length != 2)
 		{
 			player.sendMessage("Error: Two parameters required: actorname filename");

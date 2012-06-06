@@ -10,6 +10,8 @@ import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Recording;
 import com.insofar.actor.author.Viewer;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to spawn an actor with the current recording
@@ -30,6 +32,12 @@ public class Actor extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_ACTOR))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_ACTOR.getNode());
+			return true;
+		}
 		EntityActor newActor = null;
 		
 		if (args.length == 0)

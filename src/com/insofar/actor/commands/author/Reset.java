@@ -17,6 +17,8 @@ import org.bukkit.material.MaterialData;
 
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to rewind the current recording and actor(s) in the scene.
@@ -43,6 +45,12 @@ public class Reset extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_RESET))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_RESET.getNode());
+			return true;
+		}
 		String actorName = args.length > 0 ? args[0] : "";
 
 		resetAuthor(player);

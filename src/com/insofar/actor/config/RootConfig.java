@@ -12,7 +12,7 @@ public class RootConfig
 {
 	// Class variables
 	private ActorPlugin plugin;
-	public boolean includeCancelledEvents, debugEvents;
+	public boolean includeCancelledEvents, debugEvents, debugVerbose;
 
 	/**
 	 * Loads config from yaml file
@@ -24,7 +24,9 @@ public class RootConfig
 		ConfigurationSection config = plugin.getConfig();
 		final Map<String, Object> defaults = new LinkedHashMap<String, Object>();
 		defaults.put("record.includeCancelledEvents", false);
+		//TODO maybe option for max time for a single recording?
 		defaults.put("debug.events", false);
+		defaults.put("debug.verbose", false);
 		defaults.put("version", plugin.getDescription().getVersion());
 
 		// Insert defaults into config file if they're not present
@@ -35,10 +37,11 @@ public class RootConfig
 				config.set(e.getKey(), e.getValue());
 			}
 		}
-		// Save config
+		// Save config with new/missing defaults
 		plugin.saveConfig();
 		// Load variables
 		loadVariables();
+		// Check bounds
 		boundsCheck();
 	}
 
@@ -46,18 +49,27 @@ public class RootConfig
 	{
 		// Reload
 		plugin.reloadConfig();
+		// Load variables
 		loadVariables();
+		// Check bounds
 		boundsCheck();
 	}
 
 	public void loadVariables()
 	{
 		// Grab config
-		ConfigurationSection config = plugin.getConfig();
+		final ConfigurationSection config = plugin.getConfig();
 		// Load variables from config
-		debugEvents = config.getBoolean("debug.events", false);
+		/**
+		 * Record
+		 */
 		includeCancelledEvents = config.getBoolean(
 				"record.includeCancelledEvents", false);
+		/**
+		 * Debug
+		 */
+		debugEvents = config.getBoolean("debug.events", false);
+		debugVerbose = config.getBoolean("debug.verbose", false);
 	}
 
 	@SuppressWarnings("unused")

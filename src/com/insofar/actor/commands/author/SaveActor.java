@@ -6,6 +6,8 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * InfoCraft Plugin command to save actor recording to a file
@@ -28,6 +30,12 @@ public class SaveActor extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_SAVE_ACTOR))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_SAVE_ACTOR.getNode());
+			return true;
+		}
 		if (args.length != 2)
 		{
 			player.sendMessage("Error: Two parameters required: actorname filename");

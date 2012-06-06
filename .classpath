@@ -5,5 +5,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/commons-io"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Craftbukkit"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Vault"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

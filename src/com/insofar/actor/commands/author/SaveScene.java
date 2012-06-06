@@ -7,6 +7,8 @@ import org.apache.commons.io.FilenameUtils;
 
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * InfoCraft Plugin command to save actor recording to a file
@@ -29,6 +31,12 @@ public class SaveScene extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_SAVE_SCENE))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_SAVE_SCENE.getNode());
+			return true;
+		}
 		if (args.length != 1)
 		{
 			player.sendMessage("Error: parameter required: directory");

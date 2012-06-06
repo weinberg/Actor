@@ -1,6 +1,8 @@
 package com.insofar.actor.commands.author;
 
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to set looping on an actor (or "all")
@@ -27,6 +29,12 @@ public class Loop extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_LOOP))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_LOOP.getNode());
+			return true;
+		}
 		if (args.length != 2)
 		{
 			player.sendMessage("Error: Usage: /loop [on|off] ActorName. ActorName can be 'all'");

@@ -37,12 +37,15 @@ import com.insofar.actor.commands.author.Visible;
 import com.insofar.actor.config.RootConfig;
 import com.insofar.actor.listeners.AuthorBlockListener;
 import com.insofar.actor.listeners.AuthorPlayerListener;
+import com.insofar.actor.permissions.PermissionHandler;
 
 /**
  * Actor Plugin for recording and playback of character actions and movement.
+ * 
  * @author Joshua Weinberg
  */
-public class ActorPlugin extends JavaPlugin {
+public class ActorPlugin extends JavaPlugin
+{
 
 	/*****************************************************************************
 	 * 
@@ -56,13 +59,13 @@ public class ActorPlugin extends JavaPlugin {
 	private List<Listener> listeners;
 	public String scenePath;
 	public String savePath;
-	
+
 	/*****************************************************************************
 	 * 
 	 * Command references
 	 * 
 	 ******************************************************************************/
-	
+
 	private Record recordCommand;
 	private StopRecording stopRecordCommand;
 	private Action actionCommand;
@@ -78,14 +81,13 @@ public class ActorPlugin extends JavaPlugin {
 	private SaveScene saveSceneCommand;
 	private LoadActor loadActorCommand;
 	private LoadScene loadSceneCommand;
-	
 
 	/*****************************************************************************
 	 * 
 	 * Actor plugin properties
 	 * 
 	 ******************************************************************************/
-	
+
 	/**
 	 * Static instance of this plugin for use by other plugins.
 	 */
@@ -95,7 +97,7 @@ public class ActorPlugin extends JavaPlugin {
 	 * Authors by username. An author is the player recording the actors.
 	 */
 	public HashMap<String, Author> authors = new HashMap<String, Author>();
-	
+
 	/*****************************************************************************
 	 * 
 	 * Bukkit Plugin Properties
@@ -103,8 +105,9 @@ public class ActorPlugin extends JavaPlugin {
 	 ******************************************************************************/
 
 	/**
-	 * Actors - this is only for use of the bukkit commands in this plugin.
-	 * When using this plugin puely as a library you need to keep track of your own actors.
+	 * Actors - this is only for use of the bukkit commands in this plugin. When
+	 * using this plugin puely as a library you need to keep track of your own
+	 * actors.
 	 */
 	public ArrayList<EntityActor> actors = new ArrayList<EntityActor>();
 
@@ -118,15 +121,20 @@ public class ActorPlugin extends JavaPlugin {
 	/**
 	 * Enable
 	 */
-	public void onEnable() {
+	public void onEnable()
+	{
 		pdfFile = this.getDescription();
 		if (init())
 		{
-			getLogger().info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now enabled.");
+			getLogger().info(
+					pdfFile.getName() + " version " + pdfFile.getVersion()
+							+ " is now enabled.");
 		}
 		else
 		{
-			getLogger().severe(pdfFile.getName() + " version " + pdfFile.getVersion() + " failed to init.");
+			getLogger().severe(
+					pdfFile.getName() + " version " + pdfFile.getVersion()
+							+ " failed to init.");
 		}
 	}
 
@@ -134,9 +142,12 @@ public class ActorPlugin extends JavaPlugin {
 	/**
 	 * Disable
 	 */
-	public void onDisable() {
+	public void onDisable()
+	{
 		authors = null;
-		getLogger().info(pdfFile.getName() + " version " + pdfFile.getVersion() + " is now disabled.");
+		getLogger().info(
+				pdfFile.getName() + " version " + pdfFile.getVersion()
+						+ " is now disabled.");
 	}
 
 	/*****************************************************************************
@@ -152,7 +163,10 @@ public class ActorPlugin extends JavaPlugin {
 	{
 		// Set up static instance
 		instance = this;
-		
+
+		// Setup Permissions
+		PermissionHandler.init(this);
+
 		// Init data folder
 		if (initDataFolder())
 		{
@@ -163,9 +177,9 @@ public class ActorPlugin extends JavaPlugin {
 			getLogger().severe("Actor: Data folder failed to init");
 			return false;
 		}
-		
+
 		// Init config file
-		if(initRootConfig())
+		if (initRootConfig())
 		{
 			getLogger().info("Actor: Config inited");
 		}
@@ -173,7 +187,7 @@ public class ActorPlugin extends JavaPlugin {
 		{
 			getLogger().severe("Actor: Config failed to init");
 		}
-		
+
 		// Init commands
 		if (initCommands())
 		{
@@ -209,29 +223,29 @@ public class ActorPlugin extends JavaPlugin {
 
 		return true;
 	}
-	
+
 	/**
 	 * Init commands
 	 */
 	private Boolean initDataFolder()
 	{
 		File dataFolder = getDataFolder();
-		File sceneFolder = new File(dataFolder,"scenes");
-		File saveFolder = new File(dataFolder,"save");
-		
+		File sceneFolder = new File(dataFolder, "scenes");
+		File saveFolder = new File(dataFolder, "save");
+
 		dataFolder.mkdirs();
 		sceneFolder.mkdirs();
 		saveFolder.mkdirs();
-		
+
 		scenePath = sceneFolder.getPath();
 		savePath = saveFolder.getPath();
-		
-		System.out.println("Scene dir = "+scenePath);
-		System.out.println("Save dir = "+savePath);
-		
+
+		System.out.println("Scene dir = " + scenePath);
+		System.out.println("Save dir = " + savePath);
+
 		return true;
 	}
-	
+
 	private boolean initRootConfig()
 	{
 		config = new RootConfig(this);
@@ -243,6 +257,8 @@ public class ActorPlugin extends JavaPlugin {
 	 */
 	private Boolean initCommands()
 	{
+		// TODO move API out of specific command classes and into a unified,
+		// public static class
 		// Set up command references
 		recordCommand = new Record();
 		actionCommand = new Action();
@@ -258,7 +274,7 @@ public class ActorPlugin extends JavaPlugin {
 		saveSceneCommand = new SaveScene();
 		loadActorCommand = new LoadActor();
 		loadSceneCommand = new LoadScene();
-		
+
 		// Set up Bukkit commands
 		getCommand("record").setExecutor(recordCommand);
 		getCommand("actor").setExecutor(actorCommand);
@@ -284,23 +300,26 @@ public class ActorPlugin extends JavaPlugin {
 	 */
 	private Boolean initScheduler()
 	{
-		return getServer().getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+		return getServer().getScheduler().scheduleSyncRepeatingTask(this,
+				new Runnable() {
 
-			@Override
-			public void run() {
+					@Override
+					public void run()
+					{
 
-				for (EntityActor actor : actors)
-				{
-					// Each tick update the actors
-					actor.tick();
-				}
-			}
-		}, 1L, 1L) != -1;
+						for (EntityActor actor : actors)
+						{
+							// Each tick update the actors
+							actor.tick();
+						}
+					}
+				}, 1L, 1L) != -1;
 
 	}
 
 	/**
 	 * Init listeners
+	 * 
 	 * @return
 	 */
 	private Boolean initListeners()
@@ -309,7 +328,7 @@ public class ActorPlugin extends JavaPlugin {
 		listeners = new ArrayList<Listener>();
 
 		PluginManager pm = getServer().getPluginManager();
-		
+
 		/* Authorlistener */
 		AuthorPlayerListener al = new AuthorPlayerListener(this);
 		pm.registerEvents(al, this);
@@ -322,30 +341,29 @@ public class ActorPlugin extends JavaPlugin {
 
 		return true;
 	}
-	
+
 	public RootConfig getRootConfig()
 	{
 		return config;
 	}
-	
+
 	/*****************************************************************************
 	 * 
 	 * Actor Plugin API
 	 * 
 	 ******************************************************************************/
-	
+
 	/**
-	 * Certain actions are not here because you don't need a method to perform them.
-	 * When you create an actor you get an EntityActor object back. Use that to:
+	 * Certain actions are not here because you don't need a method to perform
+	 * them. When you create an actor you get an EntityActor object back. Use
+	 * that to:
 	 * 
-	 * Action: 	entityActor.isPlayback = true
-	 * Cut: 	entityActor.isPlayback = false
-	 * Reset:	entityActor.rewind()
-	 * Loop:	entityActor.loop = true
-	 * Visible:	entityActor.allPlayersView = true;
+	 * Action: entityActor.isPlayback = true Cut: entityActor.isPlayback = false
+	 * Reset: entityActor.rewind() Loop: entityActor.loop = true Visible:
+	 * entityActor.allPlayersView = true;
 	 * 
 	 */
-	
+
 	/**
 	 * Start recording.
 	 */
@@ -356,6 +374,7 @@ public class ActorPlugin extends JavaPlugin {
 
 	/**
 	 * Stop recording.
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -366,6 +385,7 @@ public class ActorPlugin extends JavaPlugin {
 
 	/**
 	 * Spawns an actor using the player's current recording as it's recording.
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -373,17 +393,20 @@ public class ActorPlugin extends JavaPlugin {
 	{
 		return actorCommand.actor(player, actorName);
 	}
-	
+
 	/**
 	 * Create an actor with access to all parameters
 	 */
-	public EntityActor actor(Recording recording, String actorName, Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
+	public EntityActor actor(Recording recording, String actorName,
+			Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
 	{
-		return actorCommand.actor(recording, actorName, viewerPlayer, world, x, y, z);
+		return actorCommand.actor(recording, actorName, viewerPlayer, world, x,
+				y, z);
 	}
-	
+
 	/**
 	 * Removes an actor
+	 * 
 	 * @param player
 	 * @return
 	 */
@@ -391,7 +414,7 @@ public class ActorPlugin extends JavaPlugin {
 	{
 		return removeCommand.actorRemove(actor);
 	}
-	
+
 	/**
 	 * Reset author's current recording. Returns and blocks used.
 	 */
@@ -400,43 +423,50 @@ public class ActorPlugin extends JavaPlugin {
 		resetCommand.resetAuthor(player);
 		return true;
 	}
-	
+
 	/**
 	 * Saves the actor's recording in dir using the actor name as the filename
 	 * in that dir.
+	 * 
 	 * @param actor
 	 * @param dir
 	 * @return
 	 * @throws IOException
 	 */
-	public boolean saveActorRecording(EntityActor actor, String filename) throws IOException
+	public boolean saveActorRecording(EntityActor actor, String filename)
+			throws IOException
 	{
 		FileOutputStream fos = new FileOutputStream(filename);
 		DataOutputStream dos = new DataOutputStream(fos);
 		return actor.recording.write(dos);
 	}
-	
+
 	/**
 	 * Save recording in filename.
+	 * 
 	 * @param recording
 	 * @param fileName
 	 * @return
 	 * @throws IOException
 	 */
-	public boolean saveRecording(Recording recording, String filename) throws IOException
+	public boolean saveRecording(Recording recording, String filename)
+			throws IOException
 	{
 		FileOutputStream fos = new FileOutputStream(filename);
 		DataOutputStream dos = new DataOutputStream(fos);
 		return recording.write(dos);
 	}
-	
+
 	/**
 	 * Spawns an actor with the given recording filename.
+	 * 
 	 * @param fileName
 	 * @return
 	 * @throws IOException
 	 */
-	public EntityActor spawnActorWithRecording(String name, String recordingPath, Player viewerPlayer, World world) throws IOException
+	public EntityActor spawnActorWithRecording(String name,
+			String recordingPath, Player viewerPlayer, World world)
+			throws IOException
 	{
 		FileInputStream fis = new FileInputStream(recordingPath);
 		DataInputStream dis = new DataInputStream(fis);

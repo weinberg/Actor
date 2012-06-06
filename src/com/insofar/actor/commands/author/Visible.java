@@ -4,6 +4,8 @@ import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet29DestroyEntity;
 
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to set visibility on an actor (or "all")
@@ -30,6 +32,12 @@ public class Visible extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_VISIBLE))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_VISIBLE.getNode());
+			return true;
+		}
 		if (args.length != 2)
 		{
 			player.sendMessage("Error: Usage: /visible [on|off] ActorName. ActorName can be 'all'");

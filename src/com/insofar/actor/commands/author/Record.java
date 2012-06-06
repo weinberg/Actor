@@ -9,6 +9,8 @@ import org.bukkit.entity.Player;
 
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.Recording;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to record a player
@@ -35,6 +37,12 @@ public class Record extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_RECORD))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_RECORD.getNode());
+			return true;
+		}
 		// Record the player calling this command
 		return record(player);
 	}

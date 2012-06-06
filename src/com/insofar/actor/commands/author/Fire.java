@@ -6,6 +6,8 @@ import net.minecraft.server.Packet29DestroyEntity;
 
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Viewer;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to remove an actor
@@ -32,6 +34,12 @@ public class Fire extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_FIRE))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_FIRE.getNode());
+			return true;
+		}
 		ArrayList<EntityActor> removeActors = new ArrayList<EntityActor>();
 		
 		if (args.length == 1)
