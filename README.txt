@@ -3,7 +3,7 @@ Actor Plugin
 
 Author: 		Joshua Weinberg
 Contact: 		jrwap@wwwrl.com
-Version: 		0.4.1 BETA
+Version: 		0.41 BETA
 License:		GNU General Public License (see LICENSE.txt)			  
 Description: 	A library which allows in-game recording and playback of minecraft players.
 				While intended primarily as a library for use in other plugins it does
@@ -15,17 +15,6 @@ Installation: 	Build the library and put the resulting plugin jar into plugins o
 				server. Or use a pre-built jar and put it in your plugins dir. The first
 				time it is loaded it will create an Actor folder in your plugins dir where
 				all your saved actors and scenes will be created.
-				
-Dependencies:	Actor requires the Apache Commons IO Library which can be found here:
-
-				http://commons.apache.org/io/
-				
-				If you have a directory setup already for external libraries, put
-				commons-io-2.1.jar in there and it should work. If not, create a dir
-				(ie "externalLibraries") in the root of your craftbukkit server and modify
-				the startup script to load libraries from that location. For example
-				add "-Djava.ext.dirs=externalLibs" to the java command in the startup
-				script.
 			  
 Command Usage:	When using the plugin to provide commands directly just install the plugin
 				and then allow users to access the following commands:			  
