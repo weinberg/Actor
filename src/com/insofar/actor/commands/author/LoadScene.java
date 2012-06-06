@@ -73,6 +73,6 @@ public class LoadScene extends AuthorBaseCommand {
 
 		player.sendMessage("Scene loaded.");
 
-		return false;
+		return true;
 	}
 }
