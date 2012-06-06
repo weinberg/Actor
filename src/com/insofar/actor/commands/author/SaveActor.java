@@ -1,8 +1,7 @@
 package com.insofar.actor.commands.author;
 
+import java.io.File;
 import java.io.IOException;
-
-import org.apache.commons.io.FilenameUtils;
 
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
@@ -63,8 +62,7 @@ public class SaveActor extends AuthorBaseCommand {
 
 		try
 		{
-			String path = plugin.savePath + "/" + fileName;
-			ActorPlugin.instance.saveActorRecording(actor, FilenameUtils.separatorsToSystem(path));
+			ActorPlugin.instance.saveActorRecording(actor, plugin.savePath + File.separator + fileName);
 		}
 		catch (IOException e)
 		{

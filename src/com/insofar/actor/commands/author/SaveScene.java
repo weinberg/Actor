@@ -3,8 +3,6 @@ package com.insofar.actor.commands.author;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FilenameUtils;
-
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.permissions.PermissionHandler;
@@ -43,7 +41,7 @@ public class SaveScene extends AuthorBaseCommand {
 			return true;
 		}
 
-		String dir = FilenameUtils.separatorsToSystem(plugin.scenePath+"/"+args[0]);
+		String dir = plugin.scenePath+File.separator+args[0];
 		File sceneDir = new File(dir);
 		sceneDir.mkdirs();
 		
@@ -51,7 +49,7 @@ public class SaveScene extends AuthorBaseCommand {
 		{
 			if (ea.hasViewer(player))
 			{
-				String path = FilenameUtils.separatorsToSystem(dir+"/"+ea.name);
+				String path = dir+File.separator+ea.name;
 
 				try
 				{

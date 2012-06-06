@@ -1,8 +1,7 @@
 package com.insofar.actor.commands.author;
 
+import java.io.File;
 import java.io.IOException;
-
-import org.apache.commons.io.FilenameUtils;
 
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
@@ -48,7 +47,7 @@ public class LoadActor extends AuthorBaseCommand {
 		
 		try
 		{
-			String path = FilenameUtils.separatorsToSystem(plugin.savePath + "/" + fileName);
+			String path = plugin.savePath + File.separator + fileName;
 			System.out.println("Loading actor from path:"+path);
 			newActor = ActorPlugin.instance.spawnActorWithRecording(actorName, path, player, player.getWorld());
 		}

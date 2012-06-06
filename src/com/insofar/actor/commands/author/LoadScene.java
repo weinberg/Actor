@@ -3,8 +3,6 @@ package com.insofar.actor.commands.author;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FilenameUtils;
-
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.permissions.PermissionHandler;
@@ -44,7 +42,7 @@ public class LoadScene extends AuthorBaseCommand {
 		}
 
 		String sceneName = args[0];
-		File sceneDir = new File(FilenameUtils.separatorsToSystem(plugin.scenePath+ "/" + sceneName));
+		File sceneDir = new File(plugin.scenePath+ File.separator + sceneName);
 
 		if (sceneDir == null || !sceneDir.isDirectory())
 		{
@@ -58,7 +56,7 @@ public class LoadScene extends AuthorBaseCommand {
 
 			try
 			{
-				String path = FilenameUtils.separatorsToSystem(sceneDir+"/"+actorName);
+				String path = sceneDir+File.separator+actorName;
 				newActor = ActorPlugin.instance.spawnActorWithRecording(actorName, path, player, player.getWorld());
 			}
 			catch (IOException e)
