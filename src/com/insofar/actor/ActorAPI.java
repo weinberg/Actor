@@ -45,7 +45,7 @@ public class ActorAPI
 	 */
 	public static EntityActor actor(Player player)
 	{
-		return ActorAPI.actor(player, "Actor", player.getName());
+		return actor(player, "Actor", player.getName());
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class ActorAPI
 	 */
 	public static EntityActor actor(Player player, String actorName)
 	{
-		return ActorAPI.actor(player, actorName, player.getName());
+		return actor(player, actorName, player.getName());
 	}
 	
 	/**

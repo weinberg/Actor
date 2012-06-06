@@ -55,7 +55,7 @@ public class ActorPlugin extends JavaPlugin
 	public static ActorPlugin plugin;
 	private RootConfig config;
 	private PluginDescriptionFile pdfFile;
-	private List<Listener> listeners = new ArrayList<Listener>();
+	private final List<Listener> listeners = new ArrayList<Listener>();
 	public String scenePath;
 	public String savePath;
 
