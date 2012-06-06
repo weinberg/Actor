@@ -32,7 +32,6 @@ import com.insofar.actor.commands.author.Fire;
 import com.insofar.actor.commands.author.Reset;
 import com.insofar.actor.commands.author.SaveActor;
 import com.insofar.actor.commands.author.SaveScene;
-import com.insofar.actor.commands.author.StopRecording;
 import com.insofar.actor.commands.author.Visible;
 import com.insofar.actor.config.RootConfig;
 import com.insofar.actor.listeners.AuthorBlockListener;
@@ -56,31 +55,9 @@ public class ActorPlugin extends JavaPlugin
 	public static ActorPlugin plugin;
 	private RootConfig config;
 	private PluginDescriptionFile pdfFile;
-	private List<Listener> listeners;
+	private List<Listener> listeners = new ArrayList<Listener>();
 	public String scenePath;
 	public String savePath;
-
-	/*****************************************************************************
-	 * 
-	 * Command references
-	 * 
-	 ******************************************************************************/
-
-	private Record recordCommand;
-	private StopRecording stopRecordCommand;
-	private Action actionCommand;
-	private Actor actorCommand;
-	private Fire removeCommand;
-	private Reset resetCommand;
-	private ActionRecord actionRecCommand;
-	private Cut cutCommand;
-	private Dub dubCommand;
-	private Loop loopCommand;
-	private Visible visibleCommand;
-	private SaveActor saveActorCommand;
-	private SaveScene saveSceneCommand;
-	private LoadActor loadActorCommand;
-	private LoadScene loadSceneCommand;
 
 	/*****************************************************************************
 	 * 
@@ -163,14 +140,17 @@ public class ActorPlugin extends JavaPlugin
 	{
 		// Set up static instance
 		instance = this;
-
+		// Setup Config
+		config = new RootConfig(this);
 		// Setup Permissions
 		PermissionHandler.init(this);
-
+		// Setup API
+		ActorAPI.init(this);
 		// Init data folder
 		if (initDataFolder())
 		{
-			getLogger().info("Actor: Data folder inited");
+			if (config.debugVerbose)
+				getLogger().info("Actor: Data folder inited");
 		}
 		else
 		{
@@ -178,20 +158,11 @@ public class ActorPlugin extends JavaPlugin
 			return false;
 		}
 
-		// Init config file
-		if (initRootConfig())
-		{
-			getLogger().info("Actor: Config inited");
-		}
-		else
-		{
-			getLogger().severe("Actor: Config failed to init");
-		}
-
 		// Init commands
 		if (initCommands())
 		{
-			getLogger().info("Actor: Commands inited");
+			if (config.debugVerbose)
+				getLogger().info("Actor: Commands inited");
 		}
 		else
 		{
@@ -202,7 +173,8 @@ public class ActorPlugin extends JavaPlugin
 		// Init scheduler
 		if (initScheduler())
 		{
-			getLogger().info("Actor: Scheduler inited");
+			if (config.debugVerbose)
+				getLogger().info("Actor: Scheduler inited");
 		}
 		else
 		{
@@ -213,7 +185,8 @@ public class ActorPlugin extends JavaPlugin
 		// Init Listeners
 		if (initListeners())
 		{
-			getLogger().info("Actor: Listeners inited");
+			if (config.debugVerbose)
+				getLogger().info("Actor: Listeners inited");
 		}
 		else
 		{
@@ -229,26 +202,31 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	private Boolean initDataFolder()
 	{
-		File dataFolder = getDataFolder();
-		File sceneFolder = new File(dataFolder, "scenes");
-		File saveFolder = new File(dataFolder, "save");
-
-		dataFolder.mkdirs();
-		sceneFolder.mkdirs();
-		saveFolder.mkdirs();
-
-		scenePath = sceneFolder.getPath();
-		savePath = saveFolder.getPath();
-
-		System.out.println("Scene dir = " + scenePath);
-		System.out.println("Save dir = " + savePath);
-
-		return true;
-	}
-
-	private boolean initRootConfig()
-	{
-		config = new RootConfig(this);
+		final File dataFolder = getDataFolder();
+		final File sceneFolder = new File(dataFolder, "scenes");
+		final File saveFolder = new File(dataFolder, "save");
+		try
+		{
+			//Create directories
+			dataFolder.mkdirs();
+			sceneFolder.mkdirs();
+			saveFolder.mkdirs();
+			//Grab paths
+			scenePath = sceneFolder.getPath();
+			savePath = saveFolder.getPath();
+			//Logging
+			if (config.debugVerbose)
+			{
+				getLogger().info("Scene dir = " + scenePath);
+				getLogger().info("Save dir = " + savePath);
+			}
+		}
+		catch (SecurityException s)
+		{
+			plugin.getLogger().severe("Could not create data folders.");
+			s.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 
@@ -257,39 +235,24 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	private Boolean initCommands()
 	{
-		// TODO move API out of specific command classes and into a unified,
-		// public static class
-		// Set up command references
-		recordCommand = new Record();
-		actionCommand = new Action();
-		actionRecCommand = new ActionRecord();
-		cutCommand = new Cut();
-		resetCommand = new Reset();
-		actorCommand = new Actor();
-		dubCommand = new Dub();
-		loopCommand = new Loop();
-		visibleCommand = new Visible();
-		removeCommand = new Fire();
-		saveActorCommand = new SaveActor();
-		saveSceneCommand = new SaveScene();
-		loadActorCommand = new LoadActor();
-		loadSceneCommand = new LoadScene();
-
+		// TODO unify commands with a root command. Have AuthorBaseCommand parse
+		// secondary command as one of the other command classes. This will
+		// remove the likelihood of other plugins using the same command.
 		// Set up Bukkit commands
-		getCommand("record").setExecutor(recordCommand);
-		getCommand("actor").setExecutor(actorCommand);
-		getCommand("fire").setExecutor(removeCommand);
-		getCommand("action").setExecutor(actionCommand);
-		getCommand("reset").setExecutor(resetCommand);
-		getCommand("actionrec").setExecutor(actionRecCommand);
-		getCommand("cut").setExecutor(cutCommand);
-		getCommand("dub").setExecutor(dubCommand);
-		getCommand("loop").setExecutor(loopCommand);
-		getCommand("visible").setExecutor(visibleCommand);
-		getCommand("saveactor").setExecutor(saveActorCommand);
-		getCommand("savescene").setExecutor(saveSceneCommand);
-		getCommand("loadactor").setExecutor(loadActorCommand);
-		getCommand("loadscene").setExecutor(loadSceneCommand);
+		getCommand("record").setExecutor(new Record());
+		getCommand("actor").setExecutor(new Actor());
+		getCommand("fire").setExecutor(new Fire());
+		getCommand("action").setExecutor(new Action());
+		getCommand("reset").setExecutor(new Reset());
+		getCommand("actionrec").setExecutor(new ActionRecord());
+		getCommand("cut").setExecutor(new Cut());
+		getCommand("dub").setExecutor(new Dub());
+		getCommand("loop").setExecutor(new Loop());
+		getCommand("visible").setExecutor(new Visible());
+		getCommand("saveactor").setExecutor(new SaveActor());
+		getCommand("savescene").setExecutor(new SaveScene());
+		getCommand("loadactor").setExecutor(new LoadActor());
+		getCommand("loadscene").setExecutor(new LoadScene());
 		return true;
 	}
 
@@ -314,7 +277,6 @@ public class ActorPlugin extends JavaPlugin
 						}
 					}
 				}, 1L, 1L) != -1;
-
 	}
 
 	/**
@@ -324,16 +286,12 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	private Boolean initListeners()
 	{
-		// Keep track of these so we can release them on disable.
-		listeners = new ArrayList<Listener>();
-
-		PluginManager pm = getServer().getPluginManager();
-
-		/* Authorlistener */
+		//Grab plugin manager
+		final PluginManager pm = getServer().getPluginManager();
+		/* AuthorPlayerListener */
 		AuthorPlayerListener al = new AuthorPlayerListener(this);
 		pm.registerEvents(al, this);
 		listeners.add(al);
-
 		/* AuthorBlockListener */
 		AuthorBlockListener abl = new AuthorBlockListener(this);
 		pm.registerEvents(abl, this);
@@ -369,7 +327,7 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	public boolean record(Player player)
 	{
-		return recordCommand.record(player);
+		return ActorAPI.record(player);
 	}
 
 	/**
@@ -380,7 +338,7 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	public boolean stopRecord(Player player)
 	{
-		return stopRecordCommand.stopRecording(player);
+		return ActorAPI.stopRecording(player);
 	}
 
 	/**
@@ -391,7 +349,7 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	public EntityActor spawnActor(Player player, String actorName)
 	{
-		return actorCommand.actor(player, actorName);
+		return ActorAPI.actor(player, actorName);
 	}
 
 	/**
@@ -400,8 +358,8 @@ public class ActorPlugin extends JavaPlugin
 	public EntityActor actor(Recording recording, String actorName,
 			Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
 	{
-		return actorCommand.actor(recording, actorName, viewerPlayer, world, x,
-				y, z);
+		return ActorAPI.actor(recording, actorName, viewerPlayer, world, x, y,
+				z);
 	}
 
 	/**
@@ -412,7 +370,7 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	public boolean removeActor(EntityActor actor)
 	{
-		return removeCommand.actorRemove(actor);
+		return ActorAPI.actorRemove(actor);
 	}
 
 	/**
@@ -420,7 +378,7 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	public boolean resetAuthorRecording(Player player)
 	{
-		resetCommand.resetAuthor(player);
+		ActorAPI.resetAuthor(player);
 		return true;
 	}
 
@@ -472,7 +430,7 @@ public class ActorPlugin extends JavaPlugin
 		DataInputStream dis = new DataInputStream(fis);
 		Recording recording = new Recording();
 		recording.read(dis);
-		return actorCommand.actor(recording, name, viewerPlayer, world);
+		return ActorAPI.actor(recording, name, viewerPlayer, world);
 	}
 
 }

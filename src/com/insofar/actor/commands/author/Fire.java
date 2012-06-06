@@ -2,10 +2,8 @@ package com.insofar.actor.commands.author;
 
 import java.util.ArrayList;
 
-import net.minecraft.server.Packet29DestroyEntity;
-
+import com.insofar.actor.ActorAPI;
 import com.insofar.actor.author.EntityActor;
-import com.insofar.actor.author.Viewer;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
 
@@ -50,7 +48,7 @@ public class Fire extends AuthorBaseCommand {
 			{
 				if ((ea.name.equals(actorName) || actorName.equals("all")) && ea.hasViewer(player))
 				{
-					actorRemove(ea);
+					ActorAPI.actorRemove(ea);
 					removeActors.add(ea);
 				}
 			}
@@ -62,25 +60,5 @@ public class Fire extends AuthorBaseCommand {
 		}
 		
 		return false;
-	}
-	
-	/*********************************************************************
-	 * 
-	 * PLUGIN API
-	 * 
-	 *********************************************************************/
-
-	/**
-	 * actorRemove
-	 * @param actor Actor to remove
-	 */
-	public boolean actorRemove(EntityActor actor)
-	{
-		for (Viewer viewer : actor.viewers)
-		{
-			viewer.sendPacket(new Packet29DestroyEntity(actor.id));
-		}
-		
-		return true;
 	}
 }

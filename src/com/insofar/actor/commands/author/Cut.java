@@ -1,5 +1,6 @@
 package com.insofar.actor.commands.author;
 
+import com.insofar.actor.ActorAPI;
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.permissions.PermissionHandler;
@@ -37,7 +38,7 @@ public class Cut extends AuthorBaseCommand {
 			return true;
 		}
 		// Stop recording
-		Author author = getAuthor(player);
+		Author author = ActorAPI.getAuthor(player);
 		if (author.currentRecording != null)
 		{
 			author.isRecording = false;
