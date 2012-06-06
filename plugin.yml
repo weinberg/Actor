@@ -1,66 +1,130 @@
 name: Actor
 main: com.insofar.actor.ActorPlugin
-version: 0.4
+version: 0.41
+website: http://dev.bukkit.org/server-mods/actor/
 description: >
              Actor Plugin by Joshua Weinberg
+
 commands:
    record:
       description: start recording into buffer
       usage: /record
-      
    cut:
       description: Stop recording and playback on all actors
       usage: /cut
-
    actor:
       description: Spawn new actor using recording in buffer
       usage: /actor name
-      
    dub:
       description: Duplicate one or all actors with a translation
       usage: /dub [name|all] x y z
-      
    fire:
       description: Remove an actor(s). Name can be "all".
       usage: /fire name
-      
    action:
       description: playback actor or all actors
       usage: /action [actorname]
-      
    actionrec:
       description: playback actor or all actors and record
       usage: /actionrec [actorname]
-      
    loop:
       description: Set an actor (or "all") to loop
       usage: /loop [on|off] actorname
-
    visible:
       description: Set an actor visible to all other players or just the author.
       usage: /visible [on|off] actorname
-
    reset:
       description: Rewind actor or all actors
       usage: /reset [actorname]
-      
-   remove:
-      description: Remove an actor
-      usage: /remove [actorname]
-      
    saveactor:
       description: Save an actor's recording to a file
       usage: /save actorname filename
-      
    savescene:
       description: Save all actor recordings to dir/actorname
       usage: /savescene scenename
-      
    loadactor:
       description: Spawn an actor with the give recording file
       usage: /load actorname filename
-      
    loadscene:
       description: Load and spawn all actor recordings from dir
       usage: /loadscene scenename
-      
+
+permissions:
+   Actor.*:
+      description: Gives access to all Actor commands and permissions
+      default: op
+      children:
+         Actor.command.record: true
+         Actor.command.cut: true
+         Actor.command.actor: true
+         Actor.command.dub: true
+         Actor.command.fire: true
+         Actor.command.action: true
+         Actor.command.actionrec: true
+         Actor.command.loop: true
+         Actor.command.visible: true
+         Actor.command.reset: true
+         Actor.command.saveactor: true
+         Actor.command.savescene: true
+         Actor.command.loadactor: true
+         Actor.command.loadscene: true
+   Actor.command.*:
+      description: Gives access to all Actor commands
+      default: op
+      children:
+         Actor.command.record: true
+         Actor.command.cut: true
+         Actor.command.actor: true
+         Actor.command.dub: true
+         Actor.command.fire: true
+         Actor.command.action: true
+         Actor.command.actionrec: true
+         Actor.command.loop: true
+         Actor.command.visible: true
+         Actor.command.reset: true
+         Actor.command.saveactor: true
+         Actor.command.savescene: true
+         Actor.command.loadactor: true
+         Actor.command.loadscene: true
+   Actor.command.record:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.cut:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.actor:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.dub:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.fire:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.action:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.actionrec:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.loop:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.visible:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.reset:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.saveactor:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.savescene:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.loadactor:
+      description: Allows user to use /record command
+      default: op
+   Actor.command.loadscene:
+      description: Allows user to use /record command
+      default: op

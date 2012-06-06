@@ -4,6 +4,7 @@ import net.minecraft.server.Packet53BlockChange;
 
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
@@ -15,34 +16,71 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.Author;
 
-public class AuthorBlockListener implements Listener {
+public class AuthorBlockListener implements Listener
+{
 
 	public ActorPlugin plugin;
 
 	public AuthorBlockListener(ActorPlugin instance)
 	{
-		//System.out.println("Author Block Listener init");
+		// System.out.println("Author Block Listener init");
 		plugin = instance;
 	}
 
-	@EventHandler
-	public void onBlockDamage(BlockDamageEvent event) {
-		//System.out.println("Block damage");
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBlockDamage(BlockDamageEvent event)
+	{
+		if (event.isCancelled()
+				&& !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Block damage");
+		}
 	}
 
-	@EventHandler
-	public void onBlockIgnite(BlockIgniteEvent event) {
-		//System.out.println("Block ignite");
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBlockIgnite(BlockIgniteEvent event)
+	{
+		if (event.isCancelled()
+				&& !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Block ignite");
+		}
 	}
 
-	@EventHandler
-	public void onBlockPhysics(BlockPhysicsEvent event) {
-		//System.out.println("Block physics");
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBlockPhysics(BlockPhysicsEvent event)
+	{
+		if (event.isCancelled()
+				&& !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Block physics");
+		}
 	}
 
-	@EventHandler
-	public void onBlockPlace(BlockPlaceEvent event) {
-		//System.out.println("Block place");
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBlockPlace(BlockPlaceEvent event)
+	{
+		if (event.isCancelled()
+				&& !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Block place");
+		}
 		Player p = event.getPlayer();
 
 		Author author = plugin.authors.get(p.getName());
@@ -56,31 +94,50 @@ public class AuthorBlockListener implements Listener {
 			int type = event.getBlock().getTypeId();
 			int data = event.getBlock().getData();
 
-			packet.a=xPosition;
-			packet.b=yPosition;
-			packet.c=zPosition;
+			packet.a = xPosition;
+			packet.b = yPosition;
+			packet.c = zPosition;
 			packet.material = type;
 			packet.data = data;
 
 			author.currentRecording.recordPacket(packet);
-			addRewindForBlockChange(author, xPosition, yPosition, zPosition, 0, 0);
+			addRewindForBlockChange(author, xPosition, yPosition, zPosition, 0,
+					0);
 		}
 	}
 
-	@EventHandler
-	public void onBlockBurn(BlockBurnEvent event) {
-		//System.out.println("Block burn");
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBlockBurn(BlockBurnEvent event)
+	{
+		if (event.isCancelled()
+				&& !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Block burn");
+		}
 	}
 
-	@EventHandler
-	public void onBlockBreak(BlockBreakEvent event) {
-		//System.out.println("Block break");
-		Player p = event.getPlayer();
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onBlockBreak(BlockBreakEvent event)
+	{
+		if (event.isCancelled()
+				&& !plugin.getRootConfig().includeCancelledEvents)
+		{
+			return;
+		}
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Block break");
+		}
+		final Player p = event.getPlayer();
 
-		Author author = plugin.authors.get(p.getName());
+		final Author author = plugin.authors.get(p.getName());
 		if (author != null && author.isRecording)
 		{
-
+			// TODO is there a method to use regular bukkit methods to do this?
 			Packet53BlockChange packet = new Packet53BlockChange();
 
 			int xPosition = event.getBlock().getX();
@@ -89,24 +146,26 @@ public class AuthorBlockListener implements Listener {
 			int type = 0;
 			int data = 0;
 
-			packet.a=xPosition;
-			packet.b=yPosition;
-			packet.c=zPosition;
+			packet.a = xPosition;
+			packet.b = yPosition;
+			packet.c = zPosition;
 			packet.material = type;
 			packet.data = data;
 
 			author.currentRecording.recordPacket(packet);
-			
+
 			// Rewind packet
-			
+
 			type = event.getBlock().getType().getId();
 			data = event.getBlock().getData();
-			
-			addRewindForBlockChange(author, xPosition, yPosition, zPosition, data, type);
+
+			addRewindForBlockChange(author, xPosition, yPosition, zPosition,
+					data, type);
 		}
 	}
 
-	public void addRewindForBlockChange(Author author, int i, int j, int k, int l, int m)
+	public void addRewindForBlockChange(Author author, int i, int j, int k,
+			int l, int m)
 	{
 		Packet53BlockChange changeBack = new Packet53BlockChange();
 

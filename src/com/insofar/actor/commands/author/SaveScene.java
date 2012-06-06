@@ -3,10 +3,10 @@ package com.insofar.actor.commands.author;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FilenameUtils;
-
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * InfoCraft Plugin command to save actor recording to a file
@@ -29,13 +29,19 @@ public class SaveScene extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_SAVE_SCENE))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_SAVE_SCENE.getNode());
+			return true;
+		}
 		if (args.length != 1)
 		{
 			player.sendMessage("Error: parameter required: directory");
 			return true;
 		}
 
-		String dir = FilenameUtils.separatorsToSystem(plugin.scenePath+"/"+args[0]);
+		String dir = plugin.scenePath+File.separator+args[0];
 		File sceneDir = new File(dir);
 		sceneDir.mkdirs();
 		
@@ -43,7 +49,7 @@ public class SaveScene extends AuthorBaseCommand {
 		{
 			if (ea.hasViewer(player))
 			{
-				String path = FilenameUtils.separatorsToSystem(dir+"/"+ea.name);
+				String path = dir+File.separator+ea.name;
 
 				try
 				{

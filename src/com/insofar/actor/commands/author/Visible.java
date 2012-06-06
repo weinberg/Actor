@@ -2,9 +2,10 @@ package com.insofar.actor.commands.author;
 
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet29DestroyEntity;
-import net.minecraft.server.Packet34EntityTeleport;
 
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to set visibility on an actor (or "all")
@@ -31,6 +32,12 @@ public class Visible extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_VISIBLE))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_VISIBLE.getNode());
+			return true;
+		}
 		if (args.length != 2)
 		{
 			player.sendMessage("Error: Usage: /visible [on|off] ActorName. ActorName can be 'all'");
@@ -39,7 +46,7 @@ public class Visible extends AuthorBaseCommand {
 
 		boolean viz = args[0].equals("on") ? true : false;
 		String actorName = args[1];
-
+		//TODO switch to Bukkit's built in method of invisibility?
 		for (EntityActor actor : plugin.actors)
 		{
 			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("all")))

@@ -1,16 +1,11 @@
 package com.insofar.actor.commands.author;
 
-import net.minecraft.server.MinecraftServer;
-
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.craftbukkit.CraftServer;
 import org.bukkit.entity.Player;
 
 import com.insofar.actor.ActorPlugin;
-import com.insofar.actor.author.Author;
 
 /**
  * Base class for all authoring commands.
@@ -26,7 +21,6 @@ public class AuthorBaseCommand implements CommandExecutor {
 	protected String label;
 	protected CommandSender sender;
 	protected String[] args;
-	protected MinecraftServer minecraftServer;
 	
 	public AuthorBaseCommand()
 	{
@@ -36,7 +30,6 @@ public class AuthorBaseCommand implements CommandExecutor {
 	public AuthorBaseCommand(ActorPlugin plugin)
 	{
 		this.plugin = plugin;
-		minecraftServer = ((CraftServer)Bukkit.getServer()).getServer();
 	}
 
 	@Override
@@ -53,21 +46,6 @@ public class AuthorBaseCommand implements CommandExecutor {
 		player = (Player)sender;
 		
 		return execute();
-	}
-	
-	protected Author getAuthor(Player p)
-	{
-		Author author = plugin.authors.get(p.getName());
-		
-		// Set up an author if needed
-		if (author == null)
-		{
-			author = new Author();
-			author.player = p;
-			plugin.authors.put(p.getName(), author);
-		}
-		
-		return author;
 	}
 	
 	protected boolean execute()

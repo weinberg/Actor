@@ -1,6 +1,8 @@
 package com.insofar.actor.commands.author;
 
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * ActorPlugin command to start playback on an actor.
@@ -27,6 +29,12 @@ public class Action extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_ACTION))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_ACTION.getNode());
+			return true;
+		}
 		String actorName = args.length > 0 ? args[0] : "";
 		
 		for (EntityActor actor : plugin.actors)

@@ -3,10 +3,10 @@ package com.insofar.actor.commands.author;
 import java.io.File;
 import java.io.IOException;
 
-import org.apache.commons.io.FilenameUtils;
-
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.permissions.PermissionHandler;
+import com.insofar.actor.permissions.PermissionNode;
 
 /**
  * InfoCraft Plugin authoring command to spawn an actor from a saved recording
@@ -29,6 +29,12 @@ public class LoadScene extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_LOAD_SCENE))
+		{
+			player.sendMessage("Lack permission: "
+					+ PermissionNode.COMMAND_LOAD_SCENE.getNode());
+			return true;
+		}
 		if (args.length != 1)
 		{
 			player.sendMessage("Error: parameter required: scenename");
@@ -36,7 +42,7 @@ public class LoadScene extends AuthorBaseCommand {
 		}
 
 		String sceneName = args[0];
-		File sceneDir = new File(FilenameUtils.separatorsToSystem(plugin.scenePath+ "/" + sceneName));
+		File sceneDir = new File(plugin.scenePath+ File.separator + sceneName);
 
 		if (sceneDir == null || !sceneDir.isDirectory())
 		{
@@ -50,7 +56,7 @@ public class LoadScene extends AuthorBaseCommand {
 
 			try
 			{
-				String path = FilenameUtils.separatorsToSystem(sceneDir+"/"+actorName);
+				String path = sceneDir+File.separator+actorName;
 				newActor = ActorPlugin.instance.spawnActorWithRecording(actorName, path, player, player.getWorld());
 			}
 			catch (IOException e)
@@ -67,6 +73,6 @@ public class LoadScene extends AuthorBaseCommand {
 
 		player.sendMessage("Scene loaded.");
 
-		return false;
+		return true;
 	}
 }
