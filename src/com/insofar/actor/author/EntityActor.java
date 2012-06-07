@@ -37,15 +37,14 @@ public class EntityActor extends EntityPlayer {
 	public int translateZ = 0;
 	public long translateTime;
 	
-	
 
-	/*
-	public EntityActor(World world)
-	{
-		//mcServer = minecraftserver;
-	}
-	*/
-
+	/**
+	 * Constructor
+	 * @param minecraftserver
+	 * @param world
+	 * @param s
+	 * @param iteminworldmanager
+	 */
 	public EntityActor(MinecraftServer minecraftserver, World world, String s,
 			ItemInWorldManager iteminworldmanager) {
 		super(minecraftserver, world, s, iteminworldmanager);
