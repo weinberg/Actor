@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.commands.author.Action;
 import com.insofar.actor.commands.author.ActionRecord;
-import com.insofar.actor.commands.author.Actor;
+import com.insofar.actor.commands.author.Hire;
 import com.insofar.actor.commands.author.Cut;
 import com.insofar.actor.commands.author.Dub;
 import com.insofar.actor.commands.author.Fire;
@@ -29,7 +29,7 @@ public class Commander implements CommandExecutor
 	 * Author sub commands references
 	 */
 	private Record record;
-	private Actor actor;
+	private Hire actor;
 	private Fire fire;
 	private Action action;
 	private Reset reset;
@@ -49,7 +49,7 @@ public class Commander implements CommandExecutor
 		 * Initialize author sub commands
 		 */
 		this.record = new Record();
-		this.actor = new Actor();
+		this.actor = new Hire();
 		this.fire = new Fire();
 		this.action = new Action();
 		this.reset = new Reset();

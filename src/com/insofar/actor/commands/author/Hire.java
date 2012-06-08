@@ -11,9 +11,9 @@ import com.insofar.actor.permissions.PermissionNode;
  * @author Joshua Weinberg
  *
  */
-public class Actor extends AuthorBaseCommand {
+public class Hire extends AuthorBaseCommand {
 
-	public Actor()
+	public Hire()
 	{
 		super();
 	}
