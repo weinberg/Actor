@@ -23,19 +23,17 @@ import org.bukkit.entity.Player;
 
 public class EntityActor extends EntityPlayer {
 
-	public String name;
-	public Boolean isPlayback = false;
-	public int playbackTick = 0;
-	public Recording recording;
-	public MinecraftServer mcServer;
-	public Boolean loop = false;
-	public Boolean allPlayersView = false;
-	public ArrayList<Viewer> viewers = new ArrayList<Viewer>();
+	private String name;
+	private Boolean isPlayback = false;
+	private int playbackTick = 0;
+	private Recording recording;
+	private MinecraftServer mcServer;
+	private Boolean loop = false;
+	private Boolean allPlayersView = false;
+	private ArrayList<Viewer> viewers = new ArrayList<Viewer>();
 	
-	public int translateX = 0;
-	public int translateY = 0;
-	public int translateZ = 0;
-	public long translateTime;
+	private int translateX = 0, translateY = 0, translateZ = 0;
+	private long translateTime;
 	
 
 	/**
@@ -243,12 +241,131 @@ public class EntityActor extends EntityPlayer {
 		if (allPlayersView)
 			return true;
 
+		return hasViewer(player.getName());
+	}
+	
+	public boolean hasViewer(String name)
+	{
 		for (Viewer viewer : viewers)
 		{
-			if (viewer.player.getName().equals(player.getName()))
+			if (viewer.player.getName().equals(name))
 				return true;
 		}
-
 		return false;
+	}
+	
+	public MinecraftServer getServer()
+	{
+		return mcServer;
+	}
+
+	public String getActorName()
+	{
+		return name;
+	}
+
+	public void setActorName(String name)
+	{
+		this.name = name;
+	}
+
+	public Boolean getIsPlayback()
+	{
+		return isPlayback;
+	}
+
+	public void setIsPlayback(Boolean isPlayback)
+	{
+		this.isPlayback = isPlayback;
+	}
+
+	public int getPlaybackTick()
+	{
+		return playbackTick;
+	}
+
+	public void setPlaybackTick(int playbackTick)
+	{
+		this.playbackTick = playbackTick;
+	}
+
+	public Recording getRecording()
+	{
+		return recording;
+	}
+
+	public void setRecording(Recording recording)
+	{
+		this.recording = recording;
+	}
+
+	public Boolean getLoop()
+	{
+		return loop;
+	}
+
+	public void setLoop(Boolean loop)
+	{
+		this.loop = loop;
+	}
+
+	public Boolean getAllPlayersView()
+	{
+		return allPlayersView;
+	}
+
+	public void setAllPlayersView(Boolean allPlayersView)
+	{
+		this.allPlayersView = allPlayersView;
+	}
+
+	public int getTranslateX()
+	{
+		return translateX;
+	}
+
+	public void setTranslateX(int translateX)
+	{
+		this.translateX = translateX;
+	}
+
+	public int getTranslateY()
+	{
+		return translateY;
+	}
+
+	public void setTranslateY(int translateY)
+	{
+		this.translateY = translateY;
+	}
+
+	public int getTranslateZ()
+	{
+		return translateZ;
+	}
+
+	public void setTranslateZ(int translateZ)
+	{
+		this.translateZ = translateZ;
+	}
+
+	public long getTranslateTime()
+	{
+		return translateTime;
+	}
+
+	public void setTranslateTime(long translateTime)
+	{
+		this.translateTime = translateTime;
+	}
+
+	public ArrayList<Viewer> getViewers()
+	{
+		return viewers;
+	}
+
+	public void setViewers(ArrayList<Viewer> viewers)
+	{
+		this.viewers = viewers;
 	}
 }

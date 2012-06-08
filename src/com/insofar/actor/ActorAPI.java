@@ -146,21 +146,21 @@ public class ActorAPI
 		
 		// Setup EntityActor
 		EntityActor actor = new EntityActor(minecraftServer, w, actorName, iw);
-		actor.recording = recording;
-		actor.name = actorName;
+		actor.setRecording(recording);
+		actor.setActorName(actorName);
 
 		// Setup viewer
 		if (viewerPlayer == null)
 		{
-			actor.allPlayersView = true;
+			actor.setAllPlayersView(true);
 		}
 		Viewer viewer = new Viewer(viewerPlayer);
-		actor.viewers.add(viewer);
+		actor.getViewers().add(viewer);
 		
 		// Setup translation
-		actor.translateX = x;
-		actor.translateY = y;
-		actor.translateZ = z;
+		actor.setTranslateX(x);
+		actor.setTranslateY(y);
+		actor.setTranslateZ(z);
 		
 		actor.spawn();
 
@@ -176,22 +176,22 @@ public class ActorAPI
 		World w = ((CraftWorld) world).getHandle();
 		ItemInWorldManager iw = new ItemInWorldManager(w);
 		EntityActor newActor = new EntityActor(minecraftServer, w, newName, iw);
-		newActor.translateX = actor.translateX + x;
-		newActor.translateY = actor.translateY + y;
-		newActor.translateZ = actor.translateZ + z;
+		newActor.setTranslateX(actor.getTranslateX() + x);
+		newActor.setTranslateY(actor.getTranslateY() + y);
+		newActor.setTranslateZ(actor.getTranslateZ() + z);
 
 		if (viewerPlayer == null)
 		{
-			actor.allPlayersView = true;
+			actor.setAllPlayersView(true);
 		}
 
 		Viewer viewer = new Viewer(viewerPlayer);
-		newActor.viewers.add(viewer);
+		newActor.getViewers().add(viewer);
 
-		newActor.recording = new Recording();
-		newActor.recording.recordedPackets = actor.recording.recordedPackets;
+		newActor.setRecording(new Recording());
+		newActor.getRecording().recordedPackets = actor.getRecording().recordedPackets;
 
-		newActor.name = newName;
+		newActor.setActorName(newName);
 
 		newActor.spawn();
 
@@ -204,7 +204,7 @@ public class ActorAPI
 	 */
 	public static boolean actorRemove(EntityActor actor)
 	{
-		for (Viewer viewer : actor.viewers)
+		for (Viewer viewer : actor.getViewers())
 		{
 			viewer.sendPacket(new Packet29DestroyEntity(actor.id));
 		}

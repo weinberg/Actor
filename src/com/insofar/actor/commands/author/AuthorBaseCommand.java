@@ -3,6 +3,7 @@ package com.insofar.actor.commands.author;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.conversations.ConversationFactory;
 import org.bukkit.entity.Player;
 
 import com.insofar.actor.ActorPlugin;
@@ -21,15 +22,12 @@ public class AuthorBaseCommand implements CommandExecutor {
 	protected String label;
 	protected CommandSender sender;
 	protected String[] args;
+	protected ConversationFactory factory;
 	
 	public AuthorBaseCommand()
 	{
 		this.plugin = ActorPlugin.instance;
-	}
-
-	public AuthorBaseCommand(ActorPlugin plugin)
-	{
-		this.plugin = plugin;
+		this.factory = new ConversationFactory(plugin);
 	}
 
 	@Override
