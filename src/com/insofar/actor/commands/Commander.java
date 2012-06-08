@@ -149,7 +149,7 @@ public class Commander implements CommandExecutor
 		{
 			sender.sendMessage(ChatColor.GOLD + "/actor record"
 					+ ChatColor.WHITE
-					+ " : Start recording actions into buffer");
+					+ " : Start recording actions");
 		}
 		if (PermissionHandler.has(sender, PermissionNode.COMMAND_CUT))
 		{
@@ -160,7 +160,7 @@ public class Commander implements CommandExecutor
 		{
 			sender.sendMessage(ChatColor.GOLD + "/actor hire <name>"
 					+ ChatColor.WHITE
-					+ " : Spawn new actor using recording in buffer");
+					+ " : Spawn new actor using recording");
 		}
 		if (PermissionHandler.has(sender, PermissionNode.COMMAND_DUB))
 		{
@@ -205,12 +205,12 @@ public class Commander implements CommandExecutor
 		{
 			sender.sendMessage(ChatColor.GOLD
 					+ "/actor saveactor <name> <file>" + ChatColor.WHITE
-					+ " : Save actor's recording to file");
+					+ " : Save actor to file");
 		}
 		if (PermissionHandler.has(sender, PermissionNode.COMMAND_SAVE_SCENE))
 		{
 			sender.sendMessage(ChatColor.GOLD + "/actor savescene <scene>"
-					+ ChatColor.WHITE + " : Save all actor recordings to scene");
+					+ ChatColor.WHITE + " : Save all actors to scene");
 		}
 		if (PermissionHandler.has(sender, PermissionNode.COMMAND_LOAD_ACTOR))
 		{
@@ -222,7 +222,7 @@ public class Commander implements CommandExecutor
 		{
 			sender.sendMessage(ChatColor.GOLD + "/actor loadscene <scene>"
 					+ ChatColor.WHITE
-					+ " : Load and spawn all actors from a scene");
+					+ " : Load/spawn all actors from a scene");
 		}
 	}
 
