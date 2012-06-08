@@ -24,22 +24,22 @@ public class Actor extends AuthorBaseCommand {
 	 */
 	public boolean execute()
 	{
-		if (!PermissionHandler.has(player, PermissionNode.COMMAND_ACTOR))
+		if (!PermissionHandler.has(player, PermissionNode.COMMAND_HIRE))
 		{
 			player.sendMessage("Lack permission: "
-					+ PermissionNode.COMMAND_ACTOR.getNode());
+					+ PermissionNode.COMMAND_HIRE.getNode());
 			return true;
 		}
 		EntityActor newActor = null;
 		
-		if (args.length == 0)
+		if (args.length == 1)
 			newActor = ActorAPI.actor(player);
 		
-		if (args.length == 1)
-			newActor = ActorAPI.actor(player, args[0]);
-		
 		if (args.length == 2)
-			newActor = ActorAPI.actor(player, args[0], args[1]);
+			newActor = ActorAPI.actor(player, args[1]);
+		
+		if (args.length == 3)
+			newActor = ActorAPI.actor(player, args[1], args[2]);
 		
 		if (newActor != null)
 		{

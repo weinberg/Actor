@@ -19,20 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.insofar.actor.author.Author;
 import com.insofar.actor.author.EntityActor;
 import com.insofar.actor.author.Recording;
-import com.insofar.actor.commands.author.Action;
-import com.insofar.actor.commands.author.ActionRecord;
-import com.insofar.actor.commands.author.Actor;
-import com.insofar.actor.commands.author.Cut;
-import com.insofar.actor.commands.author.Dub;
-import com.insofar.actor.commands.author.LoadActor;
-import com.insofar.actor.commands.author.LoadScene;
-import com.insofar.actor.commands.author.Loop;
-import com.insofar.actor.commands.author.Record;
-import com.insofar.actor.commands.author.Fire;
-import com.insofar.actor.commands.author.Reset;
-import com.insofar.actor.commands.author.SaveActor;
-import com.insofar.actor.commands.author.SaveScene;
-import com.insofar.actor.commands.author.Visible;
+import com.insofar.actor.commands.Commander;
 import com.insofar.actor.config.RootConfig;
 import com.insofar.actor.listeners.AuthorBlockListener;
 import com.insofar.actor.listeners.AuthorPlayerListener;
@@ -58,6 +45,7 @@ public class ActorPlugin extends JavaPlugin
 	private final List<Listener> listeners = new ArrayList<Listener>();
 	public String scenePath;
 	public String savePath;
+	public static final String TAG = "[Actor]";
 
 	/*****************************************************************************
 	 * 
@@ -239,20 +227,7 @@ public class ActorPlugin extends JavaPlugin
 		// secondary command as one of the other command classes. This will
 		// remove the likelihood of other plugins using the same command.
 		// Set up Bukkit commands
-		getCommand("record").setExecutor(new Record());
-		getCommand("actor").setExecutor(new Actor());
-		getCommand("fire").setExecutor(new Fire());
-		getCommand("action").setExecutor(new Action());
-		getCommand("reset").setExecutor(new Reset());
-		getCommand("actionrec").setExecutor(new ActionRecord());
-		getCommand("cut").setExecutor(new Cut());
-		getCommand("dub").setExecutor(new Dub());
-		getCommand("loop").setExecutor(new Loop());
-		getCommand("visible").setExecutor(new Visible());
-		getCommand("saveactor").setExecutor(new SaveActor());
-		getCommand("savescene").setExecutor(new SaveScene());
-		getCommand("loadactor").setExecutor(new LoadActor());
-		getCommand("loadscene").setExecutor(new LoadScene());
+		getCommand("actor").setExecutor(new Commander());
 		return true;
 	}
 

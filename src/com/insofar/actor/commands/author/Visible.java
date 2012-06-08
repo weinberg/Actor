@@ -38,15 +38,14 @@ public class Visible extends AuthorBaseCommand {
 					+ PermissionNode.COMMAND_VISIBLE.getNode());
 			return true;
 		}
-		if (args.length != 2)
+		if (args.length != 3)
 		{
 			player.sendMessage("Error: Usage: /visible [on|off] ActorName. ActorName can be 'all'");
 			return true;
 		}
 
-		boolean viz = args[0].equals("on") ? true : false;
-		String actorName = args[1];
-		//TODO switch to Bukkit's built in method of invisibility?
+		boolean viz = args[1].equalsIgnoreCase("on") ? true : false;
+		String actorName = args[2];
 		for (EntityActor actor : plugin.actors)
 		{
 			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("all")))

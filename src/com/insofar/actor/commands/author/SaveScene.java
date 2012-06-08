@@ -35,13 +35,13 @@ public class SaveScene extends AuthorBaseCommand {
 					+ PermissionNode.COMMAND_SAVE_SCENE.getNode());
 			return true;
 		}
-		if (args.length != 1)
+		if (args.length != 2)
 		{
 			player.sendMessage("Error: parameter required: directory");
 			return true;
 		}
 
-		String dir = plugin.scenePath+File.separator+args[0];
+		String dir = plugin.scenePath+File.separator+args[1];
 		File sceneDir = new File(dir);
 		sceneDir.mkdirs();
 		

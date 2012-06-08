@@ -36,7 +36,7 @@ public class Reset extends AuthorBaseCommand {
 					+ PermissionNode.COMMAND_RESET.getNode());
 			return true;
 		}
-		String actorName = args.length > 0 ? args[0] : "";
+		String actorName = args.length > 1 ? args[1] : "";
 
 		ActorAPI.resetAuthor(player);
 		

@@ -35,14 +35,14 @@ public class Loop extends AuthorBaseCommand {
 					+ PermissionNode.COMMAND_LOOP.getNode());
 			return true;
 		}
-		if (args.length != 2)
+		if (args.length != 3)
 		{
 			player.sendMessage("Error: Usage: /loop [on|off] ActorName. ActorName can be 'all'");
 			return true;
 		}
 		
-		boolean loop = args[0].equals("on") ? true : false;
-		String actorName = args[1];
+		boolean loop = args[1].equalsIgnoreCase("on") ? true : false;
+		String actorName = args[2];
 		
 		for (EntityActor actor : plugin.actors)
 		{

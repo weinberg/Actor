@@ -6,48 +6,9 @@ description: >
              Actor Plugin by Joshua Weinberg
 softdepend: [Vault]
 commands:
-   record:
-      description: start recording into buffer
-      usage: /record
-   cut:
-      description: Stop recording and playback on all actors
-      usage: /cut
    actor:
-      description: Spawn new actor using recording in buffer
-      usage: /actor name
-   dub:
-      description: Duplicate one or all actors with a translation
-      usage: /dub [name|all] x y z
-   fire:
-      description: Remove an actor(s). Name can be "all".
-      usage: /fire name
-   action:
-      description: playback actor or all actors
-      usage: /action [actorname]
-   actionrec:
-      description: playback actor or all actors and record
-      usage: /actionrec [actorname]
-   loop:
-      description: Set an actor (or "all") to loop
-      usage: /loop [on|off] actorname
-   visible:
-      description: Set an actor visible to all other players or just the author.
-      usage: /visible [on|off] actorname
-   reset:
-      description: Rewind actor or all actors
-      usage: /reset [actorname]
-   saveactor:
-      description: Save an actor's recording to a file
-      usage: /save actorname filename
-   savescene:
-      description: Save all actor recordings to dir/actorname
-      usage: /savescene scenename
-   loadactor:
-      description: Spawn an actor with the give recording file
-      usage: /load actorname filename
-   loadscene:
-      description: Load and spawn all actor recordings from dir
-      usage: /loadscene scenename
+      description: Root command for ActorPlugin
+      usage: /actor
 
 permissions:
    Actor.*:
@@ -56,7 +17,7 @@ permissions:
       children:
          Actor.command.record: true
          Actor.command.cut: true
-         Actor.command.actor: true
+         Actor.command.hire: true
          Actor.command.dub: true
          Actor.command.fire: true
          Actor.command.action: true
@@ -74,7 +35,7 @@ permissions:
       children:
          Actor.command.record: true
          Actor.command.cut: true
-         Actor.command.actor: true
+         Actor.command.hire: true
          Actor.command.dub: true
          Actor.command.fire: true
          Actor.command.action: true
@@ -87,44 +48,44 @@ permissions:
          Actor.command.loadactor: true
          Actor.command.loadscene: true
    Actor.command.record:
-      description: Allows user to use /record command
+      description: Allows user to use record command
       default: op
    Actor.command.cut:
-      description: Allows user to use /cut command
+      description: Allows user to use cut command
       default: op
-   Actor.command.actor:
-      description: Allows user to use /actor command
+   Actor.command.hire:
+      description: Allows user to use hire command
       default: op
    Actor.command.dub:
-      description: Allows user to use /dub command
+      description: Allows user to use dub command
       default: op
    Actor.command.fire:
-      description: Allows user to use /fire command
+      description: Allows user to use fire command
       default: op
    Actor.command.action:
-      description: Allows user to use /action command
+      description: Allows user to use action command
       default: op
    Actor.command.actionrec:
-      description: Allows user to use /actionrec command
+      description: Allows user to use actionrec command
       default: op
    Actor.command.loop:
-      description: Allows user to use /loop command
+      description: Allows user to use loop command
       default: op
    Actor.command.visible:
-      description: Allows user to use /visible command
+      description: Allows user to use visible command
       default: op
    Actor.command.reset:
-      description: Allows user to use /reset command
+      description: Allows user to use reset command
       default: op
    Actor.command.saveactor:
-      description: Allows user to use /saveactor command
+      description: Allows user to use saveactor command
       default: op
    Actor.command.savescene:
-      description: Allows user to use /savescebe command
+      description: Allows user to use savescebe command
       default: op
    Actor.command.loadactor:
-      description: Allows user to use /loadactor command
+      description: Allows user to use loadactor command
       default: op
    Actor.command.loadscene:
-      description: Allows user to use /loadscene command
+      description: Allows user to use loadscene command
       default: op

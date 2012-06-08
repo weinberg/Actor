@@ -35,7 +35,7 @@ public class Action extends AuthorBaseCommand {
 					+ PermissionNode.COMMAND_ACTION.getNode());
 			return true;
 		}
-		String actorName = args.length > 0 ? args[0] : "";
+		String actorName = args.length > 1 ? args[1] : "";
 		
 		for (EntityActor actor : plugin.actors)
 		{

@@ -35,13 +35,13 @@ public class LoadScene extends AuthorBaseCommand {
 					+ PermissionNode.COMMAND_LOAD_SCENE.getNode());
 			return true;
 		}
-		if (args.length != 1)
+		if (args.length != 2)
 		{
 			player.sendMessage("Error: parameter required: scenename");
 			return true;
 		}
 
-		String sceneName = args[0];
+		String sceneName = args[1];
 		File sceneDir = new File(plugin.scenePath+ File.separator + sceneName);
 
 		if (sceneDir == null || !sceneDir.isDirectory())

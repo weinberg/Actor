@@ -40,9 +40,9 @@ public class Fire extends AuthorBaseCommand {
 		}
 		ArrayList<EntityActor> removeActors = new ArrayList<EntityActor>();
 		
-		if (args.length == 1)
+		if (args.length == 2)
 		{
-			String actorName = args[0];
+			String actorName = args[1];
 			// Call actorRemove on all actors named args[0]
 			for (EntityActor ea : plugin.actors)
 			{
