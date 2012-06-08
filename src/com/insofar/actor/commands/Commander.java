@@ -90,7 +90,7 @@ public class Commander implements CommandExecutor
 			{
 				return fire.onCommand(sender, command, label, args);
 			}
-			else if (com.equalsIgnoreCase("action"))
+			else if (com.equalsIgnoreCase("action") || com.equalsIgnoreCase("start"))
 			{
 				return action.onCommand(sender, command, label, args);
 			}
