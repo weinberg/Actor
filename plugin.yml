@@ -4,7 +4,7 @@ version: 0.7
 website: http://dev.bukkit.org/server-mods/actor/
 description: >
              Actor Plugin by Joshua Weinberg
-
+softdepend: [Vault]
 commands:
    record:
       description: start recording into buffer
