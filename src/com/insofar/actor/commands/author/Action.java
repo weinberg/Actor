@@ -39,9 +39,9 @@ public class Action extends AuthorBaseCommand {
 		
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("")))
+			if (actor.hasViewer(player) && (actor.getActorName().equals(actorName) || actorName.equals("")))
 			{
-				actor.isPlayback = true;
+				actor.setIsPlayback(true);
 			}
 		}
 		

@@ -223,9 +223,6 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	private Boolean initCommands()
 	{
-		// TODO unify commands with a root command. Have AuthorBaseCommand parse
-		// secondary command as one of the other command classes. This will
-		// remove the likelihood of other plugins using the same command.
 		// Set up Bukkit commands
 		getCommand("actor").setExecutor(new Commander());
 		return true;
@@ -371,7 +368,7 @@ public class ActorPlugin extends JavaPlugin
 	{
 		FileOutputStream fos = new FileOutputStream(filename);
 		DataOutputStream dos = new DataOutputStream(fos);
-		return actor.recording.write(dos);
+		return actor.getRecording().write(dos);
 	}
 
 	/**

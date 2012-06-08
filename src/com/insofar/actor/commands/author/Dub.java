@@ -51,10 +51,10 @@ public class Dub extends AuthorBaseCommand
 
 		for (EntityActor actor : plugin.actors)
 		{
-			if ((actorName.equals("all") || actor.name.equals(actorName))
+			if ((actorName.equals("all") || actor.getActorName().equals(actorName))
 					&& actor.hasViewer(player))
 			{
-				EntityActor newActor = ActorAPI.dub(actor, actor.name, player,
+				EntityActor newActor = ActorAPI.dub(actor, actor.getActorName(), player,
 						player.getWorld(), Integer.parseInt(args[2]),
 						Integer.parseInt(args[3]), Integer.parseInt(args[4]));
 

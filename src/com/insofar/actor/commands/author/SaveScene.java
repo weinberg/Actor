@@ -49,7 +49,7 @@ public class SaveScene extends AuthorBaseCommand {
 		{
 			if (ea.hasViewer(player))
 			{
-				String path = dir+File.separator+ea.name;
+				String path = dir+File.separator+ea.getActorName();
 
 				try
 				{

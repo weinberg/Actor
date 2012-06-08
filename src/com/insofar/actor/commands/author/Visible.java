@@ -48,12 +48,12 @@ public class Visible extends AuthorBaseCommand {
 		String actorName = args[2];
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.hasViewer(player) && (actor.name.equals(actorName) || actorName.equals("all")))
+			if (actor.hasViewer(player) && (actor.getActorName().equals(actorName) || actorName.equals("all")))
 			{
 				Packet29DestroyEntity d = new Packet29DestroyEntity(actor.id);
 				actor.sendPacket(d);
 				
-				actor.allPlayersView = viz;
+				actor.setAllPlayersView(viz);
 				
 				// Send spawn packet to the viewers
 				Packet20NamedEntitySpawn np = new Packet20NamedEntitySpawn(actor);

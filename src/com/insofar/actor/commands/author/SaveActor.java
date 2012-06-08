@@ -47,7 +47,7 @@ public class SaveActor extends AuthorBaseCommand {
 		
 		for (EntityActor ea : plugin.actors)
 		{
-			if (ea.hasViewer(player) && (ea.name.equals(actorName) || actorName.equals("")))
+			if (ea.hasViewer(player) && (ea.getActorName().equals(actorName) || actorName.equals("")))
 			{
 				actor=ea;
 				break;
