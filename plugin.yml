@@ -1,6 +1,6 @@
 name: Actor
 main: com.insofar.actor.ActorPlugin
-version: 0.41
+version: 0.7
 website: http://dev.bukkit.org/server-mods/actor/
 description: >
              Actor Plugin by Joshua Weinberg
@@ -90,41 +90,41 @@ permissions:
       description: Allows user to use /record command
       default: op
    Actor.command.cut:
-      description: Allows user to use /record command
+      description: Allows user to use /cut command
       default: op
    Actor.command.actor:
-      description: Allows user to use /record command
+      description: Allows user to use /actor command
       default: op
    Actor.command.dub:
-      description: Allows user to use /record command
+      description: Allows user to use /dub command
       default: op
    Actor.command.fire:
-      description: Allows user to use /record command
+      description: Allows user to use /fire command
       default: op
    Actor.command.action:
-      description: Allows user to use /record command
+      description: Allows user to use /action command
       default: op
    Actor.command.actionrec:
-      description: Allows user to use /record command
+      description: Allows user to use /actionrec command
       default: op
    Actor.command.loop:
-      description: Allows user to use /record command
+      description: Allows user to use /loop command
       default: op
    Actor.command.visible:
-      description: Allows user to use /record command
+      description: Allows user to use /visible command
       default: op
    Actor.command.reset:
-      description: Allows user to use /record command
+      description: Allows user to use /reset command
       default: op
    Actor.command.saveactor:
-      description: Allows user to use /record command
+      description: Allows user to use /saveactor command
       default: op
    Actor.command.savescene:
-      description: Allows user to use /record command
+      description: Allows user to use /savescebe command
       default: op
    Actor.command.loadactor:
-      description: Allows user to use /record command
+      description: Allows user to use /loadactor command
       default: op
    Actor.command.loadscene:
-      description: Allows user to use /record command
+      description: Allows user to use /loadscene command
       default: op
