@@ -35,14 +35,14 @@ public class LoadActor extends AuthorBaseCommand {
 					+ PermissionNode.COMMAND_LOAD_ACTOR.getNode());
 			return true;
 		}
-		if (args.length != 2)
+		if (args.length != 3)
 		{
 			player.sendMessage("Error: Two parameters required: actorname filename");
 			return true;
 		}
 		
-		String actorName = args[0];
-		String fileName = args[1];
+		String actorName = args[1];
+		String fileName = args[2];
 		EntityActor newActor = null;
 		
 		try

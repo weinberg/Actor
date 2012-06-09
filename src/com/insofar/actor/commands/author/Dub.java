@@ -40,23 +40,23 @@ public class Dub extends AuthorBaseCommand
 					+ PermissionNode.COMMAND_DUB.getNode());
 			return true;
 		}
-		if (args.length != 4)
+		if (args.length != 5)
 		{
 			player.sendMessage("Error: Usage: dub [actorname|all] x y z");
 			return true;
 		}
 
-		String actorName = args[0];
+		String actorName = args[1];
 		List<EntityActor> newActors = new ArrayList<EntityActor>();
 
 		for (EntityActor actor : plugin.actors)
 		{
-			if ((actorName.equals("all") || actor.name.equals(actorName))
+			if ((actorName.equals("all") || actor.getActorName().equals(actorName))
 					&& actor.hasViewer(player))
 			{
-				EntityActor newActor = ActorAPI.dub(actor, actor.name, player,
-						player.getWorld(), Integer.parseInt(args[1]),
-						Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+				EntityActor newActor = ActorAPI.dub(actor, actor.getActorName(), player,
+						player.getWorld(), Integer.parseInt(args[2]),
+						Integer.parseInt(args[3]), Integer.parseInt(args[4]));
 
 				newActors.add(newActor);
 			}

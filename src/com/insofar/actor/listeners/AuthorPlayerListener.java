@@ -259,11 +259,11 @@ public class AuthorPlayerListener implements Listener
 
 		for (EntityActor actor : plugin.actors)
 		{
-			for (Viewer viewer : actor.viewers)
+			for (Viewer viewer : actor.getViewers())
 			{
 				if (viewer.player == event.getPlayer())
 				{
-					actor.viewers.remove(viewer);
+					actor.getViewers().remove(viewer);
 					break;
 				}
 			}

@@ -49,7 +49,7 @@ public class Cut extends AuthorBaseCommand {
 		// Stop playback on all actors
 		for (EntityActor actor : plugin.actors)
 		{
-			actor.isPlayback = false;
+			actor.setIsPlayback(false);
 		}
 		
 		return true;
