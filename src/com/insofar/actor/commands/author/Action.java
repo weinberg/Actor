@@ -1,6 +1,6 @@
 package com.insofar.actor.commands.author;
 
-import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.EntityActor;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
 

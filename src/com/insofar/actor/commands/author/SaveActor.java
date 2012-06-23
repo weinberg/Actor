@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import com.insofar.actor.ActorPlugin;
-import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.EntityActor;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
 
@@ -45,6 +45,10 @@ public class SaveActor extends AuthorBaseCommand {
 		String fileName = args[2];
 		EntityActor actor = null;
 		
+		// THIS IS A BUG
+		// If there are multiple authors and they use the same actor name this could find
+		// the wrong recording. Need to associate the recordings with the user who recorded them
+		// (the author) and just search those actors, not all the actors in the plugin.
 		for (EntityActor ea : plugin.actors)
 		{
 			if (ea.hasViewer(player) && (ea.getActorName().equals(actorName) || actorName.equals("")))

@@ -1,4 +1,4 @@
-package com.insofar.actor.author;
+package com.insofar.actor;
 
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Packet;

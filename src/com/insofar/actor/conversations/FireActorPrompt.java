@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 
 import com.insofar.actor.ActorAPI;
 import com.insofar.actor.ActorPlugin;
-import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.EntityActor;
 
 public class FireActorPrompt extends BooleanPrompt
 {

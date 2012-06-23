@@ -27,9 +27,9 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 
 import com.insofar.actor.ActorPlugin;
-import com.insofar.actor.author.Author;
-import com.insofar.actor.author.EntityActor;
-import com.insofar.actor.author.Viewer;
+import com.insofar.actor.Author;
+import com.insofar.actor.EntityActor;
+import com.insofar.actor.Viewer;
 
 public class AuthorPlayerListener implements Listener
 {
