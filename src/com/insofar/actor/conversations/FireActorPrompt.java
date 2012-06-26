@@ -1,5 +1,6 @@
 package com.insofar.actor.conversations;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import org.bukkit.ChatColor;
