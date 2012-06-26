@@ -54,7 +54,7 @@ public class Fire extends AuthorBaseCommand
 			{
 				final Map<Object, Object> map = new HashMap<Object, Object>();
 				map.put("name", actorName);
-				factory.withFirstPrompt(new FireActorPrompt())
+				factory.withFirstPrompt(new FireActorPrompt(this))
 				.withInitialSessionData(map).withLocalEcho(false).buildConversation(player)
 				.begin();
 				return true;
