@@ -71,7 +71,7 @@ public class ActorAPI
 		Player viewerPlayer;
 		org.bukkit.World world;
 		
-		if (viewerName == "all")
+		if (viewerName.equalsIgnoreCase("all"))
 		{
 			viewerPlayer = null;
 			world = player.getWorld();

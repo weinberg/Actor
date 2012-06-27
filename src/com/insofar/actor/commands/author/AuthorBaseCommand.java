@@ -26,7 +26,7 @@ public class AuthorBaseCommand implements CommandExecutor {
 	
 	public AuthorBaseCommand()
 	{
-		this.plugin = ActorPlugin.instance;
+		this.plugin = ActorPlugin.getInstance();
 		this.factory = new ConversationFactory(plugin);
 	}
 

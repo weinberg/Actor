@@ -57,7 +57,7 @@ public class LoadScene extends AuthorBaseCommand {
 			try
 			{
 				String path = sceneDir+File.separator+actorName;
-				newActor = ActorPlugin.instance.spawnActorWithRecording(actorName, path, player, player.getWorld());
+				newActor = ActorPlugin.getInstance().spawnActorWithRecording(actorName, path, player, player.getWorld());
 			}
 			catch (IOException e)
 			{

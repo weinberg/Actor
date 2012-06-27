@@ -43,7 +43,10 @@ public class SaveScene extends AuthorBaseCommand {
 
 		String dir = plugin.scenePath+File.separator+args[1];
 		File sceneDir = new File(dir);
-		sceneDir.mkdirs();
+		if(!sceneDir.mkdirs())
+		{
+		    player.sendMessage("Something went wrong! Could not create scene directory.");
+		}
 		
 		for (EntityActor ea : plugin.actors)
 		{
@@ -53,7 +56,7 @@ public class SaveScene extends AuthorBaseCommand {
 
 				try
 				{
-					ActorPlugin.instance.saveActorRecording(ea, path);
+					ActorPlugin.getInstance().saveActorRecording(ea, path);
 				}
 				catch (IOException e)
 				{
