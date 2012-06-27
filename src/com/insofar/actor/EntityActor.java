@@ -4,11 +4,10 @@ import java.util.ArrayList;
 
 import net.minecraft.server.EntityPlayer;
 import net.minecraft.server.ItemInWorldManager;
-import net.minecraft.server.MathHelper;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
-import net.minecraft.server.Packet24MobSpawn;
+import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet33RelEntityMoveLook;
 import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet35EntityHeadRotation;
@@ -89,17 +88,8 @@ public class EntityActor extends EntityPlayer {
 	public void spawn()
 	{
 		// Send spawn packet to the viewer
-		//Packet20NamedEntitySpawn np = new Packet20NamedEntitySpawn(this);
-		Packet24MobSpawn np = new Packet24MobSpawn();
+		Packet20NamedEntitySpawn np = new Packet20NamedEntitySpawn(this);
 		np.a = id;
-		np.b = 92;
-		np.c = MathHelper.floor(locX * 32.0D);
-        np.d = MathHelper.floor(locY * 32.0D);
-        np.e = MathHelper.floor(locZ * 32.0D);
-        np.f = (byte) ((int) (yaw * 256.0F / 360.0F));
-        np.g = (byte) ((int) (pitch * 256.0F / 360.0F));
-        np.h = 0;
-		
 		sendPacket(np);
 		
 		// Send jumpstart packets to viewer
