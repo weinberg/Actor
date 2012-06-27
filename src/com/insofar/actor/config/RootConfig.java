@@ -12,7 +12,7 @@ public class RootConfig
 {
 	// Class variables
 	private ActorPlugin plugin;
-	public boolean includeCancelledEvents, debugEvents, debugVerbose;
+	public boolean includeCancelledEvents, debugEvents, debugVerbose, prompt;
 
 	/**
 	 * Loads config from yaml file
@@ -27,6 +27,7 @@ public class RootConfig
 		//TODO maybe option for max time for a single recording?
 		defaults.put("debug.events", false);
 		defaults.put("debug.verbose", false);
+		defaults.put("prompt", false);
 		defaults.put("version", plugin.getDescription().getVersion());
 
 		// Insert defaults into config file if they're not present
@@ -70,6 +71,11 @@ public class RootConfig
 		 */
 		debugEvents = config.getBoolean("debug.events", false);
 		debugVerbose = config.getBoolean("debug.verbose", false);
+		
+		/**
+		 * Prompt
+		 */
+		prompt = config.getBoolean("prompt",false);
 	}
 
 	@SuppressWarnings("unused")

@@ -21,11 +21,6 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 
-import com.insofar.actor.author.Author;
-import com.insofar.actor.author.EntityActor;
-import com.insofar.actor.author.Recording;
-import com.insofar.actor.author.Viewer;
-
 public class ActorAPI
 {
 	private static ActorPlugin plugin;
@@ -382,4 +377,5 @@ public class ActorAPI
 		}
 		return author;
 	}
+	
 }

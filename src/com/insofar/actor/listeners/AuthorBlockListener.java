@@ -14,7 +14,7 @@ import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
 import com.insofar.actor.ActorPlugin;
-import com.insofar.actor.author.Author;
+import com.insofar.actor.Author;
 
 public class AuthorBlockListener implements Listener
 {

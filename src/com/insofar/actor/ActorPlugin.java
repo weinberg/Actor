@@ -16,9 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import com.insofar.actor.author.Author;
-import com.insofar.actor.author.EntityActor;
-import com.insofar.actor.author.Recording;
+
 import com.insofar.actor.commands.Commander;
 import com.insofar.actor.config.RootConfig;
 import com.insofar.actor.listeners.AuthorBlockListener;
@@ -39,7 +37,7 @@ public class ActorPlugin extends JavaPlugin
 	 * 
 	 ******************************************************************************/
 
-	public static ActorPlugin plugin;
+	//public static ActorPlugin plugin;
 	private RootConfig config;
 	private PluginDescriptionFile pdfFile;
 	private final List<Listener> listeners = new ArrayList<Listener>();
@@ -71,8 +69,7 @@ public class ActorPlugin extends JavaPlugin
 
 	/**
 	 * Actors - this is only for use of the bukkit commands in this plugin. When
-	 * using this plugin puely as a library you need to keep track of your own
-	 * actors.
+	 * using this plugin as a library you need to keep track of your own actors.
 	 */
 	public ArrayList<EntityActor> actors = new ArrayList<EntityActor>();
 
@@ -211,7 +208,7 @@ public class ActorPlugin extends JavaPlugin
 		}
 		catch (SecurityException s)
 		{
-			plugin.getLogger().severe("Could not create data folders.");
+			getLogger().severe("Could not create data folders.");
 			s.printStackTrace();
 			return false;
 		}

@@ -3,7 +3,7 @@ package com.insofar.actor.commands.author;
 import net.minecraft.server.Packet20NamedEntitySpawn;
 import net.minecraft.server.Packet29DestroyEntity;
 
-import com.insofar.actor.author.EntityActor;
+import com.insofar.actor.EntityActor;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
 
