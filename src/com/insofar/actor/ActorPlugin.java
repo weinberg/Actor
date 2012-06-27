@@ -54,7 +54,7 @@ public class ActorPlugin extends JavaPlugin
 	/**
 	 * Static instance of this plugin for use by other plugins.
 	 */
-	public static ActorPlugin instance;
+	private static ActorPlugin instance;
 
 	/**
 	 * Authors by username. An author is the player recording the actors.
@@ -273,10 +273,15 @@ public class ActorPlugin extends JavaPlugin
 	{
 		return config;
 	}
+	
+	public static ActorPlugin getInstance()
+	{
+	    return instance;
+	}
 
 	/*****************************************************************************
 	 * 
-	 * Actor Plugin API
+	 * Actor Plugin API - Legacy
 	 * 
 	 ******************************************************************************/
 
