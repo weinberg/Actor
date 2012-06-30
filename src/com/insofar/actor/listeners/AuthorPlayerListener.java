@@ -1,5 +1,7 @@
 package com.insofar.actor.listeners;
 
+import java.util.ArrayList;
+
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet35EntityHeadRotation;
@@ -20,15 +22,16 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 
+import com.insofar.actor.ActorAPI;
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.Author;
+import com.insofar.actor.EntityActor;
 
 public class AuthorPlayerListener implements Listener
 {
@@ -44,9 +47,29 @@ public class AuthorPlayerListener implements Listener
 	 * Player spawn listener
 	 */
 	@EventHandler(priority = EventPriority.MONITOR)
-	public void onPlayerLogin(PlayerJoinEvent event)
+	public void onPlayerLogout(PlayerQuitEvent event)
 	{
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info("Player quit");
+		}
 		
+		ArrayList<EntityActor> removeActors = new ArrayList<EntityActor>();
+		
+		for (EntityActor ea : ActorPlugin.getInstance().actors)
+		{
+			if (ea.getOwner() == event.getPlayer())
+			{
+				ActorAPI.actorRemove(ea);
+				removeActors.add(ea);
+			}
+		}
+		
+		if (!removeActors.isEmpty())
+		{
+			// Remove them from the plugin's actors list
+			plugin.actors.removeAll(removeActors);
+		}
 	}
 	
 	/**
