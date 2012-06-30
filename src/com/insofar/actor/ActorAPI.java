@@ -10,7 +10,6 @@ import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet35EntityHeadRotation;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.Packet5EntityEquipment;
-import net.minecraft.server.ServerConfigurationManager;
 import net.minecraft.server.World;
 
 import org.bukkit.Bukkit;
@@ -72,7 +71,7 @@ public class ActorAPI
 		Player viewerPlayer;
 		org.bukkit.World world;
 		
-		if (viewerName == "all")
+		if (viewerName.equalsIgnoreCase("all"))
 		{
 			viewerPlayer = null;
 			world = player.getWorld();

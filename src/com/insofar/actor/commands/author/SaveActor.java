@@ -63,7 +63,7 @@ public class SaveActor extends AuthorBaseCommand {
 
 		try
 		{
-			ActorPlugin.instance.saveActorRecording(actor, plugin.savePath + File.separator + fileName);
+			ActorPlugin.getInstance().saveActorRecording(actor, plugin.savePath + File.separator + fileName);
 		}
 		catch (IOException e)
 		{

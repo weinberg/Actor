@@ -49,7 +49,7 @@ public class LoadActor extends AuthorBaseCommand {
 		{
 			String path = plugin.savePath + File.separator + fileName;
 			System.out.println("Loading actor from path:"+path);
-			newActor = ActorPlugin.instance.spawnActorWithRecording(actorName, path, player, player.getWorld());
+			newActor = ActorPlugin.getInstance().spawnActorWithRecording(actorName, path, player, player.getWorld());
 		}
 		catch (IOException e)
 		{
