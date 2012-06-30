@@ -13,6 +13,7 @@ public class RootConfig
 	// Class variables
 	private ActorPlugin plugin;
 	public boolean includeCancelledEvents, debugEvents, debugVerbose, prompt;
+	public int viewableRadius;
 
 	/**
 	 * Loads config from yaml file
@@ -28,6 +29,7 @@ public class RootConfig
 		defaults.put("debug.events", false);
 		defaults.put("debug.verbose", false);
 		defaults.put("prompt", false);
+		defaults.put("viewableRadius", 30);
 		defaults.put("version", plugin.getDescription().getVersion());
 
 		// Insert defaults into config file if they're not present
@@ -76,6 +78,11 @@ public class RootConfig
 		 * Prompt
 		 */
 		prompt = config.getBoolean("prompt",false);
+		
+		/**
+		 * viewableRadius
+		 */
+		viewableRadius = config.getInt("viewableRadius",30);
 	}
 
 	@SuppressWarnings("unused")
