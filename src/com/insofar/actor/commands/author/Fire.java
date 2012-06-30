@@ -81,9 +81,8 @@ public class Fire extends AuthorBaseCommand
 		{
 			try
 			{
-				if ((ea.getActorName().equalsIgnoreCase(actorName) || actorName
-						.equalsIgnoreCase("all"))
-						&& ea.hasViewer(player.getName()))
+				if (ea.getOwner() == player &&
+						(ea.getActorName().equalsIgnoreCase(actorName) || actorName.equalsIgnoreCase("all")))
 				{
 					ActorAPI.actorRemove(ea);
 					removeActors.add(ea);

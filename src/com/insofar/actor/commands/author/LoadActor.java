@@ -60,6 +60,7 @@ public class LoadActor extends AuthorBaseCommand {
 		
 		if (newActor != null)
 		{
+			newActor.setOwner(player);
 			plugin.actors.add(newActor);
 			player.sendMessage("Spawned.");
 			return true;

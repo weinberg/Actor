@@ -332,7 +332,7 @@ public class ActorPlugin extends JavaPlugin
 	public EntityActor actor(Recording recording, String actorName,
 			Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
 	{
-		return ActorAPI.actor(recording, actorName, viewerPlayer, world, x, y,
+		return ActorAPI.actor(recording, actorName, world, x, y,
 				z);
 	}
 
@@ -404,7 +404,7 @@ public class ActorPlugin extends JavaPlugin
 		DataInputStream dis = new DataInputStream(fis);
 		Recording recording = new Recording();
 		recording.read(dis);
-		return ActorAPI.actor(recording, name, viewerPlayer, world);
+		return ActorAPI.actor(recording, name, world);
 	}
 
 }

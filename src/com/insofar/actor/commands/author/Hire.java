@@ -43,18 +43,12 @@ public class Hire extends AuthorBaseCommand {
 		
 		if (newActor != null)
 		{
+			newActor.setOwner(player);
 			plugin.actors.add(newActor);
 			return true;
 		}
 		
 		return false;
 	}
-
-	/*****************************************************************************
-	 * 
-	 * Bukkit Plugin Command Methods
-	 * 
-	 ******************************************************************************/
-
 	
 }

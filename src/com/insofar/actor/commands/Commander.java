@@ -19,7 +19,6 @@ import com.insofar.actor.commands.author.Record;
 import com.insofar.actor.commands.author.Reset;
 import com.insofar.actor.commands.author.SaveActor;
 import com.insofar.actor.commands.author.SaveScene;
-import com.insofar.actor.commands.author.Visible;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
 
@@ -37,7 +36,6 @@ public class Commander implements CommandExecutor
 	private Cut cut;
 	private Dub dub;
 	private Loop loop;
-	private Visible visible;
 	private SaveActor saveActor;
 	private SaveScene saveScene;
 	private LoadActor loadActor;
@@ -57,7 +55,6 @@ public class Commander implements CommandExecutor
 		this.cut = new Cut();
 		this.dub = new Dub();
 		this.loop = new Loop();
-		this.visible = new Visible();
 		this.saveActor = new SaveActor();
 		this.saveScene = new SaveScene();
 		this.loadActor = new LoadActor();
@@ -113,10 +110,6 @@ public class Commander implements CommandExecutor
 			else if (com.equalsIgnoreCase("loop"))
 			{
 				return loop.onCommand(sender, command, label, args);
-			}
-			else if (com.equalsIgnoreCase("visible"))
-			{
-				return visible.onCommand(sender, command, label, args);
 			}
 			else if (com.equalsIgnoreCase("saveactor"))
 			{
@@ -188,13 +181,6 @@ public class Commander implements CommandExecutor
 			sender.sendMessage(ChatColor.GOLD
 					+ "/actor loop <on|off> <name|all>" + ChatColor.WHITE
 					+ " : Set an actor(s) to loop");
-		}
-		if (PermissionHandler.has(sender, PermissionNode.COMMAND_VISIBLE))
-		{
-			sender.sendMessage(ChatColor.GOLD
-					+ "/actor visible <on|off> <name|all>"
-					+ ChatColor.WHITE
-					+ " : Set an actor visible to all other players or just the author");
 		}
 		if (PermissionHandler.has(sender, PermissionNode.COMMAND_RESET))
 		{

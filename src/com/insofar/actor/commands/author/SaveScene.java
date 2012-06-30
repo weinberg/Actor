@@ -47,7 +47,7 @@ public class SaveScene extends AuthorBaseCommand {
 		
 		for (EntityActor ea : plugin.actors)
 		{
-			if (ea.hasViewer(player))
+			if (ea.getOwner() == player)
 			{
 				String path = dir+File.separator+ea.getActorName();
 

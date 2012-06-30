@@ -40,7 +40,8 @@ public class ActionRecord extends AuthorBaseCommand {
 		
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.hasViewer(player) && (actor.getActorName().equals(actorName) || actorName.equals("")))
+			if (actor.getOwner() == player &&
+					(actor.getActorName().equals(actorName) || actorName.equals("")))
 			{
 				actor.setIsPlayback(true);
 			}

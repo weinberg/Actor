@@ -23,7 +23,6 @@ permissions:
          Actor.command.action: true
          Actor.command.actionrec: true
          Actor.command.loop: true
-         Actor.command.visible: true
          Actor.command.reset: true
          Actor.command.saveactor: true
          Actor.command.savescene: true
@@ -41,7 +40,6 @@ permissions:
          Actor.command.action: true
          Actor.command.actionrec: true
          Actor.command.loop: true
-         Actor.command.visible: true
          Actor.command.reset: true
          Actor.command.saveactor: true
          Actor.command.savescene: true
@@ -70,9 +68,6 @@ permissions:
       default: op
    Actor.command.loop:
       description: Allows user to use loop command
-      default: op
-   Actor.command.visible:
-      description: Allows user to use visible command
       default: op
    Actor.command.reset:
       description: Allows user to use reset command

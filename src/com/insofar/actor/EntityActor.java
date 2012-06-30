@@ -34,7 +34,7 @@ public class EntityActor extends EntityPlayer {
 	private MinecraftServer mcServer;
 	private Boolean loop = false;
 	private Boolean allPlayersView = false;
-	private ArrayList<Viewer> viewers = new ArrayList<Viewer>();
+	private Player owner = null;
 
 	private int translateX = 0, translateY = 0, translateZ = 0;
 	private long translateTime;
@@ -285,28 +285,6 @@ public class EntityActor extends EntityPlayer {
 		return true;
 	}
 
-	/**
-	 * True if player is a viewer of this actor.
-	 * @param player
-	 */
-	public boolean hasViewer(Player player)
-	{
-		if (allPlayersView)
-			return true;
-
-		return hasViewer(player.getName());
-	}
-
-	public boolean hasViewer(String name)
-	{
-		for (Viewer viewer : viewers)
-		{
-			if (viewer.player.getName().equals(name))
-				return true;
-		}
-		return false;
-	}
-
 	public MinecraftServer getServer()
 	{
 		return mcServer;
@@ -412,13 +390,11 @@ public class EntityActor extends EntityPlayer {
 		this.translateTime = translateTime;
 	}
 
-	public ArrayList<Viewer> getViewers()
-	{
-		return viewers;
+	public Player getOwner() {
+		return owner;
 	}
 
-	public void setViewers(ArrayList<Viewer> viewers)
-	{
-		this.viewers = viewers;
+	public void setOwner(Player owner) {
+		this.owner = owner;
 	}
 }

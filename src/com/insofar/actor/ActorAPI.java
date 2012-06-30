@@ -10,6 +10,7 @@ import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet35EntityHeadRotation;
 import net.minecraft.server.Packet53BlockChange;
 import net.minecraft.server.Packet5EntityEquipment;
+import net.minecraft.server.ServerConfigurationManager;
 import net.minecraft.server.World;
 
 import org.bukkit.Bukkit;
@@ -101,7 +102,7 @@ public class ActorAPI
 			return null;
 		}
 
-		EntityActor result = actor(author.currentRecording, actorName, viewerPlayer, world);
+		EntityActor result = actor(author.currentRecording, actorName, world);
 		
 		author.currentRecording = null;
 		
@@ -129,12 +130,12 @@ public class ActorAPI
 	 * viewer's world
 	 * @return The EntityActor which was created.
 	 */
-	public static EntityActor actor(Recording recording, String actorName, Player viewerPlayer, org.bukkit.World world)
+	public static EntityActor actor(Recording recording, String actorName, org.bukkit.World world)
 	{
-		return actor(recording, actorName, viewerPlayer, world, 0, 0, 0);
+		return actor(recording, actorName, world, 0, 0, 0);
 	}
 	
-	public static EntityActor actor(Recording recording, String actorName, Player viewerPlayer, org.bukkit.World world, int x, int y, int z)
+	public static EntityActor actor(Recording recording, String actorName, org.bukkit.World world, int x, int y, int z)
 	{
 		World w = ((CraftWorld) world).getHandle();
 		ItemInWorldManager iw = new ItemInWorldManager(w);
@@ -144,14 +145,6 @@ public class ActorAPI
 		actor.setRecording(recording);
 		actor.setActorName(actorName);
 
-		// Setup viewer
-		if (viewerPlayer == null)
-		{
-			actor.setAllPlayersView(true);
-		}
-		Viewer viewer = new Viewer(viewerPlayer);
-		actor.getViewers().add(viewer);
-		
 		// Setup translation
 		actor.setTranslateX(x);
 		actor.setTranslateY(y);
@@ -175,14 +168,6 @@ public class ActorAPI
 		newActor.setTranslateY(actor.getTranslateY() + y);
 		newActor.setTranslateZ(actor.getTranslateZ() + z);
 
-		if (viewerPlayer == null)
-		{
-			actor.setAllPlayersView(true);
-		}
-
-		Viewer viewer = new Viewer(viewerPlayer);
-		newActor.getViewers().add(viewer);
-
 		newActor.setRecording(new Recording());
 		newActor.getRecording().recordedPackets = actor.getRecording().recordedPackets;
 
@@ -199,11 +184,7 @@ public class ActorAPI
 	 */
 	public static boolean actorRemove(EntityActor actor)
 	{
-		for (Viewer viewer : actor.getViewers())
-		{
-			viewer.sendPacket(new Packet29DestroyEntity(actor.id));
-		}
-		
+		actor.sendPacket(new Packet29DestroyEntity(actor.id));
 		return true;
 	}
 	

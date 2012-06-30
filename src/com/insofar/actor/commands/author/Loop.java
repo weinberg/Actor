@@ -46,7 +46,8 @@ public class Loop extends AuthorBaseCommand {
 		
 		for (EntityActor actor : plugin.actors)
 		{
-			if (actor.hasViewer(player) && (actor.getActorName().equals(actorName) || actorName.equals("all")))
+			if (actor.getOwner() == player &&
+					(actor.getActorName().equals(actorName) || actorName.equals("all")))
 			{
 				actor.setLoop(loop);
 			}

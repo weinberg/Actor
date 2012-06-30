@@ -67,6 +67,7 @@ public class LoadScene extends AuthorBaseCommand {
 
 			if (newActor != null)
 			{
+				newActor.setOwner(player);
 				plugin.actors.add(newActor);
 			}
 		}
