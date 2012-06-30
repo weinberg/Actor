@@ -265,7 +265,7 @@ public class EntityActor extends EntityPlayer {
 	}
 
 	/**
-	 * True if vector v is within the configured radius of this actor.
+	 * True if vector v is within the configured viewableRadius
 	 * @param v
 	 * @return
 	 */
@@ -275,7 +275,7 @@ public class EntityActor extends EntityPlayer {
 
 		double distance = v.distance(v1);
 
-		if (distance > 10.0)
+		if (distance > ActorPlugin.getInstance().getRootConfig().viewableRadius)
 		{
 			return false;
 		}
