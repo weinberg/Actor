@@ -51,10 +51,6 @@ Command Usage:	When using the plugin to provide commands directly just install t
       description: Set an actor (or "all") to loop
       usage: /loop [on|off] actorname
 
-   visible:
-      description: Set an actor visible to all other players or just the author.
-      usage: /visible [on|off] actorname
-
    reset:
       description: Rewind actor or all actors
       usage: /reset [actorname]
