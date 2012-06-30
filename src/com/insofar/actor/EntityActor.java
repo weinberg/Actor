@@ -251,7 +251,7 @@ public class EntityActor extends EntityPlayer {
 			EntityPlayer p2 = (EntityPlayer) scm.players.get(i);
 			if (player==null || p2.name.equals(player.getName())) 
 			{
-				if (isInsideRadius(new Vector(p2.locX,p2.locY,p2.locZ)) ||
+				if (isViewableFrom(new Vector(p2.locX,p2.locY,p2.locZ)) ||
 						p.getClass() == Packet20NamedEntitySpawn.class)
 				{
 					p2.netServerHandler.sendPacket(p);
@@ -269,7 +269,7 @@ public class EntityActor extends EntityPlayer {
 	 * @param v
 	 * @return
 	 */
-	public boolean isInsideRadius(Vector v)
+	public boolean isViewableFrom(Vector v)
 	{
 		Vector v1 = new Vector(this.locX, this.locY, this.locZ);
 
