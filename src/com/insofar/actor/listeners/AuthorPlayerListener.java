@@ -20,9 +20,13 @@ import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemHeldEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.event.player.PlayerToggleSprintEvent;
 
@@ -40,7 +44,16 @@ public class AuthorPlayerListener implements Listener
 	{
 		plugin = instance;
 	}
-
+	
+	/**
+	 * Player spawn listener
+	 */
+	@EventHandler(priority = EventPriority.MONITOR)
+	public void onPlayerLogin(PlayerJoinEvent event)
+	{
+		
+	}
+	
 	/**
 	 * Author player move listener
 	 */

@@ -21,6 +21,7 @@ import com.insofar.actor.commands.Commander;
 import com.insofar.actor.config.RootConfig;
 import com.insofar.actor.listeners.AuthorBlockListener;
 import com.insofar.actor.listeners.AuthorPlayerListener;
+import com.insofar.actor.listeners.PlayerListener;
 import com.insofar.actor.permissions.PermissionHandler;
 
 /**
@@ -265,6 +266,10 @@ public class ActorPlugin extends JavaPlugin
 		AuthorBlockListener abl = new AuthorBlockListener(this);
 		pm.registerEvents(abl, this);
 		listeners.add(abl);
+		/* PlayerListener */
+		PlayerListener pl = new PlayerListener(this);
+		pm.registerEvents(pl, this);
+		listeners.add(pl);
 
 		return true;
 	}
