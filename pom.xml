@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.insofar.actor</groupId>
   <artifactId>ActorPlugin</artifactId>
-  <version>0.8-SNAPSHOT</version>
+  <version>0.9-SNAPSHOT</version>
   <name>ActorPlugin</name>
   <description>Actor Plugin for Minecraft</description>
   <scm>
