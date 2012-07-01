@@ -57,6 +57,10 @@ public class Troupe extends AuthorBaseCommand
 		{
 			doAdd();
 		}
+		else if (subCommand.equals("show"))
+		{
+			doShow();
+		}
 		
 		return true;
 	}
@@ -128,4 +132,27 @@ public class Troupe extends AuthorBaseCommand
 				ChatColor.AQUA + target.getDisplayName());
 	}
 
+	/*****************************************************************************************
+	 * 
+	 * SubCommand: Add
+	 * 
+	 *****************************************************************************************/
+	
+	/**
+	 * Handle subCommand show
+	 */
+	public void doShow()
+	{
+		if (ActorAPI.getAuthor(player).getTroupeMembers().size() == 0)
+		{
+			player.sendMessage("No players in troupe.");
+			return;
+		}
+
+		player.sendMessage("Players in troupe:");
+		for (Player member : ActorAPI.getAuthor(player).getTroupeMembers())
+		{
+			player.sendMessage(ChatColor.AQUA + " " + member.getDisplayName());
+		}
+	}
 }
