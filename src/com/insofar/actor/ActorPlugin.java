@@ -19,8 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import com.insofar.actor.commands.Commander;
 import com.insofar.actor.config.RootConfig;
-import com.insofar.actor.listeners.AuthorBlockListener;
-import com.insofar.actor.listeners.AuthorPlayerListener;
+import com.insofar.actor.listeners.BlockListener;
 import com.insofar.actor.listeners.PlayerListener;
 import com.insofar.actor.permissions.PermissionHandler;
 
@@ -259,17 +258,13 @@ public class ActorPlugin extends JavaPlugin
 		//Grab plugin manager
 		final PluginManager pm = getServer().getPluginManager();
 		/* AuthorPlayerListener */
-		AuthorPlayerListener al = new AuthorPlayerListener(this);
+		PlayerListener al = new PlayerListener(this);
 		pm.registerEvents(al, this);
 		listeners.add(al);
 		/* AuthorBlockListener */
-		AuthorBlockListener abl = new AuthorBlockListener(this);
+		BlockListener abl = new BlockListener(this);
 		pm.registerEvents(abl, this);
 		listeners.add(abl);
-		/* PlayerListener */
-		PlayerListener pl = new PlayerListener(this);
-		pm.registerEvents(pl, this);
-		listeners.add(pl);
 
 		return true;
 	}
@@ -306,7 +301,7 @@ public class ActorPlugin extends JavaPlugin
 	 */
 	public boolean record(Player player)
 	{
-		return ActorAPI.record(player);
+		return ActorAPI.recordAuthor(player);
 	}
 
 	/**

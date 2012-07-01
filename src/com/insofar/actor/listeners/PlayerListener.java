@@ -1,7 +1,10 @@
 package com.insofar.actor.listeners;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
+import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet35EntityHeadRotation;
@@ -33,6 +36,7 @@ import com.insofar.actor.ActorAPI;
 import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.Author;
 import com.insofar.actor.EntityActor;
+import com.insofar.actor.Recording;
 
 public class PlayerListener implements Listener
 {
@@ -43,7 +47,7 @@ public class PlayerListener implements Listener
 	{
 		plugin = instance;
 	}
-	
+
 	/**
 	 * Player spawn listener
 	 */
@@ -55,7 +59,8 @@ public class PlayerListener implements Listener
 			actor.spawn(event.getPlayer());
 		}
 	}
-	
+
+
 	/**
 	 * Player spawn listener
 	 */
@@ -66,9 +71,9 @@ public class PlayerListener implements Listener
 		{
 			plugin.getLogger().info("Player quit");
 		}
-		
+
 		ArrayList<EntityActor> removeActors = new ArrayList<EntityActor>();
-		
+
 		for (EntityActor ea : ActorPlugin.getInstance().actors)
 		{
 			if (ea.getOwner() == event.getPlayer())
@@ -77,14 +82,14 @@ public class PlayerListener implements Listener
 				removeActors.add(ea);
 			}
 		}
-		
+
 		if (!removeActors.isEmpty())
 		{
 			// Remove them from the plugin's actors list
 			plugin.actors.removeAll(removeActors);
 		}
 	}
-	
+
 	/**
 	 * Author player move listener
 	 */
@@ -95,35 +100,36 @@ public class PlayerListener implements Listener
 		{
 			return;
 		}
+
 		final Player p = event.getPlayer();
-
-		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording())
+		if (!ActorAPI.isPlayerBeingRecorded(p))
 		{
-			Packet34EntityTeleport tp = new Packet34EntityTeleport();
-
-			Location to = event.getTo();
-			tp.a = p.getEntityId();
-			tp.b = floor_double(to.getX() * 32D);
-			tp.c = floor_double(to.getY() * 32D);
-			tp.d = floor_double(to.getZ() * 32D);
-			tp.e = (byte) (int) ((to.getYaw() * 256F) / 360F);
-			tp.f = (byte) (int) ((to.getPitch() * 256F) / 360F);
-			if (plugin.getRootConfig().debugEvents)
-			{
-				plugin.getLogger().info(
-						"Player move recorded: (" + tp.b + "," + tp.c + ","
-								+ tp.d + ")" + " y: " + tp.e + " p: " + tp.f);
-			}
-			Packet35EntityHeadRotation hr = new Packet35EntityHeadRotation();
-
-			hr.a = p.getEntityId();
-			hr.b = tp.e;
-
-			author.getCurrentRecording().recordPacket(tp);
-			author.getCurrentRecording().recordPacket(hr);
+			return;
 		}
 
+		// Create packet
+		Packet34EntityTeleport tp = new Packet34EntityTeleport();
+		Location to = event.getTo();
+		tp.a = p.getEntityId();
+		tp.b = floor_double(to.getX() * 32D);
+		tp.c = floor_double(to.getY() * 32D);
+		tp.d = floor_double(to.getZ() * 32D);
+		tp.e = (byte) (int) ((to.getYaw() * 256F) / 360F);
+		tp.f = (byte) (int) ((to.getPitch() * 256F) / 360F);
+		Packet35EntityHeadRotation hr = new Packet35EntityHeadRotation();
+
+		hr.a = p.getEntityId();
+		hr.b = tp.e;
+
+		ActorAPI.recordPlayerPacket(p, tp);
+		ActorAPI.recordPlayerPacket(p, hr);
+
+		if (plugin.getRootConfig().debugEvents)
+		{
+			plugin.getLogger().info(
+					"Player move recorded: (" + tp.b + "," + tp.c + ","
+					+ tp.d + ")" + " y: " + tp.e + " p: " + tp.f);
+		}
 	}
 
 	/**
@@ -151,14 +157,14 @@ public class PlayerListener implements Listener
 			return;
 		}
 		final Player p = event.getPlayer();
-
-		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording())
+		if (!ActorAPI.isPlayerBeingRecorded(p))
 		{
-			Packet3Chat cp = new Packet3Chat();
-			cp.message = event.getMessage();
-			author.getCurrentRecording().recordPacket(cp);
+			return;
 		}
+
+		Packet3Chat cp = new Packet3Chat();
+		cp.message = event.getMessage();
+		ActorAPI.recordPlayerPacket(p, cp);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -200,19 +206,21 @@ public class PlayerListener implements Listener
 	public void onItemHeldChange(PlayerItemHeldEvent event)
 	{
 		final Player p = event.getPlayer();
-		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording())
+		if (!ActorAPI.isPlayerBeingRecorded(p))
 		{
-			Packet5EntityEquipment packet = new Packet5EntityEquipment();
-			packet.b = 0;
-			packet.c = event.getPlayer().getInventory().getItemInHand()
-					.getTypeId();
-			packet.d = event.getPlayer().getInventory().getItemInHand()
-					.getData().getData();
-			if (packet.c == 0)
-				packet.c = -1;
-			author.getCurrentRecording().recordPacket(packet);
+			return;
 		}
+
+		Packet5EntityEquipment packet = new Packet5EntityEquipment();
+		packet.b = 0;
+		packet.c = event.getPlayer().getInventory().getItemInHand()
+		.getTypeId();
+		packet.d = event.getPlayer().getInventory().getItemInHand()
+		.getData().getData();
+		if (packet.c == 0)
+			packet.c = -1;
+
+		ActorAPI.recordPlayerPacket(p, packet);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -274,22 +282,23 @@ public class PlayerListener implements Listener
 		{
 			return;
 		}
+		final Player p = event.getPlayer();
+		if (!ActorAPI.isPlayerBeingRecorded(p))
+		{
+			return;
+		}
+
+		// arm swing is the only animation bukkit supports?
+		if (event.getAnimationType().equals(PlayerAnimationType.ARM_SWING))
+		{
+			Packet18ArmAnimation packet = new Packet18ArmAnimation();
+			packet.b = 1;
+			ActorAPI.recordPlayerPacket(p, packet);
+		}
+		
 		if (plugin.getRootConfig().debugEvents)
 		{
 			plugin.getLogger().info("Player animation");
-		}
-		final Player p = event.getPlayer();
-
-		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording())
-		{
-			// arm swing is the only animation bukkit supports?
-			if (event.getAnimationType().equals(PlayerAnimationType.ARM_SWING))
-			{
-				Packet18ArmAnimation packet = new Packet18ArmAnimation();
-				packet.b = 1;
-				author.getCurrentRecording().recordPacket(packet);
-			}
 		}
 	}
 
