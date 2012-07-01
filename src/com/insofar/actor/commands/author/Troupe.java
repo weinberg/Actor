@@ -61,8 +61,36 @@ public class Troupe extends AuthorBaseCommand
 		{
 			doShow();
 		}
+		else if (subCommand.equals("remove"))
+		{
+			doRemove();
+		}
 		
 		return true;
+	}
+	
+	/*****************************************************************************************
+	 * 
+	 * SubCommand: Show
+	 * 
+	 *****************************************************************************************/
+	
+	/**
+	 * Handle subCommand show
+	 */
+	public void doShow()
+	{
+		if (ActorAPI.getAuthor(player).getTroupeMembers().size() == 0)
+		{
+			player.sendMessage("No players in troupe.");
+			return;
+		}
+
+		player.sendMessage("Players in troupe:");
+		for (Player member : ActorAPI.getAuthor(player).getTroupeMembers())
+		{
+			player.sendMessage(ChatColor.AQUA + " " + member.getDisplayName());
+		}
 	}
 	
 	/*****************************************************************************************
@@ -74,12 +102,12 @@ public class Troupe extends AuthorBaseCommand
 	/**
 	 * Handle subCommand add
 	 */
-	public boolean doAdd()
+	public void doAdd()
 	{
 		if (args.length!=3)
 		{
 			player.sendMessage("/troupe add [playername]\n  adds a player to your troupe");
-			return true;
+			return;
 		}
 		
 		Player targetPlayer = Bukkit.getPlayer(args[2]);
@@ -87,14 +115,14 @@ public class Troupe extends AuthorBaseCommand
 		if (targetPlayer == null)
 		{
 			player.sendMessage("Cannot find player "+args[2]);
-			return true;
+			return;
 		}
 		
 		if (ActorAPI.getAuthor(player).getTroupeMembers().contains(targetPlayer))
 		{
 			player.sendMessage(ChatColor.AQUA + args[2] + ChatColor.WHITE +
 					" is already in your troupe.");
-			return true;
+			return;
 		}
 		
 		player.sendMessage("Requesting permission from " +
@@ -106,7 +134,7 @@ public class Troupe extends AuthorBaseCommand
 		factory.withFirstPrompt(new TroupeAddPrompt(this))
 				.withInitialSessionData(map).withLocalEcho(false).buildConversation(targetPlayer)
 				.begin();
-		return true;
+		return;
 	}
 	
 	/**
@@ -134,25 +162,34 @@ public class Troupe extends AuthorBaseCommand
 
 	/*****************************************************************************************
 	 * 
-	 * SubCommand: Add
+	 * SubCommand: Remove
 	 * 
 	 *****************************************************************************************/
 	
 	/**
-	 * Handle subCommand show
+	 * Handle subCommand remove
 	 */
-	public void doShow()
+	public void doRemove()
 	{
-		if (ActorAPI.getAuthor(player).getTroupeMembers().size() == 0)
+		if (args.length!=3)
 		{
-			player.sendMessage("No players in troupe.");
+			player.sendMessage("/troupe remove [playername]\n  removes a player from your troupe");
 			return;
 		}
-
-		player.sendMessage("Players in troupe:");
-		for (Player member : ActorAPI.getAuthor(player).getTroupeMembers())
+		
+		Player targetPlayer = Bukkit.getPlayer(args[2]);
+		
+		if (ActorAPI.getAuthor(player).getTroupeMembers().contains(targetPlayer))
 		{
-			player.sendMessage(ChatColor.AQUA + " " + member.getDisplayName());
+			player.sendMessage(ChatColor.AQUA + args[2] + ChatColor.WHITE +
+					" removed from troupe.");
+			ActorAPI.getAuthor(player).getTroupeMembers().remove(targetPlayer);
+			return;
+		}
+		else
+		{
+			player.sendMessage("Player "+args[2]+" not in troupe");
 		}
 	}
+	
 }
