@@ -24,6 +24,7 @@ permissions:
          Actor.command.actionrec: true
          Actor.command.loop: true
          Actor.command.reset: true
+         Actor.command.troupe: true
          Actor.command.saveactor: true
          Actor.command.savescene: true
          Actor.command.loadactor: true
@@ -41,6 +42,7 @@ permissions:
          Actor.command.actionrec: true
          Actor.command.loop: true
          Actor.command.reset: true
+         Actor.command.troupe: true
          Actor.command.saveactor: true
          Actor.command.savescene: true
          Actor.command.loadactor: true
@@ -71,6 +73,9 @@ permissions:
       default: op
    Actor.command.reset:
       description: Allows user to use reset command
+      default: op
+   Actor.command.troupe:
+      description: Allows user to use troupe command
       default: op
    Actor.command.saveactor:
       description: Allows user to use saveactor command
