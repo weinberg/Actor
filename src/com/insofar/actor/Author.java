@@ -16,6 +16,7 @@ public class Author {
 	private Recording currentRecording;
 	
 	// Properties for troupes
+	private boolean isTroupeRecording;
 	/**
 	 * Set of players in troupe
 	 */
@@ -24,7 +25,7 @@ public class Author {
 	/**
 	 * PlayerName to Recording map for the troupe
 	 */
-	private HashMap<String, Recording> troupeRecording = new HashMap<String, Recording>();
+	private HashMap<String, Recording> troupeRecMap = new HashMap<String, Recording>();
 	
 	/*********************************************************************
 	 * Getters and setters
@@ -54,11 +55,17 @@ public class Author {
 	public void setTroupeMembers(Set<Player> troupeMembers) {
 		this.troupeMembers = troupeMembers;
 	}
-	public HashMap<String, Recording> getTroupeRecording() {
-		return troupeRecording;
+	public HashMap<String, Recording> getTroupRecMap() {
+		return troupeRecMap;
 	}
-	public void setTroupeRecording(HashMap<String, Recording> troupeRecording) {
-		this.troupeRecording = troupeRecording;
+	public void setTroupeRecMap(HashMap<String, Recording> troupeRecording) {
+		this.troupeRecMap = troupeRecording;
+	}
+	public boolean isTroupeRecording() {
+		return isTroupeRecording;
+	}
+	public void setTroupeRecording(boolean isTroupeRecording) {
+		this.isTroupeRecording = isTroupeRecording;
 	}
 
 }

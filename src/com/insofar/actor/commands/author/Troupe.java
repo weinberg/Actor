@@ -209,8 +209,9 @@ public class Troupe extends AuthorBaseCommand
 	{
 		for (Player member : ActorAPI.getAuthor(player).getTroupeMembers())
 		{
+			ActorAPI.getAuthor(player).setTroupeRecording(true);
 			ActorAPI.record(member,
-					ActorAPI.getAuthor(player).getTroupeRecording().get(member.getName()));
+					ActorAPI.getAuthor(player).getTroupRecMap().get(member.getName()));
 		}
 	}
 }

@@ -337,7 +337,6 @@ public class ActorAPI
 	 */
 	public static boolean stopRecording(Player player)
 	{
-		// Authoring commands must have an author
 		Author author = getAuthor(player);
 
 		if (author.getCurrentRecording() != null)
@@ -412,7 +411,7 @@ public class ActorAPI
 		{
 			if (a.getTroupeMembers().contains(p))
 			{
-				result.add(a.getTroupeRecording().get(p.getName()));
+				result.add(a.getTroupRecMap().get(p.getName()));
 			}
 		}
 		
@@ -435,7 +434,7 @@ public class ActorAPI
 		// Troupes
 		for (Author a : ActorPlugin.getInstance().authors.values())
 		{
-			if (a.getTroupeMembers().contains(p))
+			if (a.getTroupeMembers().contains(p) && a.isTroupeRecording())
 			{
 				return true;
 			}
