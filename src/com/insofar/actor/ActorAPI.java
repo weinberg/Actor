@@ -89,21 +89,21 @@ public class ActorAPI
 		// Authoring commands must have an author
 		Author author = getAuthor(player);
 
-		if (author.currentRecording == null)
+		if (author.getCurrentRecording() == null)
 		{
 			player.sendMessage("ERROR: No recording. You have nothing recorded.");
 			return null;
 		}
 
-		if (author.isRecording)
+		if (author.isRecording())
 		{
 			player.sendMessage("ERROR: Recording. You are currently recording. Stop recording first.");
 			return null;
 		}
 
-		EntityActor result = actor(author.currentRecording, actorName, world);
+		EntityActor result = actor(author.getCurrentRecording(), actorName, world);
 		
-		author.currentRecording = null;
+		author.setCurrentRecording(null);
 		
 		if (result != null)
 		{
@@ -197,14 +197,14 @@ public class ActorAPI
 		// Authoring commands must have an author
 		Author author = getAuthor(player);
 		
-		if (author.isRecording)
+		if (author.isRecording())
 		{
 			player.sendMessage("You are already recording.");
 			return true;
 		}
 
 		// Create new recording
-		author.currentRecording = new Recording();
+		author.setCurrentRecording(new Recording());
 		
 		// Setup jumpstart packets on recording
 
@@ -217,11 +217,11 @@ public class ActorAPI
 		tp.d = floor_double(l.getZ() * 32D);
 		tp.e = (byte)(int)((l.getYaw() * 256F) / 360F);
 		tp.f = (byte)(int)((l.getPitch() * 256F) / 360F);
-		author.currentRecording.recordPacket(tp,true);
+		author.getCurrentRecording().recordPacket(tp,true);
 		
 		// 	Packet35HeadRotation
 		Packet35EntityHeadRotation hr = new Packet35EntityHeadRotation(tp.a, tp.e);
-		author.currentRecording.recordPacket(hr,true);
+		author.getCurrentRecording().recordPacket(hr,true);
 
 		// Packet5EntityEquipment
 		// Should really use five of these on a new spawn for all equipment.
@@ -229,9 +229,9 @@ public class ActorAPI
 		ep.b = 0;
 		ep.c = player.getInventory().getItemInHand().getTypeId();
 		if (ep.c == 0) ep.c = -1;
-		author.currentRecording.recordPacket(ep,true);
+		author.getCurrentRecording().recordPacket(ep,true);
 		
-		author.isRecording = true;
+		author.setRecording(true);
 		player.sendMessage("Recording.");
 		
 		return true;
@@ -266,22 +266,22 @@ public class ActorAPI
 		if (author == null)
 			return;
 		
-		if (author.isRecording)
+		if (author.isRecording())
 		{
-			author.player.sendMessage("Stopping recording.");
-			author.isRecording = false;
+			author.getPlayer().sendMessage("Stopping recording.");
+			author.setRecording(false);
 		}
 
-		if (author.currentRecording == null ||
-				author.currentRecording.rewindPackets.size() == 0)
+		if (author.getCurrentRecording() == null ||
+				author.getCurrentRecording().rewindPackets.size() == 0)
 		{
 			// Nothing to do
 			return;
 		}
 		
-		org.bukkit.World world = author.player.getWorld();
+		org.bukkit.World world = author.getPlayer().getWorld();
 
-		ArrayList<Packet> rewindPackets = author.currentRecording.getRewindPackets();
+		ArrayList<Packet> rewindPackets = author.getCurrentRecording().getRewindPackets();
 
 		for (Packet p : rewindPackets)
 		{
@@ -301,7 +301,7 @@ public class ActorAPI
 					Block block = world.getBlockAt(location);
 					block.setTypeId(((Packet53BlockChange) p).data);
 					block.setData((byte)((Packet53BlockChange) p).material);
-					minecraftServer.serverConfigurationManager.a(author.player.getName(),p);
+					minecraftServer.serverConfigurationManager.a(author.getPlayer().getName(),p);
 				
 					if (currType != 0)
 					{
@@ -309,13 +309,13 @@ public class ActorAPI
 						ItemStack is = new ItemStack( currType ,1);
 						MaterialData data = new MaterialData(currMaterial);
 						is.setData(data);
-						author.player.getWorld().dropItemNaturally(author.player.getLocation(), is);
+						author.getPlayer().getWorld().dropItemNaturally(author.getPlayer().getLocation(), is);
 					}
 				}
 			}
 		}
 
-		author.currentRecording.rewind();
+		author.getCurrentRecording().rewind();
 
 	}
 	
@@ -330,10 +330,10 @@ public class ActorAPI
 		// Authoring commands must have an author
 		Author author = getAuthor(player);
 
-		if (author.currentRecording != null)
+		if (author.getCurrentRecording() != null)
 		{
-			author.isRecording = false;
-			author.currentRecording.rewind();
+			author.setRecording(false);
+			author.getCurrentRecording().rewind();
 			player.sendMessage("Recording stopped.");
 		}
 		else
@@ -352,7 +352,7 @@ public class ActorAPI
 		if (author == null)
 		{
 			author = new Author();
-			author.player = p;
+			author.setPlayer(p);
 			plugin.authors.put(p.getName(), author);
 		}
 		return author;

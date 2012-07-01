@@ -84,7 +84,7 @@ public class AuthorBlockListener implements Listener
 		Player p = event.getPlayer();
 
 		Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording)
+		if (author != null && author.isRecording())
 		{
 			Packet53BlockChange packet = new Packet53BlockChange();
 
@@ -100,7 +100,7 @@ public class AuthorBlockListener implements Listener
 			packet.material = type;
 			packet.data = data;
 
-			author.currentRecording.recordPacket(packet);
+			author.getCurrentRecording().recordPacket(packet);
 			addRewindForBlockChange(author, xPosition, yPosition, zPosition, 0,
 					0);
 		}
@@ -135,7 +135,7 @@ public class AuthorBlockListener implements Listener
 		final Player p = event.getPlayer();
 
 		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording)
+		if (author != null && author.isRecording())
 		{
 			// TODO is there a method to use regular bukkit methods to do this?
 			Packet53BlockChange packet = new Packet53BlockChange();
@@ -152,7 +152,7 @@ public class AuthorBlockListener implements Listener
 			packet.material = type;
 			packet.data = data;
 
-			author.currentRecording.recordPacket(packet);
+			author.getCurrentRecording().recordPacket(packet);
 
 			// Rewind packet
 
@@ -175,7 +175,7 @@ public class AuthorBlockListener implements Listener
 		changeBack.data = l;
 		changeBack.material = m;
 
-		author.currentRecording.addRewindPacket(changeBack);
+		author.getCurrentRecording().addRewindPacket(changeBack);
 	}
 
 }

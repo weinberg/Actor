@@ -39,10 +39,10 @@ public class Cut extends AuthorBaseCommand {
 		}
 		// Stop recording
 		Author author = ActorAPI.getAuthor(player);
-		if (author.currentRecording != null)
+		if (author.getCurrentRecording() != null)
 		{
-			author.isRecording = false;
-			author.currentRecording.rewind();
+			author.setRecording(false);
+			author.getCurrentRecording().rewind();
 			player.sendMessage("Recording stopped.");
 		}
 		

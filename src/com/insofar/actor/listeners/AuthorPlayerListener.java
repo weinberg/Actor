@@ -85,7 +85,7 @@ public class AuthorPlayerListener implements Listener
 		final Player p = event.getPlayer();
 
 		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording)
+		if (author != null && author.isRecording())
 		{
 			Packet34EntityTeleport tp = new Packet34EntityTeleport();
 
@@ -107,8 +107,8 @@ public class AuthorPlayerListener implements Listener
 			hr.a = p.getEntityId();
 			hr.b = tp.e;
 
-			author.currentRecording.recordPacket(tp);
-			author.currentRecording.recordPacket(hr);
+			author.getCurrentRecording().recordPacket(tp);
+			author.getCurrentRecording().recordPacket(hr);
 		}
 
 	}
@@ -140,11 +140,11 @@ public class AuthorPlayerListener implements Listener
 		final Player p = event.getPlayer();
 
 		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording)
+		if (author != null && author.isRecording())
 		{
 			Packet3Chat cp = new Packet3Chat();
 			cp.message = event.getMessage();
-			author.currentRecording.recordPacket(cp);
+			author.getCurrentRecording().recordPacket(cp);
 		}
 	}
 
@@ -188,7 +188,7 @@ public class AuthorPlayerListener implements Listener
 	{
 		final Player p = event.getPlayer();
 		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording)
+		if (author != null && author.isRecording())
 		{
 			Packet5EntityEquipment packet = new Packet5EntityEquipment();
 			packet.b = 0;
@@ -198,7 +198,7 @@ public class AuthorPlayerListener implements Listener
 					.getData().getData();
 			if (packet.c == 0)
 				packet.c = -1;
-			author.currentRecording.recordPacket(packet);
+			author.getCurrentRecording().recordPacket(packet);
 		}
 	}
 
@@ -268,14 +268,14 @@ public class AuthorPlayerListener implements Listener
 		final Player p = event.getPlayer();
 
 		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording)
+		if (author != null && author.isRecording())
 		{
 			// arm swing is the only animation bukkit supports?
 			if (event.getAnimationType().equals(PlayerAnimationType.ARM_SWING))
 			{
 				Packet18ArmAnimation packet = new Packet18ArmAnimation();
 				packet.b = 1;
-				author.currentRecording.recordPacket(packet);
+				author.getCurrentRecording().recordPacket(packet);
 			}
 		}
 	}
