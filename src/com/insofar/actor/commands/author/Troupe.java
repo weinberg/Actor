@@ -8,6 +8,8 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import com.insofar.actor.ActorAPI;
+import com.insofar.actor.Author;
+import com.insofar.actor.Recording;
 import com.insofar.actor.conversations.TroupeAddPrompt;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
@@ -207,11 +209,42 @@ public class Troupe extends AuthorBaseCommand
 	 */
 	public void doRecord()
 	{
-		for (Player member : ActorAPI.getAuthor(player).getTroupeMembers())
+		Author author = ActorAPI.getAuthor(player);
+		HashMap<String,Recording> recMap = author.getTroupRecMap();
+		
+		for (Player member : author.getTroupeMembers())
 		{
-			ActorAPI.getAuthor(player).setTroupeRecording(true);
-			ActorAPI.record(member,
-					ActorAPI.getAuthor(player).getTroupRecMap().get(member.getName()));
+			// If no recording exists make one
+			Recording r = recMap.get(member.getName());
+			if (r == null)
+			{
+				r = new Recording();
+				recMap.put(member.getName(), r);
+			}
+			
+			author.setTroupeRecording(true);
+			ActorAPI.record(member, author.getTroupRecMap().get(member.getName()));
+		}
+	}
+	
+	/*****************************************************************************************
+	 * 
+	 * SubCommand: Hire
+	 * 
+	 *****************************************************************************************/
+	
+	/**
+	 * Handle subCommand hire
+	 */
+	public void doHire()
+	{
+		Author author = ActorAPI.getAuthor(player);
+		HashMap<String,Recording> recMap = author.getTroupRecMap();
+		for (Player member : author.getTroupeMembers())
+		{
+			Recording r = recMap.get(member.getName());
+			if (r != null)
+				ActorAPI.actor(r, member.getName(), player.getWorld());
 		}
 	}
 }
