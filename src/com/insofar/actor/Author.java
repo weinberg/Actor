@@ -1,5 +1,8 @@
 package com.insofar.actor;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.bukkit.entity.Player;
 
 public class Author {
@@ -10,6 +13,17 @@ public class Author {
 	// Properties for making recordings
 	private boolean isRecording;
 	private Recording currentRecording;
+	
+	// Properties for troupes
+	/**
+	 * List of players in troupe
+	 */
+	private ArrayList<Player> troupeMembers;
+	
+	/**
+	 * PlayerName to Recording map for the troupe
+	 */
+	private HashMap<String, Recording> troupeRecording = new HashMap<String, Recording>();
 	
 	/*********************************************************************
 	 * Getters and setters
@@ -32,6 +46,18 @@ public class Author {
 	}
 	public void setCurrentRecording(Recording currentRecording) {
 		this.currentRecording = currentRecording;
+	}
+	public ArrayList<Player> getTroupeMembers() {
+		return troupeMembers;
+	}
+	public void setTroupeMembers(ArrayList<Player> troupeMembers) {
+		this.troupeMembers = troupeMembers;
+	}
+	public HashMap<String, Recording> getTroupeRecording() {
+		return troupeRecording;
+	}
+	public void setTroupeRecording(HashMap<String, Recording> troupeRecording) {
+		this.troupeRecording = troupeRecording;
 	}
 
 }
