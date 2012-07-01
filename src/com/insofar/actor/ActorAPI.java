@@ -57,7 +57,6 @@ public class ActorAPI
 	 */
 	public static EntityActor actor(Player player, String actorName)
 	{
-		Player viewerPlayer;
 		org.bukkit.World world;
 		
 		world = player.getWorld();
