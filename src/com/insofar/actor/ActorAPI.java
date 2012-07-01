@@ -42,20 +42,7 @@ public class ActorAPI
 	 */
 	public static EntityActor actor(Player player)
 	{
-		return actor(player, "Actor", player.getName());
-	}
-
-	/**
-	 * actor
-	 * @param player
-	 * Player to take recording from
-	 * @param actorName
-	 * name to give spawned actor
-	 * @return
-	 */
-	public static EntityActor actor(Player player, String actorName)
-	{
-		return actor(player, actorName, player.getName());
+		return actor(player, "Actor");
 	}
 	
 	/**
@@ -68,25 +55,12 @@ public class ActorAPI
 	 * name of viewer ("all" for everyone in player's world)
 	 * @return
 	 */
-	public static EntityActor actor(Player player, String actorName, String viewerName)
+	public static EntityActor actor(Player player, String actorName)
 	{
 		Player viewerPlayer;
 		org.bukkit.World world;
 		
-		if (viewerName.equalsIgnoreCase("all"))
-		{
-			viewerPlayer = null;
-			world = player.getWorld();
-		}
-		else
-		{
-			viewerPlayer = plugin.getServer().getPlayer(viewerName);
-			if (viewerPlayer == null)
-			{
-				return null;
-			}
-			world = viewerPlayer.getWorld();
-		}
+		world = player.getWorld();
 		
 		// Authoring commands must have an author
 		Author author = getAuthor(player);
@@ -109,7 +83,7 @@ public class ActorAPI
 		
 		if (result != null)
 		{
-			player.sendMessage("Spawned entity with id = "+result.id+" for player "+viewerName);
+			player.sendMessage("Spawned entity with id = "+result.id);
 			return result;
 		}
 		else

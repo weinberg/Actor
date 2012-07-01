@@ -38,9 +38,6 @@ public class Hire extends AuthorBaseCommand {
 		if (args.length == 2)
 			newActor = ActorAPI.actor(player, args[1]);
 		
-		if (args.length == 3)
-			newActor = ActorAPI.actor(player, args[1], args[2]);
-		
 		if (newActor != null)
 		{
 			newActor.setOwner(player);
