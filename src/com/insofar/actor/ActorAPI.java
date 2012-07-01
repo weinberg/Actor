@@ -1,6 +1,8 @@
 package com.insofar.actor;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import net.minecraft.server.ItemInWorldManager;
 import net.minecraft.server.MinecraftServer;
@@ -192,9 +194,8 @@ public class ActorAPI
 	 * @param player
 	 * @return
 	 */
-	public static boolean record(Player player)
+	public static boolean recordAuthor(Player player)
 	{
-		// Authoring commands must have an author
 		Author author = getAuthor(player);
 		
 		if (author.isRecording())
@@ -205,9 +206,21 @@ public class ActorAPI
 
 		// Create new recording
 		author.setCurrentRecording(new Recording());
+		author.setRecording(true);
+		player.sendMessage("Recording.");
 		
+		return record(player,author.getCurrentRecording());
+	}
+	
+	/**
+	 * Record player into specified recording.
+	 * @param player
+	 * @param recording
+	 * @return
+	 */
+	public static boolean record(Player player, Recording recording)
+	{
 		// Setup jumpstart packets on recording
-
 		// 	Packet34EntityTeleport
 		Location l = player.getLocation();
 		Packet34EntityTeleport tp = new Packet34EntityTeleport();
@@ -217,11 +230,11 @@ public class ActorAPI
 		tp.d = floor_double(l.getZ() * 32D);
 		tp.e = (byte)(int)((l.getYaw() * 256F) / 360F);
 		tp.f = (byte)(int)((l.getPitch() * 256F) / 360F);
-		author.getCurrentRecording().recordPacket(tp,true);
+		recording.recordPacket(tp,true);
 		
 		// 	Packet35HeadRotation
 		Packet35EntityHeadRotation hr = new Packet35EntityHeadRotation(tp.a, tp.e);
-		author.getCurrentRecording().recordPacket(hr,true);
+		recording.recordPacket(hr,true);
 
 		// Packet5EntityEquipment
 		// Should really use five of these on a new spawn for all equipment.
@@ -229,10 +242,7 @@ public class ActorAPI
 		ep.b = 0;
 		ep.c = player.getInventory().getItemInHand().getTypeId();
 		if (ep.c == 0) ep.c = -1;
-		author.getCurrentRecording().recordPacket(ep,true);
-		
-		author.setRecording(true);
-		player.sendMessage("Recording.");
+		recording.recordPacket(ep,true);
 		
 		return true;
 	}
@@ -344,6 +354,17 @@ public class ActorAPI
 		return true;
 	}
 	
+	/********************************************************************
+	 * 
+	 * Utilities
+	 * 
+	 *******************************************************************/
+	
+	/**
+	 * Get the author given the player
+	 * @param p
+	 * @return
+	 */
 	public static Author getAuthor(Player p)
 	{
 		Author author = plugin.authors.get(p.getName());
@@ -358,4 +379,69 @@ public class ActorAPI
 		return author;
 	}
 	
+	/**
+	 * Record the playerss packet into all active recordings (which contain that player).
+	 * @param packet
+	 * @param recordings
+	 */
+	public static void recordPlayerPacket(Player player, Packet packet)
+	{
+		for (Recording r : getRecordingsForPlayer(player))
+		{
+			r.recordPacket(packet);
+		}
+	}
+
+	/**
+	 * Returns a set of all recordings in which this player is being recorded.
+ 	 * May be recording themselves or in multiple troupes.
+	 */
+	public static Set<Recording>getRecordingsForPlayer(Player p)
+	{
+		Set<Recording> result = new HashSet<Recording>();
+		Author author = plugin.authors.get(p.getName());
+		
+		// Author's personal recording
+		if (author != null && author.isRecording())
+		{
+			result.add(author.getCurrentRecording());
+		}
+
+		// Troupes
+		for (Author a : ActorPlugin.getInstance().authors.values())
+		{
+			if (a.getTroupeMembers().contains(p))
+			{
+				result.add(a.getTroupeRecording().get(p.getName()));
+			}
+		}
+		
+		return result;
+	}
+
+	/**
+	 * Is the player in an active recording?
+	 */
+	public static boolean isPlayerBeingRecorded(Player p)
+	{
+		Author author = plugin.authors.get(p.getName());
+		
+		// Author's personal recording
+		if (author != null && author.isRecording())
+		{
+			return true;
+		}
+
+		// Troupes
+		for (Author a : ActorPlugin.getInstance().authors.values())
+		{
+			if (a.getTroupeMembers().contains(p))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
+
 }
