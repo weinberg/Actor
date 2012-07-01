@@ -19,6 +19,7 @@ import com.insofar.actor.commands.author.Record;
 import com.insofar.actor.commands.author.Reset;
 import com.insofar.actor.commands.author.SaveActor;
 import com.insofar.actor.commands.author.SaveScene;
+import com.insofar.actor.commands.author.Troupe;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
 
@@ -40,6 +41,7 @@ public class Commander implements CommandExecutor
 	private SaveScene saveScene;
 	private LoadActor loadActor;
 	private LoadScene loadScene;
+	private Troupe troupe;
 
 	public Commander()
 	{
@@ -59,16 +61,15 @@ public class Commander implements CommandExecutor
 		this.saveScene = new SaveScene();
 		this.loadActor = new LoadActor();
 		this.loadScene = new LoadScene();
+		this.troupe = new Troupe();
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args)
 	{
-		// TODO Auto-generated method stub
 		if (args.length == 0)
 		{
-			// Check if they have "karma" permission
 			this.displayHelp(sender);
 		}
 		else
@@ -126,6 +127,10 @@ public class Commander implements CommandExecutor
 			else if (com.equalsIgnoreCase("loadscene"))
 			{
 				return loadScene.onCommand(sender, command, label, args);
+			}
+			else if (com.equalsIgnoreCase("troupe"))
+			{
+				return troupe.onCommand(sender, command, label, args);
 			}
 			else
 			{
