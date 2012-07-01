@@ -3,7 +3,7 @@ Actor Plugin
 
 Author: 		Joshua Weinberg
 Contact: 		jrwap@wwwrl.com
-Version: 		0.7
+Version: 		0.10
 License:		GNU General Public License (see LICENSE.txt)			  
 Description: 	A library which allows in-game recording and playback of minecraft players.
 				While intended primarily as a library for use in other plugins it does
@@ -19,59 +19,64 @@ Installation: 	Build the library and put the resulting plugin jar into plugins o
 Command Usage:	When using the plugin to provide commands directly just install the plugin
 				and then allow users to access the following commands:			  
 				
-   record:
+   actor record:
       description: start recording into buffer
       usage: /record
       
-   cut:
+   actor cut:
       description: Stop recording and playback on all actors
       usage: /cut
 
-   actor:
+   actor hire:
       description: Spawn new actor using recording in buffer
       usage: /actor name
       
-   dub:
+   actor dub:
       description: Duplicate one or all actors with a translation
       usage: /dub [name|all] x y z
       
-   fire:
+   actor fire:
       description: Remove an actor(s). Name can be "all".
       usage: /fire name
       
-   action:
+   actor action:
       description: playback actor or all actors
       usage: /action [actorname]
       
-   actionrec:
+   actor actionrec:
       description: playback actor or all actors and record
       usage: /actionrec [actorname]
       
-   loop:
+   actor loop:
       description: Set an actor (or "all") to loop
       usage: /loop [on|off] actorname
 
-   reset:
+   actor reset:
       description: Rewind actor or all actors
       usage: /reset [actorname]
       
-   remove:
+   actor remove:
       description: Remove an actor
       usage: /remove [actorname]
       
-   saveactor:
+   actor troupe:
+      description: Work with a troupe of players to record many actors at once.
+      usage: /troupe [show|add|remove|record|hire|fire]
+      		 		 'add' and 'remove' subcommands require playerName
+
+   actor saveactor:
       description: Save an actor's recording to a file
       usage: /save actorname filename
       
-   savescene:
+   actor savescene:
       description: Save all actor recordings to dir/actorname
       usage: /savescene scenename
       
-   loadactor:
+   actor loadactor:
       description: Spawn an actor with the give recording file
       usage: /load actorname filename
       
-   loadscene:
+   actor loadscene:
       description: Load and spawn all actor recordings from dir
       usage: /loadscene scenename
 			   
@@ -79,13 +84,13 @@ Library Usage: When using the plugin as a library just add the library as a depe
 				your project and access the library API like so:
 				
 				* Record a player's actions
-				ActorPlugin.instance.record(player);
+				ActorPlugin.getInstance().record(player);
 				
 				* Stop recording a player
-				ActorPlugin.instance.stopRecord(player);
+				ActorPlugin.getInstance().stopRecord(player);
 				
 				* Spawn a new actor using a given player's latest recording
-				EntityActor newActor = ActorPlugin.instance.spawnActor(player, actorName);
+				EntityActor newActor = ActorPlugin.getInstance().spawnActor(player, actorName);
 				
 				* etc... The full API is shown in the javadocs for ActorPlugin
 			   
