@@ -1,8 +1,11 @@
 package com.insofar.actor.commands.author;
 
+import org.bukkit.entity.Player;
+
 import com.insofar.actor.ActorAPI;
 import com.insofar.actor.Author;
 import com.insofar.actor.EntityActor;
+import com.insofar.actor.Recording;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
 
@@ -46,8 +49,16 @@ public class Cut extends AuthorBaseCommand {
 			player.sendMessage("Recording stopped.");
 		}
 		
-		// Stop recording on author's troupe members
+		// Stop troupe recording
+		author.setTroupeRecording(false);
 		
+		// Rewind troupe member recordings
+		for (Player member : author.getTroupeMembers())
+		{
+			Recording r = author.getTroupRecMap().get(member.getName());
+			if (r != null)
+				r.rewind();
+		}
 		
 		// Stop playback on all actors
 		for (EntityActor actor : plugin.actors)
