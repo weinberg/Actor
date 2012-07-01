@@ -40,6 +40,7 @@ public class TroupeAddPrompt extends BooleanPrompt
 		{
 			context.getForWhom().sendRawMessage(
 					ChatColor.YELLOW + ActorPlugin.TAG + " Recording request denied.");
+			troupeCommand.addRequestDenied((Player) context.getForWhom());
 		}
 		return END_OF_CONVERSATION;
 	}

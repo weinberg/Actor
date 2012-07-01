@@ -4,9 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import com.insofar.actor.ActorPlugin;
+import com.insofar.actor.ActorAPI;
 import com.insofar.actor.conversations.TroupeAddPrompt;
 import com.insofar.actor.permissions.PermissionHandler;
 import com.insofar.actor.permissions.PermissionNode;
@@ -50,14 +51,14 @@ public class Troupe extends AuthorBaseCommand
 			return true;
 		}
 		
-		String subCommand = args[2];
+		String subCommand = args[1];
 		
 		if (subCommand.equals("add"))
 		{
 			doAdd();
 		}
 		
-		return false;
+		return true;
 	}
 	
 	/*****************************************************************************************
@@ -74,13 +75,29 @@ public class Troupe extends AuthorBaseCommand
 		if (args.length!=3)
 		{
 			player.sendMessage("/troupe add requires a player name to add");
-			return false;
+			return true;
 		}
 		
 		Player targetPlayer = Bukkit.getPlayer(args[2]);
 		
+		if (targetPlayer == null)
+		{
+			player.sendMessage("Cannot find player "+args[2]);
+			return true;
+		}
+		
+		if (ActorAPI.getAuthor(player).getTroupeMembers().contains(targetPlayer))
+		{
+			player.sendMessage(ChatColor.AQUA + args[2] + ChatColor.WHITE +
+					" is already in your troupe.");
+			return true;
+		}
+		
+		player.sendMessage("Requesting permission from " +
+				ChatColor.AQUA + args[2] + ChatColor.WHITE);
+		
 		final Map<Object, Object> map = new HashMap<Object, Object>();
-		map.put("requstor", player);
+		map.put("requestor", player);
 		map.put("target", targetPlayer);
 		factory.withFirstPrompt(new TroupeAddPrompt(this))
 				.withInitialSessionData(map).withLocalEcho(false).buildConversation(targetPlayer)
@@ -93,10 +110,22 @@ public class Troupe extends AuthorBaseCommand
 	 * @param target
 	 * @return
 	 */
-	public boolean addRequestAccepted(Player target)
+	public void addRequestAccepted(Player target)
 	{
-		ActorPlugin.getInstance().authors.get(player.getName()).getTroupeMembers().add(target);
-		return true;
+		player.sendMessage(ChatColor.AQUA + target.getDisplayName() +
+				" added to troupe.");
+		ActorAPI.getAuthor(player).getTroupeMembers().add(target);
+	}
+
+	/**
+	 * If player denies the request...
+	 * @param target
+	 * @return
+	 */
+	public void addRequestDenied(Player target)
+	{
+		player.sendMessage("Troupe add request denied by " +
+				ChatColor.AQUA + target.getDisplayName());
 	}
 
 }
