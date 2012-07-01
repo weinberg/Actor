@@ -1,10 +1,7 @@
 package com.insofar.actor.listeners;
 
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
 
-import net.minecraft.server.Packet;
 import net.minecraft.server.Packet18ArmAnimation;
 import net.minecraft.server.Packet34EntityTeleport;
 import net.minecraft.server.Packet35EntityHeadRotation;
@@ -34,9 +31,7 @@ import org.bukkit.event.player.PlayerToggleSprintEvent;
 
 import com.insofar.actor.ActorAPI;
 import com.insofar.actor.ActorPlugin;
-import com.insofar.actor.Author;
 import com.insofar.actor.EntityActor;
-import com.insofar.actor.Recording;
 
 public class PlayerListener implements Listener
 {
