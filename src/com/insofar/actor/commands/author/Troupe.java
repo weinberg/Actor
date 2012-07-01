@@ -74,7 +74,7 @@ public class Troupe extends AuthorBaseCommand
 	{
 		if (args.length!=3)
 		{
-			player.sendMessage("/troupe add requires a player name to add");
+			player.sendMessage("/troupe add [playername]\n  adds a player to your troupe");
 			return true;
 		}
 		
