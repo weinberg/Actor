@@ -65,6 +65,10 @@ public class Troupe extends AuthorBaseCommand
 		{
 			doRemove();
 		}
+		else if (subCommand.equals("record"))
+		{
+			doRecord();
+		}
 		
 		return true;
 	}
@@ -192,4 +196,21 @@ public class Troupe extends AuthorBaseCommand
 		}
 	}
 	
+	/*****************************************************************************************
+	 * 
+	 * SubCommand: Record
+	 * 
+	 *****************************************************************************************/
+	
+	/**
+	 * Handle subCommand record
+	 */
+	public void doRecord()
+	{
+		for (Player member : ActorAPI.getAuthor(player).getTroupeMembers())
+		{
+			ActorAPI.record(member,
+					ActorAPI.getAuthor(player).getTroupeRecording().get(member.getName()));
+		}
+	}
 }
