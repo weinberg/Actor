@@ -36,6 +36,6 @@ public class Record extends AuthorBaseCommand {
 			return true;
 		}
 		// Record the player calling this command
-		return ActorAPI.record(player);
+		return ActorAPI.recordAuthor(player);
 	}
 }
