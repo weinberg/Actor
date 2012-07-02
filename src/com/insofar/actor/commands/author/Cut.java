@@ -40,20 +40,14 @@ public class Cut extends AuthorBaseCommand {
 					+ PermissionNode.COMMAND_CUT.getNode());
 			return true;
 		}
-		// Stop recording on author's personal recording
+		
 		Author author = ActorAPI.getAuthor(player);
-		if (author.getCurrentRecording() != null)
-		{
-			author.setRecording(false);
-			author.getCurrentRecording().rewind();
-			player.sendMessage("Recording stopped.");
-		}
 		
 		// Stop troupe recording
-		if (author.isTroupeRecording())
+		if (author.isRecording())
 		{
 			player.sendMessage("Troupe recording stopped.");
-			author.setTroupeRecording(false);
+			author.setRecording(false);
 		}
 		
 		// Rewind troupe member recordings

@@ -13,8 +13,8 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 
+import com.insofar.actor.ActorAPI;
 import com.insofar.actor.ActorPlugin;
-import com.insofar.actor.Author;
 
 public class BlockListener implements Listener
 {
@@ -81,29 +81,27 @@ public class BlockListener implements Listener
 		{
 			plugin.getLogger().info("Block place");
 		}
-		Player p = event.getPlayer();
-
-		Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording())
+		final Player p = event.getPlayer();
+		if (!ActorAPI.isPlayerBeingRecorded(p))
 		{
-			Packet53BlockChange packet = new Packet53BlockChange();
-
-			int xPosition = event.getBlock().getX();
-			int yPosition = event.getBlock().getY();
-			int zPosition = event.getBlock().getZ();
-			int type = event.getBlock().getTypeId();
-			int data = event.getBlock().getData();
-
-			packet.a = xPosition;
-			packet.b = yPosition;
-			packet.c = zPosition;
-			packet.material = type;
-			packet.data = data;
-
-			author.getCurrentRecording().recordPacket(packet);
-			addRewindForBlockChange(author, xPosition, yPosition, zPosition, 0,
-					0);
+			return;
 		}
+
+		Packet53BlockChange packet = new Packet53BlockChange();
+
+		int xPosition = event.getBlock().getX();
+		int yPosition = event.getBlock().getY();
+		int zPosition = event.getBlock().getZ();
+		int type = event.getBlock().getTypeId();
+		int data = event.getBlock().getData();
+
+		packet.a = xPosition;
+		packet.b = yPosition;
+		packet.c = zPosition;
+		packet.material = type;
+		packet.data = data;
+
+		ActorAPI.recordPlayerPacket(p, packet, 0, 0);
 	}
 
 	@EventHandler(priority = EventPriority.MONITOR)
@@ -133,49 +131,29 @@ public class BlockListener implements Listener
 			plugin.getLogger().info("Block break");
 		}
 		final Player p = event.getPlayer();
-
-		final Author author = plugin.authors.get(p.getName());
-		if (author != null && author.isRecording())
+		if (!ActorAPI.isPlayerBeingRecorded(p))
 		{
-			// TODO is there a method to use regular bukkit methods to do this?
-			Packet53BlockChange packet = new Packet53BlockChange();
-
-			int xPosition = event.getBlock().getX();
-			int yPosition = event.getBlock().getY();
-			int zPosition = event.getBlock().getZ();
-			int type = 0;
-			int data = 0;
-
-			packet.a = xPosition;
-			packet.b = yPosition;
-			packet.c = zPosition;
-			packet.material = type;
-			packet.data = data;
-
-			author.getCurrentRecording().recordPacket(packet);
-
-			// Rewind packet
-
-			type = event.getBlock().getType().getId();
-			data = event.getBlock().getData();
-
-			addRewindForBlockChange(author, xPosition, yPosition, zPosition,
-					data, type);
+			return;
 		}
-	}
 
-	public void addRewindForBlockChange(Author author, int i, int j, int k,
-			int l, int m)
-	{
-		Packet53BlockChange changeBack = new Packet53BlockChange();
+		Packet53BlockChange packet = new Packet53BlockChange();
 
-		changeBack.a = i;
-		changeBack.b = j;
-		changeBack.c = k;
-		changeBack.data = l;
-		changeBack.material = m;
+		int xPosition = event.getBlock().getX();
+		int yPosition = event.getBlock().getY();
+		int zPosition = event.getBlock().getZ();
+		int type = 0;
+		int data = 0;
 
-		author.getCurrentRecording().addRewindPacket(changeBack);
+		packet.a = xPosition;
+		packet.b = yPosition;
+		packet.c = zPosition;
+		packet.material = type;
+		packet.data = data;
+		
+		type = event.getBlock().getType().getId();
+		data = event.getBlock().getData();
+
+		ActorAPI.recordPlayerPacket(p, packet, type, data);
 	}
 
 }

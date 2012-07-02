@@ -229,7 +229,7 @@ public class Troupe extends AuthorBaseCommand
 			return;
 		}
 		
-		author.setTroupeRecording(true);
+		author.setRecording(true);
 		HashMap<String,Recording> recMap = author.getTroupRecMap();
 		
 		for (Player member : author.getTroupeMembers())

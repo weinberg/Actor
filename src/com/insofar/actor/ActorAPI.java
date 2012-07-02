@@ -27,13 +27,13 @@ public class ActorAPI
 {
 	private static ActorPlugin plugin;
 	private static MinecraftServer minecraftServer;
-	
+
 	public static void init(ActorPlugin actor)
 	{
 		plugin = actor;
 		minecraftServer = ((CraftServer)Bukkit.getServer()).getServer();
 	}
-	
+
 	/**
 	 * actor
 	 * @param player
@@ -44,7 +44,7 @@ public class ActorAPI
 	{
 		return actor(player, "Actor");
 	}
-	
+
 	/**
 	 * actor
 	 * @param player
@@ -58,9 +58,9 @@ public class ActorAPI
 	public static EntityActor actor(Player player, String actorName)
 	{
 		org.bukkit.World world;
-		
+
 		world = player.getWorld();
-		
+
 		// Authoring commands must have an author
 		Author author = getAuthor(player);
 
@@ -77,9 +77,9 @@ public class ActorAPI
 		}
 
 		EntityActor result = actor(author.getCurrentRecording(), actorName, world);
-		
+
 		author.setCurrentRecording(null);
-		
+
 		if (result != null)
 		{
 			player.sendMessage("Spawned entity with id = "+result.id);
@@ -90,7 +90,7 @@ public class ActorAPI
 			return null;
 		}
 	}
-	
+
 	/**
 	 * actor
 	 * @param recording
@@ -107,12 +107,12 @@ public class ActorAPI
 	{
 		return actor(recording, actorName, world, 0, 0, 0);
 	}
-	
+
 	public static EntityActor actor(Recording recording, String actorName, org.bukkit.World world, int x, int y, int z)
 	{
 		World w = ((CraftWorld) world).getHandle();
 		ItemInWorldManager iw = new ItemInWorldManager(w);
-		
+
 		// Setup EntityActor
 		EntityActor actor = new EntityActor(minecraftServer, w, actorName, iw);
 		actor.setRecording(recording);
@@ -122,12 +122,12 @@ public class ActorAPI
 		actor.setTranslateX(x);
 		actor.setTranslateY(y);
 		actor.setTranslateZ(z);
-		
+
 		actor.spawn();
 
 		return actor;
 	}
-	
+
 	/**
 	 * dub an actor
 	 */
@@ -150,7 +150,7 @@ public class ActorAPI
 
 		return newActor;
 	}
-	
+
 	/**
 	 * actorRemove
 	 * @param actor Actor to remove
@@ -160,7 +160,7 @@ public class ActorAPI
 		actor.sendPacket(new Packet29DestroyEntity(actor.id));
 		return true;
 	}
-	
+
 	/**
 	 * record command
 	 * @param player
@@ -169,7 +169,7 @@ public class ActorAPI
 	public static boolean recordAuthor(Player player)
 	{
 		Author author = getAuthor(player);
-		
+
 		if (author.isRecording())
 		{
 			player.sendMessage("You are already recording.");
@@ -180,10 +180,10 @@ public class ActorAPI
 		author.setCurrentRecording(new Recording());
 		author.setRecording(true);
 		player.sendMessage("Recording.");
-		
+
 		return record(player,author.getCurrentRecording());
 	}
-	
+
 	/**
 	 * Record player into specified recording.
 	 * @param player
@@ -203,7 +203,7 @@ public class ActorAPI
 		tp.e = (byte)(int)((l.getYaw() * 256F) / 360F);
 		tp.f = (byte)(int)((l.getPitch() * 256F) / 360F);
 		recording.recordPacket(tp,true);
-		
+
 		// 	Packet35HeadRotation
 		Packet35EntityHeadRotation hr = new Packet35EntityHeadRotation(tp.a, tp.e);
 		recording.recordPacket(hr,true);
@@ -215,7 +215,7 @@ public class ActorAPI
 		ep.c = player.getInventory().getItemInHand().getTypeId();
 		if (ep.c == 0) ep.c = -1;
 		recording.recordPacket(ep,true);
-		
+
 		return true;
 	}
 
@@ -224,7 +224,7 @@ public class ActorAPI
 		int i = (int)d;
 		return d >= i ? i : i - 1;
 	}
-	
+
 	/**
 	 * Reset the author's current recording and give back any blocks used.
 	 * @param author
@@ -232,7 +232,7 @@ public class ActorAPI
 	public static void resetAuthor(Player player)
 	{
 		Author author = plugin.authors.get(player.getName());
-		
+
 		// Rewind the player's current recording and give back any blocks used.
 		rewindAuthor(author);
 	}
@@ -244,10 +244,10 @@ public class ActorAPI
 	public static void rewindAuthor(Author author)
 	{
 		MinecraftServer minecraftServer = ((CraftServer)Bukkit.getServer()).getServer();
-		
+
 		if (author == null)
 			return;
-		
+
 		if (author.isRecording())
 		{
 			author.getPlayer().sendMessage("Stopping recording.");
@@ -260,7 +260,7 @@ public class ActorAPI
 			// Nothing to do
 			return;
 		}
-		
+
 		org.bukkit.World world = author.getPlayer().getWorld();
 
 		ArrayList<Packet> rewindPackets = author.getCurrentRecording().getRewindPackets();
@@ -276,7 +276,7 @@ public class ActorAPI
 						((Packet53BlockChange) p).c);
 				int currType = world.getBlockTypeIdAt(location);
 				int currMaterial = world.getBlockAt(location).getData();
-				
+
 				// Set the block in the server's world
 				if (currType != ((Packet53BlockChange) p).data )
 				{
@@ -284,7 +284,7 @@ public class ActorAPI
 					block.setTypeId(((Packet53BlockChange) p).data);
 					block.setData((byte)((Packet53BlockChange) p).material);
 					minecraftServer.serverConfigurationManager.a(author.getPlayer().getName(),p);
-				
+
 					if (currType != 0)
 					{
 						// Do an item drop so player gets the blocks back
@@ -300,7 +300,7 @@ public class ActorAPI
 		author.getCurrentRecording().rewind();
 
 	}
-	
+
 	/**
 	 * stopRecording
 	 * 
@@ -324,13 +324,13 @@ public class ActorAPI
 
 		return true;
 	}
-	
+
 	/********************************************************************
 	 * 
 	 * Utilities
 	 * 
 	 *******************************************************************/
-	
+
 	/**
 	 * Get the author given the player
 	 * @param p
@@ -339,7 +339,7 @@ public class ActorAPI
 	public static Author getAuthor(Player p)
 	{
 		Author author = plugin.authors.get(p.getName());
-		
+
 		// Set up an author if needed
 		if (author == null)
 		{
@@ -349,13 +349,27 @@ public class ActorAPI
 		}
 		return author;
 	}
-	
+
+	/**
+	 * Record the player's packet into all active recordings (which contain that player).
+	 * Accepts data and type for rewind packets. 
+	 * @param player
+	 * @param packet
+	 * @param data
+	 * @param material
+	 */
+	public static void recordPlayerPacket(Player player, Packet packet)
+	{
+		recordPlayerPacket(player, packet, 0, 0);
+
+	}
+
 	/**
 	 * Record the player's packet into all active recordings (which contain that player).
 	 * @param packet
 	 * @param recordings
 	 */
-	public static void recordPlayerPacket(Player player, Packet packet)
+	public static void recordPlayerPacket(Player player, Packet packet, int data, int material)
 	{
 		for (Recording r : getRecordingsForPlayer(player))
 		{
@@ -364,33 +378,51 @@ public class ActorAPI
 				plugin.getLogger().info("Recorded packet for "+player.getName());
 			}
 			r.recordPacket(packet);
+
+			// Handle rewind packets
+			if (packet instanceof Packet53BlockChange)
+			{
+				addRewindForBlockChange(r, (Packet53BlockChange)packet, data, material);
+			}
 		}
 	}
 
 	/**
+	 * Add a rewind packet for a block change 
+	 * @param r
+	 * @param p
+	 */
+	public static void addRewindForBlockChange(Recording r, Packet53BlockChange p, int data, int material)
+	{
+		Packet53BlockChange changeBack = new Packet53BlockChange();
+
+		changeBack.a = p.a;
+		changeBack.b = p.b;
+		changeBack.c = p.c;
+		changeBack.data = data;
+		changeBack.material = material;
+
+		r.addRewindPacket(changeBack);
+	}
+
+	/**
 	 * Returns a set of all recordings in which this player is being recorded.
- 	 * May be recording themselves or in multiple troupes.
+	 * May be recording themselves or in multiple troupes.
 	 */
 	public static Set<Recording>getRecordingsForPlayer(Player p)
 	{
 		Set<Recording> result = new HashSet<Recording>();
-		Author author = plugin.authors.get(p.getName());
-		
-		// Author's personal recording
-		if (author != null && author.isRecording())
-		{
-			result.add(author.getCurrentRecording());
-		}
-
 		// Troupes
 		for (Author a : ActorPlugin.getInstance().authors.values())
 		{
 			if (a.getTroupeMembers().contains(p))
 			{
-				result.add(a.getTroupRecMap().get(p.getName()));
+				Recording r = a.getTroupRecMap().get(p.getName());
+				if (r != null)
+					result.add(a.getTroupRecMap().get(p.getName()));
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -400,7 +432,7 @@ public class ActorAPI
 	public static boolean isPlayerBeingRecorded(Player p)
 	{
 		Author author = plugin.authors.get(p.getName());
-		
+
 		// Author's personal recording
 		if (author != null && author.isRecording())
 		{
@@ -410,12 +442,12 @@ public class ActorAPI
 		// Troupes
 		for (Author a : ActorPlugin.getInstance().authors.values())
 		{
-			if (a.getTroupeMembers().contains(p) && a.isTroupeRecording())
+			if (a.getTroupeMembers().contains(p) && a.isRecording())
 			{
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
