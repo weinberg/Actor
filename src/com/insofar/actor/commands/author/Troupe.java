@@ -76,8 +76,15 @@ public class Troupe extends AuthorBaseCommand
 		{
 			doHire();
 		}
+		else if (subCommand.equals("fire"))
+		{
+			doFire();
+		}
+		else
+		{
+			player.sendMessage("/troupe usage: show | add | remove | record | hire | fire");
+		}
 		
-		player.sendMessage("/troupe usage: show | add | remove | record | hire | fire");
 		return true;
 	}
 	
@@ -269,6 +276,25 @@ public class Troupe extends AuthorBaseCommand
 				newActor.setOwner(player);
 				plugin.actors.add(newActor);
 			}
+		}
+	}
+	
+	/*****************************************************************************************
+	 * 
+	 * SubCommand: Fire
+	 * 
+	 *****************************************************************************************/
+	
+	/**
+	 * Handle subCommand fire
+	 */
+	public void doFire()
+	{
+		Author author = ActorAPI.getAuthor(player);
+		Fire fireCommand = new Fire();
+		for (Player member : author.getTroupeMembers())
+		{
+			fireCommand.doFire(member.getName(), player);
 		}
 	}
 }
