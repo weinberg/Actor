@@ -11,11 +11,8 @@ import com.insofar.actor.commands.author.Fire;
 
 public class FireActorPrompt extends BooleanPrompt
 {
-	private Fire fireCommand;
-	
-	public FireActorPrompt(Fire fireCommand) {
+	public FireActorPrompt() {
 		super();
-		this.fireCommand = fireCommand;
 	}
 
 	@Override
@@ -33,7 +30,7 @@ public class FireActorPrompt extends BooleanPrompt
 		final String actorName = (String) context.getSessionData("name");
 		if (valid)
 		{
-			fireCommand.doFire(actorName, (Player) context.getForWhom());
+			Fire.doFire(actorName, (Player) context.getForWhom());
 		}
 		else
 		{

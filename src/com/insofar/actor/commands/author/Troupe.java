@@ -291,10 +291,9 @@ public class Troupe extends AuthorBaseCommand
 	public void doFire()
 	{
 		Author author = ActorAPI.getAuthor(player);
-		Fire fireCommand = new Fire();
 		for (Player member : author.getTroupeMembers())
 		{
-			fireCommand.doFire(member.getName(), player);
+			Fire.doFire(member.getName(), player);
 		}
 	}
 }
