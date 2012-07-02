@@ -351,7 +351,7 @@ public class ActorAPI
 	}
 	
 	/**
-	 * Record the playerss packet into all active recordings (which contain that player).
+	 * Record the player's packet into all active recordings (which contain that player).
 	 * @param packet
 	 * @param recordings
 	 */
@@ -359,6 +359,10 @@ public class ActorAPI
 	{
 		for (Recording r : getRecordingsForPlayer(player))
 		{
+			if (ActorPlugin.getInstance().getRootConfig().debugVerbose)
+			{
+				plugin.getLogger().info("Recorded packet for "+player.getName());
+			}
 			r.recordPacket(packet);
 		}
 	}
