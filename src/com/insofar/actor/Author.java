@@ -20,7 +20,7 @@ public class Author {
 	/**
 	 * Set of players in troupe
 	 */
-	private Set<Player> troupeMembers = new HashSet<Player>();
+	private Set<Player> troupeMembers;
 	
 	/**
 	 * PlayerName to Recording map for the troupe
@@ -50,6 +50,9 @@ public class Author {
 		this.currentRecording = currentRecording;
 	}
 	public Set<Player> getTroupeMembers() {
+		// Troupe always starts with the player in it
+		troupeMembers = new HashSet<Player>();
+		troupeMembers.add(player);
 		return troupeMembers;
 	}
 	public void setTroupeMembers(Set<Player> troupeMembers) {
