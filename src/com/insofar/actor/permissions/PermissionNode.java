@@ -11,6 +11,7 @@ public enum PermissionNode
 		COMMAND_ACTIONREC(".command.actionrec"),
 		COMMAND_LOOP(".command.loop"),
 		COMMAND_RESET(".command.reset"),
+		COMMAND_RENAME(".command.rename"),
 		COMMAND_TROUPE(".command.troupe"),
 		COMMAND_SAVE_ACTOR(".command.saveactor"),
 		COMMAND_SAVE_SCENE(".command.savescene"),
