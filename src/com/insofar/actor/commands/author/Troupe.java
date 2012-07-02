@@ -9,6 +9,7 @@ import org.bukkit.entity.Player;
 
 import com.insofar.actor.ActorAPI;
 import com.insofar.actor.Author;
+import com.insofar.actor.EntityActor;
 import com.insofar.actor.Recording;
 import com.insofar.actor.conversations.TroupeAddPrompt;
 import com.insofar.actor.permissions.PermissionHandler;
@@ -70,6 +71,10 @@ public class Troupe extends AuthorBaseCommand
 		else if (subCommand.equals("record"))
 		{
 			doRecord();
+		}
+		else if (subCommand.equals("hire"))
+		{
+			doHire();
 		}
 		
 		return true;
@@ -210,6 +215,13 @@ public class Troupe extends AuthorBaseCommand
 	public void doRecord()
 	{
 		Author author = ActorAPI.getAuthor(player);
+		if (author.getTroupeMembers().size() < 1)
+		{
+			player.sendMessage("No troupe members to record.");
+			return;
+		}
+		
+		author.setTroupeRecording(true);
 		HashMap<String,Recording> recMap = author.getTroupRecMap();
 		
 		for (Player member : author.getTroupeMembers())
@@ -222,9 +234,10 @@ public class Troupe extends AuthorBaseCommand
 				recMap.put(member.getName(), r);
 			}
 			
-			author.setTroupeRecording(true);
 			ActorAPI.record(member, author.getTroupRecMap().get(member.getName()));
 		}
+		
+		player.sendMessage("Started recording troupe");
 	}
 	
 	/*****************************************************************************************
@@ -243,8 +256,18 @@ public class Troupe extends AuthorBaseCommand
 		for (Player member : author.getTroupeMembers())
 		{
 			Recording r = recMap.get(member.getName());
-			if (r != null)
-				ActorAPI.actor(r, member.getName(), player.getWorld());
+			if (r == null)
+			{
+				continue;
+			}
+			
+			EntityActor newActor = ActorAPI.actor(r, member.getName(), player.getWorld());
+			
+			if (newActor != null)
+			{
+				newActor.setOwner(player);
+				plugin.actors.add(newActor);
+			}
 		}
 	}
 }
