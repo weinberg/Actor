@@ -50,7 +50,11 @@ public class Cut extends AuthorBaseCommand {
 		}
 		
 		// Stop troupe recording
-		author.setTroupeRecording(false);
+		if (author.isTroupeRecording())
+		{
+			player.sendMessage("Troupe recording stopped.");
+			author.setTroupeRecording(false);
+		}
 		
 		// Rewind troupe member recordings
 		for (Player member : author.getTroupeMembers())
