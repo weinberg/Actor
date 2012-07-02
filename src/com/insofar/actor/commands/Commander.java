@@ -16,6 +16,7 @@ import com.insofar.actor.commands.author.LoadActor;
 import com.insofar.actor.commands.author.LoadScene;
 import com.insofar.actor.commands.author.Loop;
 import com.insofar.actor.commands.author.Record;
+import com.insofar.actor.commands.author.Rename;
 import com.insofar.actor.commands.author.Reset;
 import com.insofar.actor.commands.author.SaveActor;
 import com.insofar.actor.commands.author.SaveScene;
@@ -33,6 +34,7 @@ public class Commander implements CommandExecutor
 	private Fire fire;
 	private Action action;
 	private Reset reset;
+	private Rename rename;
 	private ActionRecord actionrec;
 	private Cut cut;
 	private Dub dub;
@@ -53,6 +55,7 @@ public class Commander implements CommandExecutor
 		this.fire = new Fire();
 		this.action = new Action();
 		this.reset = new Reset();
+		this.rename = new Rename();
 		this.actionrec = new ActionRecord();
 		this.cut = new Cut();
 		this.dub = new Dub();
@@ -91,6 +94,10 @@ public class Commander implements CommandExecutor
 			else if (com.equalsIgnoreCase("action") || com.equalsIgnoreCase("start"))
 			{
 				return action.onCommand(sender, command, label, args);
+			}
+			else if (com.equalsIgnoreCase("rename"))
+			{
+				return rename.onCommand(sender, command, label, args);
 			}
 			else if (com.equalsIgnoreCase("reset"))
 			{
@@ -191,6 +198,11 @@ public class Commander implements CommandExecutor
 		{
 			sender.sendMessage(ChatColor.GOLD + "/actor reset <name|all>"
 					+ ChatColor.WHITE + " : Rewind actor(s)");
+		}
+		if (PermissionHandler.has(sender, PermissionNode.COMMAND_RENAME))
+		{
+			sender.sendMessage(ChatColor.GOLD + "/actor rename actorname newname"
+					+ ChatColor.WHITE + " : Rename actor");
 		}
 		if (PermissionHandler.has(sender, PermissionNode.COMMAND_SAVE_ACTOR))
 		{
