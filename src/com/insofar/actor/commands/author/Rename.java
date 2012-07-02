@@ -1,5 +1,7 @@
 package com.insofar.actor.commands.author;
 
+import java.util.ArrayList;
+
 import com.insofar.actor.ActorAPI;
 import com.insofar.actor.EntityActor;
 import com.insofar.actor.Recording;
@@ -42,11 +44,17 @@ public class Rename extends AuthorBaseCommand {
 			player.sendMessage("usage: /actor rename currentName newName");
 			return true;
 		}
+		
+		// To rename we must remove and re-spawn 
+		
 		String actorName = args[1];
 		String newName = args[2];
 		
 		int count = 0;
-		for (EntityActor actor : plugin.actors)
+		// Need cloned copy since doFire will remove from plugin.actors
+		ArrayList<EntityActor> originalActorList  = (ArrayList<EntityActor>)plugin.actors.clone();
+		
+		for (EntityActor actor : originalActorList)
 		{
 			if (actor.getOwner() == player && (actor.getActorName().equals(actorName)))
 			{
