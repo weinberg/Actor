@@ -55,6 +55,10 @@ Command Usage:	When using the plugin to provide commands directly just install t
       description: Rewind actor or all actors
       usage: /reset [actorname]
       
+   actor rename:
+      description: Rename actor
+      usage: /reset actorname newName
+      
    actor remove:
       description: Remove an actor
       usage: /remove [actorname]
