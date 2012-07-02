@@ -45,10 +45,22 @@ public class Rename extends AuthorBaseCommand {
 			return true;
 		}
 		
-		// To rename we must remove and re-spawn 
-		
 		String actorName = args[1];
 		String newName = args[2];
+		
+		for (EntityActor actor : plugin.actors)
+		{
+			if (actor.getOwner() == player && (actor.getActorName().equals(actorName)))
+			{
+				ActorAPI.actorRemove(actor);
+				actor.setActorName(newName);
+				actor.spawn();
+			}
+		}
+		
+		/*
+		// To rename we must remove and re-spawn 
+		
 		
 		int count = 0;
 		// Need cloned copy since doFire will remove from plugin.actors
@@ -69,6 +81,7 @@ public class Rename extends AuthorBaseCommand {
 		{
 			player.sendMessage("Renamed "+count+" actor" + (count == 1 ? "" : "s") + ".");
 		}
+		*/
 		
 		return true;
 	}

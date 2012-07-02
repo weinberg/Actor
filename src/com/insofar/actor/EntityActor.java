@@ -25,7 +25,6 @@ import org.bukkit.util.Vector;
 
 public class EntityActor extends EntityPlayer {
 
-	private String name;
 	private Boolean isPlayback = false;
 	private int playbackTick = 0;
 	private Recording recording;
@@ -242,7 +241,7 @@ public class EntityActor extends EntityPlayer {
 	}
 
 	/**
-	 * Send a packet to one (if player) or all (if !player) players 
+	 * Send a packet to one (if player) or all (if player == null) players 
 	 * @param p
 	 */
 	public void sendPacket(Packet p, Player player)
