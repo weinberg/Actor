@@ -65,7 +65,7 @@ public class Record extends AuthorBaseCommand {
 			ActorAPI.record(member, author.getTroupRecMap().get(member.getName()));
 			
 			if (member != player)
-				member.sendMessage(ActorPlugin.TAG + "Recording started");
+				member.sendMessage(ActorPlugin.TAG + " Recording started");
 		}
 		
 		player.sendMessage("Started recording troupe");

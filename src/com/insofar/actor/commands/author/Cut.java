@@ -3,6 +3,7 @@ package com.insofar.actor.commands.author;
 import org.bukkit.entity.Player;
 
 import com.insofar.actor.ActorAPI;
+import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.Author;
 import com.insofar.actor.EntityActor;
 import com.insofar.actor.Recording;
@@ -53,7 +54,7 @@ public class Cut extends AuthorBaseCommand {
 		// Rewind troupe member recordings
 		for (Player member : author.getTroupeMembers())
 		{
-			member.sendMessage("Recording stopped.");
+			member.sendMessage(ActorPlugin.TAG + " Recording stopped.");
 			Recording r = author.getTroupRecMap().get(member.getName());
 			if (r != null)
 				r.rewind();
