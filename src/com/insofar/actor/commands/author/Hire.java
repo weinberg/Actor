@@ -39,12 +39,13 @@ public class Hire extends AuthorBaseCommand {
 		EntityActor newActor = null;
 
 		if (args.length == 1)
-			doHire();
-
-		// Hire 'name' leads to hiring just the player's named actor
-		// not the whole troupe.
-		if (args.length == 2)
 		{
+			// hire the troupe
+			doHire();
+		}
+		else if (args.length == 2)
+		{
+			// Hire 'name' leads to hiring just the troupe's first actor and naming it name
 			newActor = ActorAPI.actor(player, args[1]);
 
 			if (newActor != null)
