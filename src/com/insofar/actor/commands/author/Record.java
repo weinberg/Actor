@@ -5,6 +5,7 @@ import java.util.HashMap;
 import org.bukkit.entity.Player;
 
 import com.insofar.actor.ActorAPI;
+import com.insofar.actor.ActorPlugin;
 import com.insofar.actor.Author;
 import com.insofar.actor.Recording;
 import com.insofar.actor.permissions.PermissionHandler;
@@ -62,6 +63,9 @@ public class Record extends AuthorBaseCommand {
 			}
 			
 			ActorAPI.record(member, author.getTroupRecMap().get(member.getName()));
+			
+			if (member != player)
+				member.sendMessage(ActorPlugin.TAG + "Recording started");
 		}
 		
 		player.sendMessage("Started recording troupe");
