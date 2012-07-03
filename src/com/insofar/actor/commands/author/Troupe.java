@@ -48,7 +48,7 @@ public class Troupe extends AuthorBaseCommand
 		
 		if (args.length == 1)
 		{
-			player.sendMessage("/troupe requires subcommand: show | add | remove | record | hire | fire");
+			player.sendMessage("/troupe requires subcommand: show | add | remove | fire");
 			return true;
 		}
 		
@@ -72,7 +72,7 @@ public class Troupe extends AuthorBaseCommand
 		}
 		else
 		{
-			player.sendMessage("/troupe usage: show | add | remove | record | hire | fire");
+			player.sendMessage("/troupe usage: show | add | remove | fire");
 		}
 		
 		return true;

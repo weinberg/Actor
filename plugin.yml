@@ -1,6 +1,6 @@
 name: Actor
 main: com.insofar.actor.ActorPlugin
-version: 0.9
+version: 0.10
 website: http://dev.bukkit.org/server-mods/actor/
 description: >
              Actor Plugin by Joshua Weinberg

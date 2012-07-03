@@ -65,7 +65,7 @@ Command Usage:	When using the plugin to provide commands directly just install t
       
    actor troupe:
       description: Work with a troupe of players to record many actors at once.
-      usage: /troupe [show|add|remove|record|hire|fire]
+      usage: /troupe [show|add|remove|hire]
       		 		 'add' and 'remove' subcommands require playerName
 
    actor saveactor:
