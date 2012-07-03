@@ -53,6 +53,7 @@ public class Cut extends AuthorBaseCommand {
 		// Rewind troupe member recordings
 		for (Player member : author.getTroupeMembers())
 		{
+			member.sendMessage("Recording stopped.");
 			Recording r = author.getTroupRecMap().get(member.getName());
 			if (r != null)
 				r.rewind();
